@@ -18,3 +18,7 @@ run: ## Run the authentication server
 .PHONY: install
 install: ## Run to install dependancies and perform any setup tasks
 	@bundle install
+
+.PHONY: format
+format: ## Format code according to editorconfig and prettier defaults
+	@bundle exec rbprettier --write **/*.rb

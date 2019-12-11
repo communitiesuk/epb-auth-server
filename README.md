@@ -15,3 +15,7 @@ Run all acceptance, integration, and unit tests.
 ### `make run`
 
 Run the auth server on the default port.
+
+### `make format`
+
+Format source files according to the `.editorconfig` and prettier defaults
