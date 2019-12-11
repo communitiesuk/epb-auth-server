@@ -19,10 +19,10 @@ describe OAuthTokenService do
       expect(response.status).to be 200
     end
 
-    it 'gives a response with an access_token' do
+    it 'gives a response with a valid jwt based access_token' do
       body = JSON.parse response.body
 
-      expect(body['access_token']).to be_a String
+      expect(body['access_token']).to be_a_valid_jwt_token
     end
 
     it 'gives a response with a token that expires at least an hour in the future' do
