@@ -9,8 +9,12 @@ help:
 
 .PHONY: test
 test: ## Run all codebase tests
-	rake spec
+	@rake spec
 
 .PHONY: run
 run: ## Run the authentication server
-	rackup
+	@rackup
+
+.PHONY: install
+install: ## Run to install dependancies and perform any setup tasks
+	@bundle install
