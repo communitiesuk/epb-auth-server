@@ -30,5 +30,11 @@ describe OAuthTokenService do
 
       expect(body['expires_in']).to be >= 3600
     end
+
+    it 'gives a response with a token of type Bearer' do
+      body = JSON.parse response.body
+
+      expect(body['token_type']).to eq 'bearer'
+    end
   end
 end
