@@ -9,6 +9,5 @@ loader.inflector.inflect 'oauth_token_service' => 'OAuthTokenService'
 loader.setup
 
 run Rack::URLMap.new(
-  '/' => AuthService.new,
-  '/oauth/token' => OAuthTokenService.new
-)
+      '/' => AuthService.new, '/oauth/token' => OAuthTokenService.new
+    )

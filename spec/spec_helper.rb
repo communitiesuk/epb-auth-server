@@ -13,8 +13,7 @@ loader.setup
 module RSpecMixin
   def app
     Rack::URLMap.new(
-      '/' => AuthService.new,
-      '/oauth/token' => OAuthTokenService.new
+      '/' => AuthService.new, '/oauth/token' => OAuthTokenService.new
     )
   end
 end
