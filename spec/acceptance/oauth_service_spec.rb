@@ -25,10 +25,10 @@ describe OAuthTokenService do
       expect(body['access_token']).to be_a String
     end
 
-    it 'gives a response with a expires_at at least an hour in the future' do
+    it 'gives a response with a token that expires at least an hour in the future' do
       body = JSON.parse response.body
 
-      expect(body['expires_at']).to be >= Time.now.to_i + 3600
+      expect(body['expires_in']).to be >= 3600
     end
   end
 end
