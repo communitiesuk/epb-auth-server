@@ -18,5 +18,12 @@ describe OAuthTokenService do
     it 'gives a status of 200' do
       expect(response.status).to be 200
     end
+
+    it 'gives a response with an access_token' do
+      body = JSON.parse response.body
+
+      expect(body['access_token']).to be_a String
+    end
+
   end
 end

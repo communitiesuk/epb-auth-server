@@ -5,5 +5,8 @@ require 'sinatra/base'
 class OAuthTokenService < Sinatra::Base
   post '' do
     status 200
+    {
+      access_token: 'token'
+    }.to_json
   end
 end
