@@ -5,7 +5,7 @@ require 'sinatra/base'
 class OAuthTokenService < Sinatra::Base
   post '' do
     content_type :json
-    client = Client.resolve_from_request env
+    client = Client.resolve_from_request env, params
 
     halt 401 unless client
 

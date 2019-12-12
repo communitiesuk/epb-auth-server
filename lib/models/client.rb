@@ -16,8 +16,8 @@ class Client
     @client_id = client_id
   end
 
-  def self.resolve_from_request(env)
-    client_id, client_secret = get_credentials_from_request env
+  def self.resolve_from_request(env, params)
+    client_id, client_secret = get_credentials_from_request env, params
 
     found = @test_clients.select do |client|
       client[:id] == client_id
@@ -30,13 +30,18 @@ class Client
     end
   end
 
-  def self.get_credentials_from_request(env)
+  def self.get_credentials_from_request(env, params)
     auth_token = env.fetch('HTTP_AUTHORIZATION', '')
 
-    auth_token = auth_token.slice(6..-1)
+    if auth_token.include? 'Basic'
+      auth_token = auth_token.slice(6..-1)
 
-    auth_token = Base64.decode64(auth_token)
+      auth_token = Base64.decode64(auth_token)
 
-    auth_token.split(':')
+      return auth_token.split(':')
+    end
+
+    [params[:client_id], params[:client_secret]]
+
   end
 end
