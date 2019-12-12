@@ -83,4 +83,17 @@ describe OAuthTokenService do
       expect(response.status).to eq 401
     end
   end
+
+  context 'requesting a new token without valid client credentials in the request body' do
+    client_id = 'invalid-id'
+    client_secret = 'invalid-secret'
+
+    let(:response) do
+      post '/oauth/token', client_id: client_id, client_secret: client_secret
+    end
+
+    it 'gives a status of 401' do
+      expect(response.status).to eq 401
+    end
+  end
 end
