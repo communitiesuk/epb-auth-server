@@ -2,8 +2,19 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.3)
+    faraday (0.17.1)
+      multipart-post (>= 1.2, < 3)
     jwt (2.2.1)
+    multi_json (1.14.1)
+    multi_xml (0.6.0)
+    multipart-post (2.1.1)
     mustermann (1.0.3)
+    oauth2 (1.4.2)
+      faraday (>= 0.8, < 2.0)
+      jwt (>= 1.0, < 3.0)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 3)
     prettier (0.16.0)
     rack (2.0.7)
     rack-protection (2.0.7)
@@ -37,6 +48,7 @@ PLATFORMS
 
 DEPENDENCIES
   jwt (~> 2.2)
+  oauth2 (~> 1.4)
   prettier (~> 0.16.0)
   rack (~> 2.0)
   rack-test (~> 1.1)

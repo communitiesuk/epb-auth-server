@@ -6,6 +6,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 
 gem 'jwt', '~> 2.2'
+gem 'oauth2', '~> 1.4'
 gem 'prettier', '~> 0.16.0'
 gem 'rack', '~> 2.0'
 gem 'rack-test', '~> 1.1'

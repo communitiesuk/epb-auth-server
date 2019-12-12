@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'jwt'
 require 'sinatra/base'
 
 class OAuthTokenService < Sinatra::Base
