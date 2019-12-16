@@ -21,4 +21,4 @@ install: ## Run to install dependancies and perform any setup tasks
 
 .PHONY: format
 format: ## Format code according to editorconfig and prettier defaults
-	@bundle exec rbprettier --write **/*.rb *.ru Gemfile
+	@bundle exec rbprettier --write `find . -name '*.rb'` *.ru Gemfile
