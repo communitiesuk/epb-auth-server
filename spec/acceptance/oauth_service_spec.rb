@@ -14,25 +14,23 @@ describe OAuthTokenService do
       post '/oauth/token'
     end
 
+    let(:body) do
+      JSON.parse response.body
+    end
+
     it 'gives a status of 200' do
       expect(response.status).to eq 200
     end
 
     it 'gives a response with a valid jwt based access_token' do
-      body = JSON.parse response.body
-
       expect(body['access_token']).to be_a_valid_jwt_token
     end
 
     it 'gives a response with a token that expires at least an hour in the future' do
-      body = JSON.parse response.body
-
       expect(body['expires_in']).to be >= 3600
     end
 
     it 'gives a response with a token of type Bearer' do
-      body = JSON.parse response.body
-
       expect(body['token_type']).to eq 'bearer'
     end
   end
@@ -45,25 +43,23 @@ describe OAuthTokenService do
       post '/oauth/token', client_id: client_id, client_secret: client_secret
     end
 
+    let(:body) do
+      JSON.parse response.body
+    end
+
     it 'gives a status of 200' do
       expect(response.status).to eq 200
     end
 
     it 'gives a response with a valid jwt based access_token' do
-      body = JSON.parse response.body
-
       expect(body['access_token']).to be_a_valid_jwt_token
     end
 
     it 'gives a response with a token that expires at least an hour in the future' do
-      body = JSON.parse response.body
-
       expect(body['expires_in']).to be >= 3600
     end
 
     it 'gives a response with a token of type Bearer' do
-      body = JSON.parse response.body
-
       expect(body['token_type']).to eq 'bearer'
     end
   end
