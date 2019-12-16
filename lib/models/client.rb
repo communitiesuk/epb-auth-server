@@ -3,12 +3,10 @@
 require 'base64'
 
 class Client
+  attr_reader :client_id
+
   @test_clients = [
-    {
-      name: 'test-client',
-      id: 'test-client-id',
-      secret: 'test-client-secret'
-    }
+    { name: 'test-client', id: 'test-client-id', secret: 'test-client-secret' }
   ]
 
   def initialize(client_name, client_id)
@@ -19,15 +17,11 @@ class Client
   def self.resolve_from_request(env, params)
     client_id, client_secret = get_credentials_from_request env, params
 
-    found = @test_clients.select do |client|
-      client[:id] == client_id
-    end
+    found = @test_clients.select { |client| client[:id] == client_id }
 
     client = found.first
 
-    if client && client[:secret] == client_secret
-      new client[:client_name], client[:client_id]
-    end
+    new client[:name], client[:id] if client && client[:secret] == client_secret
   end
 
   def self.get_credentials_from_request(env, params)
@@ -42,6 +36,5 @@ class Client
     end
 
     [params[:client_id], params[:client_secret]]
-
   end
 end

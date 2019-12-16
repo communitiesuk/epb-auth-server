@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'oauth2'
+require 'net/http'
 
 describe 'OAuth Client Integration' do
   before(:all) do
@@ -19,12 +20,27 @@ describe 'OAuth Client Integration' do
                          site: 'http://localhost:9292'
     end
 
-    let(:authenticated_client) do
-      client.client_credentials.get_token
-    end
+    let(:authenticated_client) { client.client_credentials.get_token }
 
     it 'is not expired' do
       expect(authenticated_client.expired?).to be_falsey
+    end
+
+    it 'can be used to make a request' do
+      expect {
+        @response = authenticated_client.get('http://localhost:9292/oauth/test')
+      }.to_not raise_error
+
+      expect(@response.body).to eq '{"message":"ok"}'
+    end
+  end
+
+  context 'given a http client is not authenticated' do
+    it 'cannot be used to make a request to a secured route' do
+      uri = URI('http://localhost:9292/oauth/test')
+      response = Net::HTTP.get_response(uri)
+
+      expect(response).to be_an_instance_of Net::HTTPUnauthorized
     end
   end
 end

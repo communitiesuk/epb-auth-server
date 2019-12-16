@@ -14,9 +14,7 @@ describe OAuthTokenService do
       post '/oauth/token'
     end
 
-    let(:body) do
-      JSON.parse response.body
-    end
+    let(:body) { JSON.parse response.body }
 
     it 'gives a status of 200' do
       expect(response.status).to eq 200
@@ -27,7 +25,7 @@ describe OAuthTokenService do
     end
 
     it 'gives a response with a token that expires at least an hour in the future' do
-      expect(body['expires_in']).to be >= 3600
+      expect(body['expires_in']).to be >= 3_600
     end
 
     it 'gives a response with a token of type Bearer' do
@@ -43,9 +41,7 @@ describe OAuthTokenService do
       post '/oauth/token', client_id: client_id, client_secret: client_secret
     end
 
-    let(:body) do
-      JSON.parse response.body
-    end
+    let(:body) { JSON.parse response.body }
 
     it 'gives a status of 200' do
       expect(response.status).to eq 200
@@ -56,7 +52,7 @@ describe OAuthTokenService do
     end
 
     it 'gives a response with a token that expires at least an hour in the future' do
-      expect(body['expires_in']).to be >= 3600
+      expect(body['expires_in']).to be >= 3_600
     end
 
     it 'gives a response with a token of type Bearer' do
@@ -89,6 +85,7 @@ describe OAuthTokenService do
     end
 
     it 'gives a status of 401' do
+      puts response.body.to_s
       expect(response.status).to eq 401
     end
   end

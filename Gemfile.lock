@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/communitiesuk/epb-auth-tools.git
+  revision: d4efa68938e7d41643ff170c901ebb894ad596f9
+  specs:
+    epb_auth_tools (0.0.0)
+      jwt (~> 2.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -47,15 +54,16 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  jwt (~> 2.2)
-  oauth2 (~> 1.4)
-  prettier (~> 0.16.0)
-  rack (~> 2.0)
-  rack-test (~> 1.1)
-  rake (~> 13.0)
-  rspec (~> 3.9)
-  sinatra (~> 2.0)
-  zeitwerk (~> 2.2)
+  epb_auth_tools!
+  jwt (~> 2.2)!
+  oauth2 (~> 1.4)!
+  prettier (~> 0.16.0)!
+  rack (~> 2.0)!
+  rack-test (~> 1.1)!
+  rake (~> 13.0)!
+  rspec (~> 3.9)!
+  sinatra (~> 2.0)!
+  zeitwerk (~> 2.2)!
 
 RUBY VERSION
    ruby 2.6.4p104

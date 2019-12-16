@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-require 'jwt'
-require 'rspec'
+require 'epb_auth_tools'
 require 'rack/test'
+require 'rspec'
 require 'zeitwerk'
 
 loader = Zeitwerk::Loader.new
 loader.push_dir("#{__dir__}/../lib/")
 loader.push_dir("#{__dir__}/../lib/models/")
 loader.inflector.inflect 'oauth_token_service' => 'OAuthTokenService'
+loader.inflector.inflect 'oauth_token_test_service' => 'OAuthTokenTestService'
 
 loader.setup
 
@@ -17,9 +18,7 @@ ENV['JWT_ISSUER'] = 'test.auth'
 
 module RSpecMixin
   def app
-    Rack::URLMap.new(
-      '/' => AuthService.new, '/oauth/token' => OAuthTokenService.new
-    )
+    Rack::URLMap.new(Router.generate_routes)
   end
 end
 
@@ -30,11 +29,10 @@ end
 
 RSpec::Matchers.define :be_a_valid_jwt_token do
   match do |actual|
-    options = { algorithm: 'HS256', iss: ENV['JWT_ISSUER'] }
-
-    JWT.decode actual, ENV['JWT_SECRET'], true, options
+    processor = Auth::TokenProcessor.new ENV['JWT_SECRET'], ENV['JWT_ISSUER']
+    _token = processor.process actual
     true
-  rescue JWT::DecodeError
+  rescue StandardError
     false
   end
 end
