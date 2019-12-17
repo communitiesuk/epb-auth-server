@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/communitiesuk/epb-auth-tools.git
-  revision: d4efa68938e7d41643ff170c901ebb894ad596f9
+  revision: 7c4fac4ea0b7b91084c0efb8216fea446ecbd1ed
   specs:
     epb_auth_tools (0.0.0)
       jwt (~> 2.2)

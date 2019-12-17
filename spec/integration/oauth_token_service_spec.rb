@@ -8,7 +8,7 @@ describe 'OAuth Client Integration' do
     process = IO.popen(['rackup', '-q', err: %i[child out]])
     @process_id = process.pid
 
-    sleep 1
+    sleep 2
   end
 
   after(:all) { Process.kill('KILL', @process_id) }
