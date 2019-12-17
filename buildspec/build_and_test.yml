@@ -1,0 +1,21 @@
+version: 0.2
+
+runtime-versions:
+  ruby: 2.6
+
+env:
+  parameter-store:
+    UNLEASH_URI: "epbr-unleash-integration-uri"
+    STAGE: "epbr-govpaas-integration-space"
+    DOCKER_POSTGRES_PASSWORD: "docker-postgres-password"
+
+phases:
+  install:
+    runtime-versions:
+      ruby: 2.6
+    commands:
+      - gem install bundler:2.0.2
+      - bundle install
+  build:
+    commands:
+      - make test

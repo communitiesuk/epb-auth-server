@@ -1,0 +1,33 @@
+version: 0.2
+
+runtime-versions:
+  ruby: 2.6
+
+env:
+  variables:
+    DEPLOY_APPNAME: "mhclg-epb-auth-server-production"
+
+  parameter-store:
+    PAAS_LOGIN: "epbr-govpaas-production-login"
+    PAAS_PW: "epbr-govpaas-production-pw"
+    PAAS_SPACE: "epbr-govpaas-production-space"
+    PAAS_API: "epbr-govpaas-api"
+    PAAS_ORG: "epbr-govpaas-orgname"
+    UNLEASH_URI: "epbr-unleash-production-uri"
+    JWT_ISSUER: "epbr-jwt-issuer-production"
+    JWT_SECRET: "epbr-jwt-secret-production"
+
+phases:
+  install:
+    runtime-versions:
+      ruby: 2.6
+  pre_build:
+    commands:
+      - cf login -a $PAAS_API -u $PAAS_LOGIN -p "$PAAS_PW" -o $PAAS_ORG -s $PAAS_SPACE
+      - cf v3-cancel-zdt-push ${DEPLOY_APPNAME} || true
+  build:
+    commands:
+      - make deploy-app
+  post_build:
+    commands:
+      - cf logout
