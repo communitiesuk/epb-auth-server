@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'base64'
+require 'securerandom'
 require 'sinatra/activerecord'
 require 'uuid'
 
@@ -14,6 +15,21 @@ class Client
   def initialize(client_name, client_id)
     @client_name = client_name
     @client_id = client_id
+  end
+
+  def self.create(name)
+    client =
+      self::Client.create(name: name, secret: SecureRandom.alphanumeric(64))
+
+    { name: client['name'], id: client['id'], secret: client['secret'] }
+  end
+
+  def self.by_id(id)
+    return nil if UUID.validate(client_id).nil?
+
+    self::Client.find(id)
+  rescue ActiveRecordError::RecordNotFound
+    nil
   end
 
   def self.resolve_from_request(env, params)

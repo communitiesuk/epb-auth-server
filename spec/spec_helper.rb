@@ -45,3 +45,7 @@ RSpec::Matchers.define :be_a_valid_jwt_token do
     false
   end
 end
+
+RSpec::Matchers.define :be_a_valid_uuid do
+  match { |actual| !UUID.validate(actual).nil? }
+end
