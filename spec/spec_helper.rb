@@ -25,6 +25,15 @@ end
 RSpec.configure do |config|
   config.include RSpecMixin
   config.include Rack::Test::Methods
+
+  config.before(:all) do
+    Client::Client.destroy_all
+    Client::Client.create(
+      id: '72d1d680-92ee-463a-98a8-f3e3973df038',
+      name: 'test-client',
+      secret: 'test-client-secret'
+    )
+  end
 end
 
 RSpec::Matchers.define :be_a_valid_jwt_token do

@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 require 'base64'
+require 'sinatra/activerecord'
+require 'uuid'
 
 class Client
   attr_reader :client_id
 
-  @test_clients = [
-    { name: 'test-client', id: 'test-client-id', secret: 'test-client-secret' }
-  ]
+  class Client < ActiveRecord::Base
+    validates_presence_of :name, :secret
+  end
 
   def initialize(client_name, client_id)
     @client_name = client_name
@@ -17,11 +19,13 @@ class Client
   def self.resolve_from_request(env, params)
     client_id, client_secret = get_credentials_from_request env, params
 
-    found = @test_clients.select { |client| client[:id] == client_id }
+    return nil if UUID.validate(client_id).nil?
 
-    client = found.first
+    client = self::Client.find(client_id)
 
-    new client[:name], client[:id] if client && client[:secret] == client_secret
+    new client[:name], client[:id] if client[:secret] == client_secret
+  rescue ActiveRecordError::RecordNotFound
+    nil
   end
 
   def self.get_credentials_from_request(env, params)

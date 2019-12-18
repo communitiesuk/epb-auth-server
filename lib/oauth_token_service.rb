@@ -8,7 +8,9 @@ class OAuthTokenService < Sinatra::Base
     content_type :json
     client = Client.resolve_from_request env, params
 
-    halt 401 unless client
+    unless client
+      halt 401, { error: 'Could not resolve client from request' }.to_json
+    end
 
     token =
       Auth::Token.new(

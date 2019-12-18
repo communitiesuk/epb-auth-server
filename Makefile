@@ -28,6 +28,26 @@ run: ## Run the authentication server
 .PHONY: install
 install: ## Run to install dependancies and perform any setup tasks
 	@bundle install
+	$(MAKE) db-setup
+
+.PHONY: db-setup
+db-setup: ## Run to create and populate test dbs
+	@echo ">>>>> Creating DB"
+	@bundle exec rake db:create
+	@echo ">>>>> Migrating DB"
+	@bundle exec rake db:migrate
+	@echo ">>>>> Populating Test DB"
+	@bundle exec rake db:test:prepare
+
+.PHONY: db-teardown
+db-teardown: ## Run to tear down test dbs
+	@echo ">>>>> Dropping DBs"
+	@bundle exec rake db:drop
+
+.PHONY: db-create-migration
+db-create-migration: ## Run to create a new migration append NAME=
+	$(if ${NAME},,$(error Must specify NAME))
+	@bundle exec rake db:create_migration NAME=${NAME}
 
 .PHONY: format
 format: ## Format code according to editorconfig and prettier defaults

@@ -4,7 +4,7 @@ require 'base64'
 
 describe OAuthTokenService do
   context 'requesting a new token with valid client credentials in the header' do
-    client_id = 'test-client-id'
+    client_id = '72d1d680-92ee-463a-98a8-f3e3973df038'
     client_secret = 'test-client-secret'
 
     auth_header = Base64.encode64([client_id, client_secret].join(':'))
@@ -34,7 +34,7 @@ describe OAuthTokenService do
   end
 
   context 'requesting a new token with valid client credentials in the request body' do
-    client_id = 'test-client-id'
+    client_id = '72d1d680-92ee-463a-98a8-f3e3973df038'
     client_secret = 'test-client-secret'
 
     let(:response) do
@@ -85,7 +85,6 @@ describe OAuthTokenService do
     end
 
     it 'gives a status of 401' do
-      puts response.body.to_s
       expect(response.status).to eq 401
     end
   end

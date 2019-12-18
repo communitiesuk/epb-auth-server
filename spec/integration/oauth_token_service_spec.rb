@@ -15,7 +15,7 @@ describe 'OAuth Client Integration' do
 
   context 'given an oauth client with valid credentials and an authenticated token' do
     let(:client) do
-      OAuth2::Client.new 'test-client-id',
+      OAuth2::Client.new '72d1d680-92ee-463a-98a8-f3e3973df038',
                          'test-client-secret',
                          site: 'http://localhost:9292'
     end

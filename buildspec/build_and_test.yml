@@ -14,7 +14,7 @@ phases:
     runtime-versions:
       ruby: 2.6
     commands:
-      - bundle install
+      - make install
   build:
     commands:
       - make test
