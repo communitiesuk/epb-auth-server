@@ -4,18 +4,16 @@ require 'epb_auth_tools'
 require 'sinatra/base'
 
 class OAuthTokenTestService < Sinatra::Base
-  set(:jwt) do
+  set(:jwt_auth) do
     condition do
-      jwt_token = env.fetch('HTTP_AUTHORIZATION', '').slice(7..-1)
-      processor = Auth::TokenProcessor.new ENV['JWT_SECRET'], ENV['JWT_ISSUER']
-
-      processor.process jwt_token
-    rescue Auth::TokenMalformed
-      halt 401
+      Auth::Sinatra::Conditional.process_request env
+    rescue Auth::Errors::Error => e
+      content_type :json
+      halt 401, { error: e }.to_json
     end
   end
 
-  get '', jwt: [] do
+  get '', jwt_auth: [] do
     content_type :json
     { message: 'ok' }.to_json
   end
