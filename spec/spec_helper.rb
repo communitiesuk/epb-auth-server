@@ -33,6 +33,11 @@ RSpec.configure do |config|
       name: 'test-client',
       secret: 'test-client-secret'
     )
+    Client::Client.create(
+      id: '54d1d680-92ee-463a-98a8-f3e3973df038',
+      name: 'test-client-two',
+      secret: 'test-client-secret-with-:-in-it'
+    )
   end
 end
 

@@ -52,7 +52,7 @@ class Client
 
       auth_token = Base64.decode64(auth_token)
 
-      return auth_token.split(':')
+      return auth_token.split(':', 2)
     end
 
     [params[:client_id], params[:client_secret]]
