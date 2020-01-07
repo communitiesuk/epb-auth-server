@@ -83,6 +83,7 @@ PLATFORMS
 DEPENDENCIES
   epb_auth_tools!
   jwt (~> 2.2)!
+  multi_json (~> 1.14)
   oauth2 (~> 1.4)!
   pg (~> 1.1)!
   prettier (~> 0.16.0)!
