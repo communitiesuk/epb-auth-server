@@ -19,7 +19,9 @@ class Client
 
   def self.create(name)
     client =
-      self::Client.create(name: name, secret: SecureRandom.alphanumeric(64))
+      Client.create(name: name, secret: SecureRandom.alphanumeric(64))
+
+    client.save!
 
     { name: client['name'], id: client['id'], secret: client['secret'] }
   end
