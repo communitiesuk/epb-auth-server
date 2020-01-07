@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'epb_auth_tools'
 require 'sinatra/base'
 
 class OAuthTokenTestService < Sinatra::Base

@@ -13,6 +13,7 @@ loader.inflector.inflect 'oauth_token_test_service' => 'OAuthTokenTestService'
 
 loader.setup
 
+ENV['RACK_ENV'] = ENV['APP_ENV'] = 'test'
 ENV['JWT_SECRET'] = 'TestingSecretString'
 ENV['JWT_ISSUER'] = 'test.auth'
 
