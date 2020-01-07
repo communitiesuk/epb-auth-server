@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require 'sinatra/base'
-
-class AuthService < Sinatra::Base
+class AuthService < BaseService
   get '/' do
     status 200
     { links: '' }.to_json

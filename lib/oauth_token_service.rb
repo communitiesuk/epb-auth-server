@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require 'jwt'
-require 'sinatra/base'
-
-class OAuthTokenService < Sinatra::Base
+class OAuthTokenService < BaseService
   post '' do
     content_type :json
     client = Client.resolve_from_request env, params

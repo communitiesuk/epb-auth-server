@@ -18,8 +18,7 @@ class Client
   end
 
   def self.create(name)
-    client =
-      Client.create(name: name, secret: SecureRandom.alphanumeric(64))
+    client = Client.create(name: name, secret: SecureRandom.alphanumeric(64))
 
     client.save!
 

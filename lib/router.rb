@@ -10,7 +10,8 @@ class Router
       '/oauth/token' => OAuthTokenService.new
     }
 
-    if ENV['APP_ENV'].nil? || ENV['APP_ENV'] == 'development' || ENV['APP_ENV'] == 'test'
+    if ENV['APP_ENV'].nil? || ENV['APP_ENV'] == 'development' ||
+         ENV['APP_ENV'] == 'test'
       routes['/oauth/test'] = OAuthTokenTestService.new
     end
 

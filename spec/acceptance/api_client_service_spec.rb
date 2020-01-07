@@ -13,7 +13,9 @@ describe ApiClientService do
 
     let(:response) do
       header 'Authorization', 'Bearer ' + token.encode(ENV['JWT_SECRET'])
-      post '/api/client', name: 'test-create-client'
+      post '/api/client',
+           { name: 'test-create-client' }.to_json,
+           CONTENT_TYPE: 'application/json'
     end
 
     it 'returns a created status' do
