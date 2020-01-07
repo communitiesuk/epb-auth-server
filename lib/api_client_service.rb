@@ -13,6 +13,8 @@ class ApiClientService < Sinatra::Base
   end
 
   post '', jwt_auth: [] do
+    puts params[:name]
+
     client = Client.create params[:name]
 
     content_type :json
