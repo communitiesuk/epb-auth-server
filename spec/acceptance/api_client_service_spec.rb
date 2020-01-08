@@ -49,7 +49,7 @@ describe ApiClientService do
     end
 
     it 'fails with an appropriate error message' do
-      expect(response.body).to include 'Auth::Errors::TokenDecodeError'
+      expect(response.body).to include 'Auth::Errors::TokenMissing'
     end
   end
 end

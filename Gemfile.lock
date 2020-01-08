@@ -1,9 +1,10 @@
 GIT
   remote: https://github.com/communitiesuk/epb-auth-tools.git
-  revision: ba84fcc58a93dc7e08ae9e0d92ee3be8224565e0
+  revision: bb7a50859543f29ededce734615e45f2c759d33f
   specs:
     epb_auth_tools (0.0.0)
       jwt (~> 2.2)
+      oauth2 (~> 1.4)
 
 GEM
   remote: https://rubygems.org/
