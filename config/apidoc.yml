@@ -1,0 +1,80 @@
+openapi: "3.0.0"
+info:
+  title: Energy Performance of Buildings Register Auth Server
+  description: Auth server for all EPBR services (EPC, DEC, ACIR), maintained by the EPBR Service Team at MHCLG.
+  version: "1.0"
+
+servers:
+  - url: https://mhclg-epb-auth-server-integration.london.cloudapps.digital/api
+    description: Integration server
+    variables:
+      authServer:
+        default: https://mhclg-epb-auth-server-integration.london.cloudapps.digital
+  - url: https://mhclg-epb-auth-server-staging.london.cloudapps.digital/api
+    description: Staging server
+    variables:
+      authServer:
+        default: https://mhclg-epb-auth-server-staging.london.cloudapps.digital
+
+tags:
+  - name: Manage clients
+    description: Operations for managing clients in the auth server
+paths:
+  /client:
+    post:
+      tags:
+        - Manage clients
+      summary: Add a new client to the auth server
+      security:
+        - oauth: []
+      requestBody:
+        description: The client to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "frontend"
+      responses:
+        201:
+          description: Client succesfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientSummary'
+
+        401:
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: string
+                    example: "Auth::Errors::TokenMissing"
+
+components:
+  securitySchemes:
+    oauth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ""
+
+  schemas:
+    ClientSummary:
+      type: object
+      properties:
+        client_id:
+          type: string
+          example: "123"
+        name:
+          type: string
+          example: "frontend"
+        client_secret:
+          type: string
+          example: "a5pkL1YtDG0LEaRwqxJDGRBBseOeLjue4XQieOSkhUDSDteBjjrG2A3kAr8uOB4a"
