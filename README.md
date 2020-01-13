@@ -5,6 +5,10 @@ API endpoints.
 
 ## Running the auth server locally
 
+The auth server requires two environment variables to be set: `JWT_ISSUER` and 
+`JWT_SECRET`. Corresponding variables **with the same names and values** need 
+to be set on the API server that connects to the auth server.
+
 If you are running the server locally it is likely that you will be running it 
 alongside another sinatra or rack application. To start the server you'll need
 to run it on another port.

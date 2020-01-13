@@ -21,4 +21,4 @@ git 'https://github.com/communitiesuk/epb-auth-tools.git' do
   gem 'epb_auth_tools'
 end
 
-gem "multi_json", "~> 1.14"
+gem 'multi_json', '~> 1.14'
