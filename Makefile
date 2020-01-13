@@ -70,7 +70,7 @@ deploy-app: ## Deploys the app to PaaS
 
 	cf v3-apply-manifest -f manifest.yml
 
-	cf set-env "${DEPLOY_APPNAME}" UNLEASH_URI "${UNLEASH_URI}"
+	cf set-env "${DEPLOY_APPNAME}" EPB_UNLEASH_URI "${EPB_UNLEASH_URI}"
 	cf set-env "${DEPLOY_APPNAME}" STAGE "${PAAS_SPACE}"
 	cf set-env "${DEPLOY_APPNAME}" JWT_ISSUER "${JWT_ISSUER}"
 	cf set-env "${DEPLOY_APPNAME}" JWT_SECRET "${JWT_SECRET}"
