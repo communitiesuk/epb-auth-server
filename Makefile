@@ -23,6 +23,8 @@ test: ## Run all codebase tests
 
 .PHONY: run
 run: ## Run the authentication server
+	$(if ${JWT_ISSUER},,$(error Must specify JWT_ISSUER))
+	$(if ${JWT_SECRET},,$(error Must specify JWT_SECRET))
 	@bundle exec rackup
 
 .PHONY: install
