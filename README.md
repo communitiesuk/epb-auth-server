@@ -10,16 +10,15 @@ The auth server requires two environment variables to be set: `JWT_ISSUER` and
 to be set on the API server that connects to the auth server.
 
 If you are running the server locally it is likely that you will be running it 
-alongside another sinatra or rack application. To start the server you'll need
-to run it on another port.
+alongside another sinatra or rack application. The Makefile runs the server on
+port 9090 by default. To start the server on a different port run e.g. 
+`bundle exec rackup -p 9393`
 
-To start the server on another port run: `bundle exec rackup -p 9393`
-
-To use this most applications use the `AUTH_SERVER` environment variable.
+To use this most applications use the `EPB_AUTH_SERVER` environment variable.
 
 When you start a server that will make calls to the authentication server, make
 sure you also set this environment variable as follows:
-`AUTH_SERVER=http://localhost:9393 make run`
+`EPB_AUTH_SERVER=http://localhost:9090 make run`
 
 ## Makefile Scripts
 
@@ -33,7 +32,7 @@ sure you also set this environment variable as follows:
 
 * `make run`
 
-  Run the auth server on the default port.
+  Run the auth server, which will be available at `http://localhost:9090`.
 
 * `make format`
 

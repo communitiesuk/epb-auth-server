@@ -25,7 +25,7 @@ test: ## Run all codebase tests
 run: ## Run the authentication server
 	$(if ${JWT_ISSUER},,$(error Must specify JWT_ISSUER))
 	$(if ${JWT_SECRET},,$(error Must specify JWT_SECRET))
-	@bundle exec rackup
+	@bundle exec rackup -p 9090
 
 .PHONY: install
 install: ## Run to install dependancies and perform any setup tasks
