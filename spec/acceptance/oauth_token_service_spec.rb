@@ -42,8 +42,8 @@ describe OAuthTokenService do
     it 'gives a response with supplemental data' do
       processor = Auth::TokenProcessor.new ENV['JWT_SECRET'], ENV['JWT_ISSUER']
       token = processor.process body['access_token']
-      puts token.to_json
-      expect(token.scopes?(%w[scope:one scope:two])).to be_truthy
+
+      expect(token.supplemental('test')).to contain_exactly true
     end
   end
 

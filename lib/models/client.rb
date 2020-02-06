@@ -6,7 +6,7 @@ require 'sinatra/activerecord'
 require 'uuid'
 
 class Client
-  attr_reader :client_id, :scopes
+  attr_reader :client_id, :scopes, :supplemental
 
   class Client < ActiveRecord::Base
     validates_presence_of :name, :secret
@@ -18,10 +18,11 @@ class Client
     belongs_to :client
   end
 
-  def initialize(client_name, client_id, scopes)
+  def initialize(client_name, client_id, scopes = [], supplemental = {})
     @client_name = client_name
     @client_id = client_id
     @scopes = scopes.empty? ? [] : scopes
+    @supplemental = supplemental
   end
 
   def self.create(name, scopes = [], supplemental)
@@ -57,7 +58,8 @@ class Client
     if client[:secret] == client_secret
       new client[:name],
           client[:id],
-          client.client_scope.map { |scope| scope['scope'] }.uniq
+          client.client_scope.map { |scope| scope['scope'] }.uniq,
+          client[:supplemental]
     end
   rescue ActiveRecord::RecordNotFound
     nil

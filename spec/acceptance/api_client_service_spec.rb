@@ -99,7 +99,7 @@ describe ApiClientService do
     end
 
     it 'returns some supplemental data' do
-      body = JSON.parse response.body, :symbolize_names => true
+      body = JSON.parse response.body, symbolize_names: true
 
       expect(body[:supplemental]).to eq test: true
     end

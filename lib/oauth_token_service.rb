@@ -14,7 +14,8 @@ class OAuthTokenService < BaseService
         iss: ENV['JWT_ISSUER'],
         sub: client.client_id,
         iat: Time.now.to_i,
-        scopes: client.scopes
+        scopes: client.scopes,
+        sup: client.supplemental
       )
 
     status 200
