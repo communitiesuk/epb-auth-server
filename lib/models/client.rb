@@ -10,6 +10,12 @@ class Client
 
   class Client < ActiveRecord::Base
     validates_presence_of :name, :secret
+    has_many :client_scope, dependent: :delete_all
+  end
+
+  class ClientScope < ActiveRecord::Base
+    validates_presence_of :client_id, :scope
+    belongs_to :client
   end
 
   def initialize(client_name, client_id)
@@ -17,12 +23,18 @@ class Client
     @client_id = client_id
   end
 
-  def self.create(name)
+  def self.create(name, scopes = [])
     client = Client.create(name: name, secret: SecureRandom.alphanumeric(64))
-
     client.save!
 
-    { name: client['name'], id: client['id'], secret: client['secret'] }
+    scopes.each { |scope| client.client_scope.create(scope: scope).save! }
+
+    {
+      name: client['name'],
+      id: client['id'],
+      secret: client['secret'],
+      scopes: client.client_scope.map { |scope| scope['scope'] }.uniq
+    }
   end
 
   def self.by_id(id)

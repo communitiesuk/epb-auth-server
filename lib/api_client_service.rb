@@ -2,7 +2,10 @@
 
 class ApiClientService < BaseService
   post '', jwt_auth: [] do
-    client = Client.create json_body['name']
+    body = json_body
+    scopes = body['scopes'].nil? ? [] : body['scopes']
+
+    client = Client.create body['name'], scopes
 
     content_type :json
     status 201
