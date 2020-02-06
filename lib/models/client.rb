@@ -6,7 +6,7 @@ require 'sinatra/activerecord'
 require 'uuid'
 
 class Client
-  attr_reader :client_id
+  attr_reader :client_id, :scopes
 
   class Client < ActiveRecord::Base
     validates_presence_of :name, :secret
@@ -18,9 +18,10 @@ class Client
     belongs_to :client
   end
 
-  def initialize(client_name, client_id)
+  def initialize(client_name, client_id, scopes)
     @client_name = client_name
     @client_id = client_id
+    @scopes = scopes.empty? ? [] : scopes
   end
 
   def self.create(name, scopes = [])
@@ -38,10 +39,10 @@ class Client
   end
 
   def self.by_id(id)
-    return nil if UUID.validate(client_id).nil?
+    return nil if UUID.validate(id).nil?
 
     self::Client.find(id)
-  rescue ActiveRecordError::RecordNotFound
+  rescue ActiveRecord::RecordNotFound
     nil
   end
 
@@ -50,10 +51,14 @@ class Client
 
     return nil if UUID.validate(client_id).nil?
 
-    client = self::Client.find(client_id)
+    client = by_id(client_id)
 
-    new client[:name], client[:id] if client[:secret] == client_secret
-  rescue ActiveRecordError::RecordNotFound
+    if client[:secret] == client_secret
+      new client[:name],
+          client[:id],
+          client.client_scope.map { |scope| scope['scope'] }.uniq
+    end
+  rescue ActiveRecord::RecordNotFound
     nil
   end
 

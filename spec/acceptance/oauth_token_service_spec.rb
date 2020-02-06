@@ -31,6 +31,13 @@ describe OAuthTokenService do
     it 'gives a response with a token of type Bearer' do
       expect(body['token_type']).to eq 'bearer'
     end
+
+    it 'gives a response with scopes' do
+      processor = Auth::TokenProcessor.new ENV['JWT_SECRET'], ENV['JWT_ISSUER']
+      token = processor.process body['access_token']
+
+      expect(token.scopes?(%w[scope:one scope:two])).to be_truthy
+    end
   end
 
   context 'requesting a new token with valid client credentials in the request body' do

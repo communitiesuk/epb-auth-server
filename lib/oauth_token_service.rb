@@ -11,7 +11,10 @@ class OAuthTokenService < BaseService
 
     token =
       Auth::Token.new(
-        iss: ENV['JWT_ISSUER'], sub: client.client_id, iat: Time.now.to_i
+        iss: ENV['JWT_ISSUER'],
+        sub: client.client_id,
+        iat: Time.now.to_i,
+        scopes: client.scopes
       )
 
     status 200
