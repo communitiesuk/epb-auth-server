@@ -44,9 +44,15 @@ describe ApiClientService do
 
       expect(body['scopes'].empty?).to be_truthy
     end
+
+    it 'returns no supplemental data' do
+      body = JSON.parse response.body
+
+      expect(body['supplemental'].empty?).to be_truthy
+    end
   end
 
-  context 'creating a new client as an authenticated client with scopes' do
+  context 'creating a new client as an authenticated client with scopes and supplemental data' do
     token = Auth::Token.new(
       iss: ENV['JWT_ISSUER'],
       sub: '72d1d680-92ee-463a-98a8-f3e3973df038',
@@ -58,7 +64,8 @@ describe ApiClientService do
       post '/api/client',
            {
              name: 'test-create-client',
-             scopes: %w[scope:one scope:two]
+             scopes: %w[scope:one scope:two],
+             supplemental: {test: true}
            }.to_json,
            CONTENT_TYPE: 'application/json'
     end
@@ -89,6 +96,12 @@ describe ApiClientService do
       body = JSON.parse response.body
 
       expect(body['scopes']).to contain_exactly 'scope:one', 'scope:two'
+    end
+
+    it 'returns some supplemental data' do
+      body = JSON.parse response.body, :symbolize_names => true
+
+      expect(body[:supplemental]).to eq test: true
     end
   end
 

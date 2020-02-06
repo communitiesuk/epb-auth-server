@@ -24,8 +24,8 @@ class Client
     @scopes = scopes.empty? ? [] : scopes
   end
 
-  def self.create(name, scopes = [])
-    client = Client.create(name: name, secret: SecureRandom.alphanumeric(64))
+  def self.create(name, scopes = [], supplemental)
+    client = Client.create(name: name, secret: SecureRandom.alphanumeric(64), supplemental: supplemental)
     client.save!
 
     scopes.each { |scope| client.client_scope.create(scope: scope).save! }
@@ -34,7 +34,8 @@ class Client
       name: client['name'],
       id: client['id'],
       secret: client['secret'],
-      scopes: client.client_scope.map { |scope| scope['scope'] }.uniq
+      scopes: client.client_scope.map { |scope| scope['scope'] }.uniq,
+      supplemental: client['supplemental']
     }
   end
 
