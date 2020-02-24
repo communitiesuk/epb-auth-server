@@ -15,6 +15,9 @@ class Router
       routes['/oauth/test'] = OAuthTokenTestService.new
     end
 
-    routes
+    route_prefix = ENV['URL_PREFIX']
+    route_prefix ||= ''
+
+    routes.transform_keys { |uri| route_prefix + uri }
   end
 end
