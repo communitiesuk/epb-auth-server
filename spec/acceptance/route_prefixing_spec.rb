@@ -16,8 +16,8 @@ describe 'Using route prefixing with the server' do
 
   after(:all) { Process.kill('KILL', @process_id) }
 
-  context 'given a http client is not authenticated' do
-    it 'cannot be used to make a request to a secured route' do
+  context 'given a prefix of /prefix' do
+    it 'the health check is accessible from /prefix/healthcheck' do
       uri = URI('http://localhost:9292/prefix/healthcheck')
       response = Net::HTTP.get_response(uri)
 
