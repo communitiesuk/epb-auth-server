@@ -74,5 +74,6 @@ deploy-app: ## Deploys the app to PaaS
 	cf set-env "${DEPLOY_APPNAME}" STAGE "${PAAS_SPACE}"
 	cf set-env "${DEPLOY_APPNAME}" JWT_ISSUER "${JWT_ISSUER}"
 	cf set-env "${DEPLOY_APPNAME}" JWT_SECRET "${JWT_SECRET}"
+	cf set-env "${DEPLOY_APPNAME}" URL_PREFIX "/auth"
 
 	cf v3-zdt-push "${DEPLOY_APPNAME}" --wait-for-deploy-complete

@@ -12,7 +12,7 @@ applications:
     buildpacks:
       - ruby_buildpack
     health-check-type: http
-    health-check-http-endpoint: /healthcheck
+    health-check-http-endpoint: /auth/healthcheck
     services:
       - mhclg-epb-auth-db-${STAGE}
       - logit-ssl-drain
