@@ -26,7 +26,12 @@ class Client
   end
 
   def self.create(name, scopes = [], supplemental)
-    client = Client.create(name: name, secret: SecureRandom.alphanumeric(64), supplemental: supplemental)
+    client =
+      Client.create(
+        name: name,
+        secret: SecureRandom.alphanumeric(64),
+        supplemental: supplemental
+      )
     client.save!
 
     scopes.each { |scope| client.client_scope.create(scope: scope).save! }

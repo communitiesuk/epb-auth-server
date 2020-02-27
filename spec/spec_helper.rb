@@ -29,14 +29,13 @@ RSpec.configure do |config|
 
   config.before(:all) do
     Client::Client.destroy_all
-    client = Client::Client.create(
-      id: '72d1d680-92ee-463a-98a8-f3e3973df038',
-      name: 'test-client',
-      secret: 'test-client-secret',
-      supplemental: {
-        test: [true]
-      }
-    )
+    client =
+      Client::Client.create(
+        id: '72d1d680-92ee-463a-98a8-f3e3973df038',
+        name: 'test-client',
+        secret: 'test-client-secret',
+        supplemental: { test: [true] }
+      )
     client.client_scope.create(scope: 'scope:one')
     client.client_scope.create(scope: 'scope:two')
 

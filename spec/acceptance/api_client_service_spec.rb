@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-require 'rspec'
-
 describe ApiClientService do
   context 'creating a new client as an authenticated client without scopes' do
-    token = Auth::Token.new(
-      iss: ENV['JWT_ISSUER'],
-      sub: '72d1d680-92ee-463a-98a8-f3e3973df038',
-      iat: Time.now.to_i
-    )
+    token =
+      Auth::Token.new(
+        iss: ENV['JWT_ISSUER'],
+        sub: '72d1d680-92ee-463a-98a8-f3e3973df038',
+        iat: Time.now.to_i
+      )
 
     let(:response) do
       header 'Authorization', 'Bearer ' + token.encode(ENV['JWT_SECRET'])
@@ -53,11 +52,12 @@ describe ApiClientService do
   end
 
   context 'creating a new client as an authenticated client with scopes and supplemental data' do
-    token = Auth::Token.new(
-      iss: ENV['JWT_ISSUER'],
-      sub: '72d1d680-92ee-463a-98a8-f3e3973df038',
-      iat: Time.now.to_i
-    )
+    token =
+      Auth::Token.new(
+        iss: ENV['JWT_ISSUER'],
+        sub: '72d1d680-92ee-463a-98a8-f3e3973df038',
+        iat: Time.now.to_i
+      )
 
     let(:response) do
       header 'Authorization', 'Bearer ' + token.encode(ENV['JWT_SECRET'])
@@ -65,7 +65,7 @@ describe ApiClientService do
            {
              name: 'test-create-client',
              scopes: %w[scope:one scope:two],
-             supplemental: {test: true}
+             supplemental: { test: true }
            }.to_json,
            CONTENT_TYPE: 'application/json'
     end
