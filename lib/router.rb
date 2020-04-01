@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'epb_auth_tools'
+require 'epb-auth-tools'
 
 class Router
   def self.generate_routes

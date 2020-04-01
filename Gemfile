@@ -3,7 +3,9 @@
 ruby '2.6.5'
 
 source 'https://rubygems.org' do
+  gem 'epb-auth-tools', '~> 1.0'
   gem 'jwt', '~> 2.2'
+  gem 'multi_json', '~> 1.14'
   gem 'oauth2', '~> 1.4'
   gem 'pg', '~> 1.1'
   gem 'prettier', '~> 0.16.0'
@@ -16,9 +18,3 @@ source 'https://rubygems.org' do
   gem 'uuid', '~> 2.3'
   gem 'zeitwerk', '~> 2.2'
 end
-
-git 'https://github.com/communitiesuk/epb-auth-tools.git' do
-  gem 'epb_auth_tools'
-end
-
-gem 'multi_json', '~> 1.14'
