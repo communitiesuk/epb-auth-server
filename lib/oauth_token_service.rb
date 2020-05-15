@@ -5,13 +5,12 @@ class OAuthTokenService < BaseService
     content_type :json
     auth_token = env.fetch("HTTP_AUTHORIZATION", "")
 
-    if auth_token.include? "Basic"
-      client_id, client_secret =
+    client_id, client_secret =
+      if auth_token.include? "Basic"
         Base64.decode64(auth_token.slice(6..-1)).split(":", 2)
-    else
-      client_id = params[:client_id]
-      client_secret = params[:client_secret]
-    end
+      else
+        [params[:client_id], params[:client_secret]]
+      end
 
     client =
       UseCase::GetClientFromIdAndSecret.new(Container.new).execute(
