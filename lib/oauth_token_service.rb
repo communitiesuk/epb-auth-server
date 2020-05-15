@@ -3,7 +3,21 @@
 class OAuthTokenService < BaseService
   post '' do
     content_type :json
-    client = Client.resolve_from_request env, params
+    auth_token = env.fetch('HTTP_AUTHORIZATION', '')
+
+    if auth_token.include? 'Basic'
+      client_id, client_secret =
+        Base64.decode64(auth_token.slice(6..-1)).split(':', 2)
+    else
+      client_id = params[:client_id]
+      client_secret = params[:client_secret]
+    end
+
+    client =
+      UseCase::GetClientFromIdAndSecret.new(Container.new).execute(
+        client_id,
+        client_secret
+      )
 
     unless client
       halt 401, { error: 'Could not resolve client from request' }.to_json
@@ -12,7 +26,7 @@ class OAuthTokenService < BaseService
     token =
       Auth::Token.new(
         iss: ENV['JWT_ISSUER'],
-        sub: client.client_id,
+        sub: client.id,
         iat: Time.now.to_i,
         scopes: client.scopes,
         sup: client.supplemental

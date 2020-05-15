@@ -6,10 +6,19 @@ class ApiClientService < BaseService
     scopes = body['scopes'].nil? ? [] : body['scopes']
     supplemental = body['supplemental'].nil? ? {} : body['supplemental']
 
-    client = Client.create body['name'], scopes, supplemental
+    client =
+      Gateway::ClientGateway.new.create name: body['name'],
+                                        scopes: scopes,
+                                        supplemental: supplemental
 
     content_type :json
     status 201
-    client.to_json
+
+    response = {
+      data: { client: client.to_hash.merge(secret: client.secret) }, meta: {}
+    }
+
+    # Temporary until schemes have updated to use new schema
+    client.to_hash.merge(response).merge(secret: client.secret).to_json
   end
 end

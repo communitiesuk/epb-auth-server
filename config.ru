@@ -4,7 +4,6 @@ require 'zeitwerk'
 
 loader = Zeitwerk::Loader.new
 loader.push_dir("#{__dir__}/lib/")
-loader.push_dir("#{__dir__}/lib/models/")
 loader.inflector.inflect 'oauth_token_service' => 'OAuthTokenService'
 loader.inflector.inflect 'oauth_token_test_service' => 'OAuthTokenTestService'
 
