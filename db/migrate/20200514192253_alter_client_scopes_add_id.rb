@@ -3,6 +3,7 @@ class AlterClientScopesAddId < ActiveRecord::Migration[6.0]
     add_column :client_scopes,
                :id,
                :uuid,
-               primary_key: true, default: -> { 'gen_random_uuid()' }
+               primary_key: true,
+               default: -> { "gen_random_uuid()" }
   end
 end

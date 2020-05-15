@@ -52,8 +52,8 @@ db-create-migration: ## Run to create a new migration append NAME=
 	@bundle exec rake db:create_migration NAME=${NAME}
 
 .PHONY: format
-format: ## Format code according to editorconfig and prettier defaults
-	@bundle exec rbprettier --write `find . -name '*.rb'` *.ru Gemfile
+format:
+	@bundle exec rubocop --auto-correct --format offenses || true
 
 .PHONY: generate-manifest
 generate-manifest: ## Generate manifest file for PaaS

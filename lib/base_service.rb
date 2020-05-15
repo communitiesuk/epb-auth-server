@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'multi_json'
-require 'sinatra/base'
+require "multi_json"
+require "sinatra/base"
 
 class BaseService < Sinatra::Base
   helpers do

@@ -2,6 +2,6 @@ class AlterClientsAlterDefaultValueForSupplementalColumn < ActiveRecord::Migrati
   6.0
 ]
   def change
-    change_column_default :clients, :supplemental, from: '{}', to: {}
+    change_column_default :clients, :supplemental, from: "{}", to: {}
   end
 end

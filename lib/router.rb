@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-require 'epb-auth-tools'
+require "epb-auth-tools"
 
 class Router
   def self.generate_routes
     routes = {
-      '/' => AuthService.new,
-      '/api/client' => ApiClientService.new,
-      '/oauth/token' => OAuthTokenService.new
+      "/" => AuthService.new,
+      "/api/client" => ApiClientService.new,
+      "/oauth/token" => OAuthTokenService.new,
     }
 
-    if ENV['APP_ENV'].nil? || ENV['APP_ENV'] == 'development' ||
-         ENV['APP_ENV'] == 'test'
-      routes['/oauth/test'] = OAuthTokenTestService.new
+    if ENV["APP_ENV"].nil? || ENV["APP_ENV"] == "development" ||
+        ENV["APP_ENV"] == "test"
+      routes["/oauth/test"] = OAuthTokenTestService.new
     end
 
-    route_prefix = ENV['URL_PREFIX']
-    route_prefix ||= ''
+    route_prefix = ENV["URL_PREFIX"]
+    route_prefix ||= ""
 
     routes.transform_keys { |uri| route_prefix + uri }
   end

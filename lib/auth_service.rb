@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class AuthService < BaseService
-  get '/' do
+  get "/" do
     status 200
-    { links: '' }.to_json
+    { links: "" }.to_json
   end
 
-  get '/healthcheck' do
+  get "/healthcheck" do
     status 200
-    { message: 'ok' }.to_json
+    { message: "ok" }.to_json
   end
 end

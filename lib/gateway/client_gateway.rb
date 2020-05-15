@@ -1,4 +1,4 @@
-require 'sinatra/activerecord'
+require "sinatra/activerecord"
 
 module Gateway
   class ClientGateway
@@ -53,22 +53,32 @@ module Gateway
         removed_scopes =
           model.client_scopes.filter do |scope|
             !client.scopes.include? scope.scope
-          end.map { |scope| { id: scope.id, _destroy: true } }
-
-        new_scopes =
-          (client.scopes - model.client_scopes.map(&:scope)).map do |s|
-            { scope: s }
           end
 
+        removed_scopes = removed_scopes.map do |scope|
+          { id: scope.id, _destroy: true }
+        end
+
+        new_scopes =
+          client.scopes - model_scopes_to_client_scopes(model.client_scopes)
+
         model.update! client.to_hash.slice(:name).merge(
-                        {
-                          client_scopes_attributes:
-                            (new_scopes + removed_scopes).to_a
-                        }
-                      )
+          client_scopes_attributes:
+            client_scopes_to_model_scopes(new_scopes) + removed_scopes,
+        )
 
         fetch id: client.id
       end
+    end
+
+  private
+
+    def model_scopes_to_client_scopes(scopes)
+      scopes.map(&:scope).to_a
+    end
+
+    def client_scopes_to_model_scopes(scopes)
+      scopes.map { |scope| { scope: scope } }.to_a
     end
   end
 end

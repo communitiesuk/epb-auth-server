@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class ApiClientService < BaseService
-  post '', jwt_auth: [] do
+  post "", jwt_auth: [] do
     body = json_body
-    scopes = body['scopes'].nil? ? [] : body['scopes']
-    supplemental = body['supplemental'].nil? ? {} : body['supplemental']
+    scopes = body["scopes"].nil? ? [] : body["scopes"]
+    supplemental = body["supplemental"].nil? ? {} : body["supplemental"]
 
     client =
-      Gateway::ClientGateway.new.create name: body['name'],
+      Gateway::ClientGateway.new.create name: body["name"],
                                         scopes: scopes,
                                         supplemental: supplemental
 
