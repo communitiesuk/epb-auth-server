@@ -31,7 +31,7 @@ module Gateway
                            name: model.name,
                            secret: model.secret,
                            scopes: model.client_scopes.map(&:scope),
-                           supplemental: model.supplemental
+                           supplemental: model.supplemental.as_json
       end
     end
 

@@ -23,31 +23,31 @@ describe ApiClientService do
     it "returns the name correctly" do
       body = JSON.parse response.body
 
-      expect(body["name"]).to eq "test-create-client"
+      expect(body["data"]["client"]["name"]).to eq "test-create-client"
     end
 
     it "returns a valid client id" do
       body = JSON.parse response.body
 
-      expect(body["id"]).to be_a_valid_uuid
+      expect(body["data"]["client"]["id"]).to be_a_valid_uuid
     end
 
     it "returns a valid client secret" do
       body = JSON.parse response.body
 
-      expect(body["secret"].length).to eq 64
+      expect(body["data"]["client"]["secret"].length).to eq 64
     end
 
     it "returns an empty list of scopes" do
       body = JSON.parse response.body
 
-      expect(body["scopes"].empty?).to be_truthy
+      expect(body["data"]["client"]["scopes"].empty?).to be_truthy
     end
 
     it "returns no supplemental data" do
       body = JSON.parse response.body
 
-      expect(body["supplemental"].empty?).to be_truthy
+      expect(body["data"]["client"]["supplemental"].empty?).to be_truthy
     end
   end
 
@@ -77,31 +77,31 @@ describe ApiClientService do
     it "returns the name correctly" do
       body = JSON.parse response.body
 
-      expect(body["name"]).to eq "test-create-client"
+      expect(body["data"]["client"]["name"]).to eq "test-create-client"
     end
 
     it "returns a valid client id" do
       body = JSON.parse response.body
 
-      expect(body["id"]).to be_a_valid_uuid
+      expect(body["data"]["client"]["id"]).to be_a_valid_uuid
     end
 
     it "returns a valid client secret" do
       body = JSON.parse response.body
 
-      expect(body["secret"].length).to eq 64
+      expect(body["data"]["client"]["secret"].length).to eq 64
     end
 
     it "returns a list of scopes" do
       body = JSON.parse response.body
 
-      expect(body["scopes"]).to contain_exactly "scope:one", "scope:two"
+      expect(body["data"]["client"]["scopes"]).to contain_exactly "scope:one", "scope:two"
     end
 
     it "returns some supplemental data" do
-      body = JSON.parse response.body, symbolize_names: true
+      body = JSON.parse response.body
 
-      expect(body[:supplemental]).to eq test: true
+      expect(body["data"]["client"]["supplemental"]).to eq "test" => true
     end
   end
 

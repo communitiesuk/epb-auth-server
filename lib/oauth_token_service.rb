@@ -3,6 +3,7 @@
 class OAuthTokenService < BaseService
   post "" do
     content_type :json
+    container = Container.new
     auth_token = env.fetch("HTTP_AUTHORIZATION", "")
 
     client_id, client_secret =
@@ -13,7 +14,7 @@ class OAuthTokenService < BaseService
       end
 
     client =
-      UseCase::GetClientFromIdAndSecret.new(Container.new).execute(
+      container.get_client_from_id_and_secret_use_case.execute(
         client_id,
         client_secret,
       )
