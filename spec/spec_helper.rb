@@ -8,8 +8,8 @@ require "zeitwerk"
 
 loader = Zeitwerk::Loader.new
 loader.push_dir("#{__dir__}/../lib/")
-loader.inflector.inflect "oauth_token_service" => "OAuthTokenService"
-loader.inflector.inflect "oauth_token_test_service" => "OAuthTokenTestService"
+loader.inflector.inflect "oauth_token_controller" => "OAuthTokenController"
+loader.inflector.inflect "oauth_token_test_controller" => "OAuthTokenTestController"
 
 loader.setup
 
@@ -19,7 +19,7 @@ ENV["JWT_ISSUER"] = "test.auth"
 
 module RSpecMixin
   def app
-    Rack::URLMap.new(Router.generate_routes)
+    Service.new
   end
 end
 

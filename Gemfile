@@ -21,3 +21,5 @@ source "https://rubygems.org" do
   gem "uuid", "~> 2.3"
   gem "zeitwerk", "~> 2.2"
 end
+
+gem "sinatra-contrib", "~> 2.0"

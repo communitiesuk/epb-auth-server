@@ -52,10 +52,13 @@ module Gateway
 
         model.supplemental = client.supplemental
 
-        removed_scopes =
-          model.client_scopes.filter do |scope|
-            !client.scopes.include? scope.scope
-          end
+        removed_scopes = if client.scopes.empty?
+                           model.client_scopes
+                         else
+                           model.client_scopes.filter do |scope|
+                             !client.scopes.include? scope.scope
+                           end
+                         end
 
         removed_scopes = removed_scopes.map do |scope|
           { id: scope.id, _destroy: true }
@@ -66,7 +69,7 @@ module Gateway
 
         model.update! client.to_hash.slice(:name, :supplemental).merge(
           client_scopes_attributes:
-            client_scopes_to_model_scopes(new_scopes) + removed_scopes,
+              client_scopes_to_model_scopes(new_scopes) + removed_scopes,
         )
 
         fetch id: client.id

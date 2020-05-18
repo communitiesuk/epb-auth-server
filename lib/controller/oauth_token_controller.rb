@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-module Service
-  class OAuthTokenService < BaseService
-    post "" do
+require "epb-auth-tools"
+
+module Controller
+  class OAuthTokenController < BaseController
+    post prefix_route("/oauth/token") do
       content_type :json
       container = Container.new
       auth_token = env.fetch("HTTP_AUTHORIZATION", "")

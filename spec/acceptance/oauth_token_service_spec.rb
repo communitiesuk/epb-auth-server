@@ -2,7 +2,7 @@
 
 require "base64"
 
-describe Service::OAuthTokenService do
+describe Controller::OAuthTokenController do
   context "requesting a new token with valid client credentials in the header" do
     client_id = "72d1d680-92ee-463a-98a8-f3e3973df038"
     client_secret = "test-client-secret"

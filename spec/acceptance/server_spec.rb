@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Service::AuthService do
+describe Service do
   context "responses from /" do
     let(:response) { get "/" }
 

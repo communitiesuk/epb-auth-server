@@ -28,7 +28,7 @@ describe "OAuth Client Integration" do
 
     it "can be used to make a request" do
       expect {
-        @response = authenticated_client.get("http://localhost:9292/oauth/test")
+        @response = authenticated_client.get("http://localhost:9292/oauth/token/test")
       }.to_not raise_error
 
       expect(@response.body).to eq '{"message":"ok"}'
@@ -37,7 +37,7 @@ describe "OAuth Client Integration" do
 
   context "given a http client is not authenticated" do
     it "cannot be used to make a request to a secured route" do
-      uri = URI("http://localhost:9292/oauth/test")
+      uri = URI("http://localhost:9292/oauth/token/test")
       response = Net::HTTP.get_response(uri)
 
       expect(response).to be_an_instance_of Net::HTTPUnauthorized
