@@ -5,14 +5,14 @@ require "epb-auth-tools"
 class Router
   def self.generate_routes
     routes = {
-      "/" => AuthService.new,
-      "/api/client" => ApiClientService.new,
-      "/oauth/token" => OAuthTokenService.new,
+      "/" => Service::AuthService.new,
+      "/api/client" => Service::ApiClientService.new,
+      "/oauth/token" => Service::OAuthTokenService.new,
     }
 
     if ENV["APP_ENV"].nil? || ENV["APP_ENV"] == "development" ||
         ENV["APP_ENV"] == "test"
-      routes["/oauth/test"] = OAuthTokenTestService.new
+      routes["/oauth/test"] = Service::OAuthTokenTestService.new
     end
 
     route_prefix = ENV["URL_PREFIX"]

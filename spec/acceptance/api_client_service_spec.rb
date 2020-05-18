@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe ApiClientService do
+describe Service::ApiClientService do
   context "creating a new client as an authenticated client without scopes" do
     token =
       Auth::Token.new(
