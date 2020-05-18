@@ -78,5 +78,20 @@ describe Gateway::ClientGateway do
         expect(new_client.scopes).to eq scopes
       end
     end
+
+    describe "updating the supplemental date" do
+      let(:supplemental) { { "test" => false } }
+
+      it "has the new supplemental data" do
+        client_with_new_supplemental_data = client.dup
+        client_with_new_supplemental_data.supplemental = supplemental
+
+        gateway.update(client_with_new_supplemental_data)
+
+        new_client = gateway.fetch(id: client_id)
+
+        expect(new_client.supplemental).to eq supplemental
+      end
+    end
   end
 end

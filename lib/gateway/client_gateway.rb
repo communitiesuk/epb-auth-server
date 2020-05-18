@@ -50,6 +50,8 @@ module Gateway
       ActiveRecord::Base.transaction do
         model = Model::Client.find_by(client.to_hash.slice(:id))
 
+        model.supplemental = client.supplemental
+
         removed_scopes =
           model.client_scopes.filter do |scope|
             !client.scopes.include? scope.scope
@@ -62,7 +64,7 @@ module Gateway
         new_scopes =
           client.scopes - model_scopes_to_client_scopes(model.client_scopes)
 
-        model.update! client.to_hash.slice(:name).merge(
+        model.update! client.to_hash.slice(:name, :supplemental).merge(
           client_scopes_attributes:
             client_scopes_to_model_scopes(new_scopes) + removed_scopes,
         )
