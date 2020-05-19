@@ -68,5 +68,31 @@ module Controller
         meta: {},
       }.to_json
     end
+
+    delete prefix_route("/api/client/:clientId"), jwt_auth: %w[client:delete] do
+      container = Container.new
+
+      client = container.get_client_from_id_use_case.execute params["clientId"]
+
+      unless client
+        halt 404,
+             {
+               error: "Could not find client #{params['clientId']}",
+             }.to_json
+      end
+
+      container.delete_client_use_case.execute client.id
+
+      status 200
+      {
+        data: {},
+        meta: {
+          action: [{
+                     client_id: params["clientId"],
+                     deleted: true
+                   }]
+        },
+      }.to_json
+    end
   end
 end

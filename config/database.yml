@@ -1,16 +1,4 @@
-development:
+default: &default
   adapter: postgresql
-  database: auth_development
-  host: 127.0.0.1
-  password: <%= ENV['DOCKER_POSTGRES_PASSWORD'] %>
-  username: postgres
-
-test:
-  adapter: postgresql
-  database: auth_test
-  host: 127.0.0.1
-  password: <%= ENV['DOCKER_POSTGRES_PASSWORD'] %>
-  username: postgres
-
-production:
-  url: <%= ENV['DATABASE_URL'] %>
+  encoding: unicode
+  pool: 5

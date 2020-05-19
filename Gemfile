@@ -8,6 +8,7 @@ source "https://rubygems.org" do
     gem "rubocop-govuk", "~> 3.10"
   end
 
+  gem "acts_as_paranoid", "~> 0.6.3"
   gem "epb-auth-tools", "~> 1.0"
   gem "jwt", "~> 2.2"
   gem "multi_json", "~> 1.14"
@@ -18,8 +19,7 @@ source "https://rubygems.org" do
   gem "rake", "~> 13.0"
   gem "sinatra", "~> 2.0"
   gem "sinatra-activerecord", "~> 2.0"
+  gem "sinatra-contrib", "~> 2.0"
   gem "uuid", "~> 2.3"
   gem "zeitwerk", "~> 2.2"
 end
-
-gem "sinatra-contrib", "~> 2.0"

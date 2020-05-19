@@ -1,4 +1,5 @@
 require "sinatra/activerecord"
+require "acts_as_paranoid"
 
 module Gateway
   class ClientGateway
@@ -7,11 +8,13 @@ module Gateway
         validates_presence_of :name, :secret
         has_many :client_scopes, dependent: :delete_all
         accepts_nested_attributes_for :client_scopes, allow_destroy: true
+        acts_as_paranoid
       end
 
       class ClientScope < ActiveRecord::Base
         validates_presence_of :client, :scope
         belongs_to :client
+        acts_as_paranoid
       end
     end
 
@@ -73,6 +76,14 @@ module Gateway
         )
 
         fetch id: client.id
+      end
+    end
+
+    def delete(client)
+      ActiveRecord::Base.transaction do
+        model = Model::Client.find_by(client.to_hash.slice(:id))
+
+        model.destroy
       end
     end
 

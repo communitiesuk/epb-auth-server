@@ -79,7 +79,7 @@ describe Gateway::ClientGateway do
       end
     end
 
-    describe "updating the supplemental date" do
+    describe "updating the supplemental data" do
       let(:supplemental) { { "test" => false } }
 
       it "has the new supplemental data" do
@@ -93,5 +93,21 @@ describe Gateway::ClientGateway do
         expect(new_client.supplemental).to eq supplemental
       end
     end
+  end
+
+  context "when deleting an existing client" do
+    let(:client_id) { "72d1d680-92ee-463a-98a8-f3e3973df038" }
+    let(:client) { gateway.fetch id: client_id }
+
+    describe "deleting the client" do
+      it "is not available in the gateway" do
+        gateway.delete(client)
+
+        deleted_client = gateway.fetch(id: client_id)
+
+        expect(deleted_client).to be_nil
+      end
+    end
+
   end
 end

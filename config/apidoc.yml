@@ -46,7 +46,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthenticatedResponse"
+        403:
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorisedResponse"
 
+  /api/client/:clientId:
     put:
       tags:
         - Manage clients
@@ -75,13 +82,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientCreatedResponse'
-
         401:
           description: Unauthenticated
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthenticatedResponse"
+        403:
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorisedResponse"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundResponse"
 
     get:
       tags:
@@ -110,6 +128,54 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthenticatedResponse"
+        403:
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorisedResponse"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundResponse"
+
+    delete:
+      tags:
+        - Manage clients
+      summary: Delete an existing client from the auth server
+      security:
+        - oauth: ["client:delete"]
+      parameters:
+        - in: path
+          name: clientId
+          required: true
+          description: the id of the client
+          schema:
+            type: string
+            example: "72d1d680-92ee-463a-98a8-f3e3973df038"
+      responses:
+        200:
+          description: Client succesfully deleted
+        401:
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthenticatedResponse"
+        403:
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorisedResponse"
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundResponse"
 
   /oauth/token:
     post:
@@ -158,6 +224,20 @@ components:
           tokenUrl: /oauth/token
 
   schemas:
+    NotFoundResponse:
+      type: object
+      properties:
+        errors:
+          type: string
+          example: "NotFound"
+
+    UnauthorisedResponse:
+      type: object
+      properties:
+        errors:
+          type: string
+          example: "InsufficientPrivileges"
+
     UnauthenticatedResponse:
       type: object
       properties:

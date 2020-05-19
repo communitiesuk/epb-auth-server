@@ -1,8 +1,16 @@
 # frozen_string_literal: true
 
+ENV["RACK_ENV"] = "test"
+ENV["APP_ENV"] = "test"
+ENV["RAILS_ENV"] = "test"
+ENV["DATABASE_URL"] = "postgresql://postgres:postgres@127.0.0.1/auth_test"
+ENV["JWT_SECRET"] = "TestingSecretString"
+ENV["JWT_ISSUER"] = "test.auth"
+
 require "epb-auth-tools"
 require "rack/test"
 require "rspec"
+require "sinatra/activerecord"
 require "uuid"
 require "zeitwerk"
 
@@ -12,10 +20,6 @@ loader.inflector.inflect "oauth_token_controller" => "OAuthTokenController"
 loader.inflector.inflect "oauth_token_test_controller" => "OAuthTokenTestController"
 
 loader.setup
-
-ENV["RACK_ENV"] = ENV["APP_ENV"] = "test"
-ENV["JWT_SECRET"] = "TestingSecretString"
-ENV["JWT_ISSUER"] = "test.auth"
 
 module RSpecMixin
   def app
@@ -28,11 +32,23 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
 
   config.before(:each) do
-    Gateway::ClientGateway::Model::Client.destroy_all
+    ActiveRecord::Base.connection.exec_query "DELETE FROM client_scopes"
+    ActiveRecord::Base.connection.exec_query "DELETE FROM clients"
+
     client =
       Gateway::ClientGateway::Model::Client.create(
         id: "72d1d680-92ee-463a-98a8-f3e3973df038",
         name: "test-client",
+        secret: "test-client-secret",
+        supplemental: { test: [true] },
+      )
+    client.client_scopes.create(scope: "scope:one")
+    client.client_scopes.create(scope: "scope:two")
+
+    client =
+      Gateway::ClientGateway::Model::Client.create(
+        id: "93d1d680-92ee-463a-98a8-f3e3973df038",
+        name: "test-delete-client",
         secret: "test-client-secret",
         supplemental: { test: [true] },
       )
