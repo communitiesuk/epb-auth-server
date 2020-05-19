@@ -28,7 +28,7 @@ run: ## Run the authentication server
 	@bundle exec rackup -p 9090
 
 .PHONY: install
-install: ## Run to install dependancies and perform any setup tasks
+install: ## Run to install dependencies and perform any setup tasks
 	@bundle install
 	$(MAKE) db-setup
 
