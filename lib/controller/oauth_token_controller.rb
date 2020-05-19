@@ -31,6 +31,7 @@ module Controller
           iss: ENV["JWT_ISSUER"],
           sub: client.id,
           iat: Time.now.to_i,
+          exp: Time.now.to_i + (60 * 60),
           scopes: client.scopes,
           sup: client.supplemental,
         )

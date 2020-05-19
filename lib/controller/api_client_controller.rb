@@ -9,9 +9,10 @@ module Controller
       client = container.get_client_from_id_use_case.execute params["clientId"]
 
       unless client
-        halt 404, {
-          error: "Could not find client #{params['clientId']}",
-        }.to_json
+        halt 404,
+             {
+               error: "Could not find client #{params['clientId']}",
+             }.to_json
       end
 
       status 200
@@ -46,9 +47,10 @@ module Controller
       client = container.get_client_from_id_use_case.execute params["clientId"]
 
       unless client
-        halt 404, {
-          error: "Could not find client #{params['clientId']}",
-        }.to_json
+        halt 404,
+             {
+               error: "Could not find client #{params['clientId']}",
+             }.to_json
       end
 
       client.name = json_body["name"]
@@ -62,8 +64,8 @@ module Controller
 
       status 200
       {
-          data: { client: client.to_hash },
-          meta: {},
+        data: { client: client.to_hash },
+        meta: {},
       }.to_json
     end
   end

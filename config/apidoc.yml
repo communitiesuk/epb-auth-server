@@ -1,61 +1,153 @@
 openapi: "3.0.0"
 info:
   title: Energy Performance of Buildings Register Auth Server
-  description: Auth server for all EPBR services (EPC, DEC, ACIR), maintained by the EPBR Service Team at MHCLG.
-  version: "1.0"
+  description: >-
+    Auth server for all public facing EPBR services,
+    maintained by the EPBR Service Team at MHCLG.
+  version: "1.0.0"
 
 servers:
-  - url: https://mhclg-epb-auth-server-integration.london.cloudapps.digital/api
+  - url: https://mhclg-epb-auth-server-integration.london.cloudapps.digital
     description: Integration server
-    variables:
-      authServer:
-        default: https://mhclg-epb-auth-server-integration.london.cloudapps.digital
-  - url: https://mhclg-epb-auth-server-staging.london.cloudapps.digital/api
+  - url: https://mhclg-epb-auth-server-staging.london.cloudapps.digital
     description: Staging server
-    variables:
-      authServer:
-        default: https://mhclg-epb-auth-server-staging.london.cloudapps.digital
 
 tags:
   - name: Manage clients
     description: Operations for managing clients in the auth server
+  - name: OAuth2.0
+    description: Operations associated with oauth2.0
+
 paths:
-  /client:
+  /api/client:
     post:
       tags:
         - Manage clients
       summary: Add a new client to the auth server
       security:
-        - oauth: []
+        - oauth: ["client:create"]
       requestBody:
         description: The client to be added
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: "frontend"
+              $ref: '#/components/schemas/Client'
       responses:
         201:
           description: Client succesfully created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientSummary'
+                $ref: '#/components/schemas/ClientCreatedResponse'
+        401:
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthenticatedResponse"
+
+    put:
+      tags:
+        - Manage clients
+      summary: Update an existing client on the auth server
+      security:
+        - oauth: ["client:update"]
+      parameters:
+        - in: path
+          name: clientId
+          required: true
+          description: the id of the client
+          schema:
+            type: string
+            example: "72d1d680-92ee-463a-98a8-f3e3973df038"
+      requestBody:
+        description: The client to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        200:
+          description: Client succesfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientCreatedResponse'
 
         401:
           description: Unauthenticated
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  errors:
-                    type: string
-                    example: "Auth::Errors::TokenMissing"
+                $ref: "#/components/schemas/UnauthenticatedResponse"
+
+    get:
+      tags:
+        - Manage clients
+      summary: Fetch an existing client from the auth server
+      security:
+        - oauth: ["client:fetch"]
+      parameters:
+        - in: path
+          name: clientId
+          required: true
+          description: the id of the client
+          schema:
+            type: string
+            example: "72d1d680-92ee-463a-98a8-f3e3973df038"
+      responses:
+        200:
+          description: Client succesfully found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientUpdatedResponse'
+        401:
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthenticatedResponse"
+
+  /oauth/token:
+    post:
+      tags:
+        - OAuth2.0
+      summary: Given a client id and secret, return a token valid for 1 hour
+      security:
+        - oauth: ["client:fetch"]
+      parameters:
+        - in: query
+          name: grant_type
+          required: true
+          description: the oauth2.0 grant type
+          schema:
+            type: string
+            enum: ["client_credentials"]
+            example: "client_credentials"
+        - in: query
+          name: client_id
+          required: true
+          description: the client's id
+          schema:
+            type: string
+            example: "72d1d680-92ee-463a-98a8-f3e3973df038"
+        - in: query
+          name: client_secret
+          required: true
+          description: the client's secret
+          schema:
+            type: string
+            example: "a5pkL1YtDG0LEaRwqxJDGRBBseOeLjue4XQieOSkhUDSDteBjjrG2A3kAr8uOB4a"
+      responses:
+        200:
+          description: A complete OAuth access token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OAuthClientAccessToken"
 
 components:
   securitySchemes:
@@ -63,18 +155,77 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: ""
+          tokenUrl: /oauth/token
 
   schemas:
-    ClientSummary:
+    UnauthenticatedResponse:
       type: object
       properties:
-        client_id:
+        errors:
           type: string
-          example: "123"
+          example: "Auth::Errors::TokenMissing"
+
+    ClientUpdatedResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            client:
+              allOf:
+                - $ref: "#/components/schemas/ClientSummary"
+
+    ClientCreatedResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            client:
+              allOf:
+                - $ref: "#/components/schemas/ClientSummary"
+                - type: object
+                  properties:
+                    secret:
+                      type: string
+                      example: "a5pkL1YtDG0LEaRwqxJDGRBBseOeLjue4XQieOSkhUDSDteBjjrG2A3kAr8uOB4a"
+
+    ClientSummary:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              example: "72d1d680-92ee-463a-98a8-f3e3973df038"
+        - $ref: "#/components/schemas/Client"
+
+    Client:
+      type: object
+      properties:
         name:
           type: string
           example: "frontend"
-        client_secret:
+        scopes:
+          type: array
+          items:
+            type: string
+          example: ["scope:one", "scope:two"]
+        supplemental:
+          type: object
+          example:
+            test: yes
+
+
+    OAuthClientAccessToken:
+      type: object
+      properties:
+        access_token:
           type: string
-          example: "a5pkL1YtDG0LEaRwqxJDGRBBseOeLjue4XQieOSkhUDSDteBjjrG2A3kAr8uOB4a"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        token_type:
+          type: string
+          example: bearer
+        expires_in:
+          type: number
+          example: 3600
+

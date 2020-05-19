@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Controller::ApiClientController do
+describe "updating a client" do
   context "updating a client as an authenticated client" do
     token = Auth::Token.new iss: ENV["JWT_ISSUER"],
                             sub: "72d1d680-92ee-463a-98a8-f3e3973df038",
@@ -15,7 +15,7 @@ describe Controller::ApiClientController do
             supplemental: { test: false },
           }.to_json,
           {
-            'CONTENT_TYPE' => "application/json",
+            "CONTENT_TYPE" => "application/json",
           }
     end
 
@@ -46,7 +46,7 @@ describe Controller::ApiClientController do
     end
   end
 
-  context "creating a new client as an authenticated client with scopes and supplemental data" do
+  context "updating a client as an authenticated client with scopes and supplemental data" do
     token =
       Auth::Token.new(
         iss: ENV["JWT_ISSUER"],
@@ -92,8 +92,8 @@ describe Controller::ApiClientController do
     end
   end
 
-  context "creating a new client as an unauthenticated client" do
-    let(:response) { post "/api/client", name: "test-create-client" }
+  context "updating a client as an unauthenticated client" do
+    let(:response) { put "/api/client/72d1d680-92ee-463a-98a8-f3e3973df038" }
 
     it "fails with an appropriate code" do
       expect(response.status).to eq 401

@@ -1,4 +1,4 @@
-describe Controller::ApiClientController do
+describe "fetching details of a client" do
   describe "fetching an existing client" do
     let(:client) do
       {
