@@ -26,15 +26,12 @@ module Controller
         halt 401, { error: "Could not resolve client from request" }.to_json
       end
 
-      token =
-        Auth::Token.new(
-          iss: ENV["JWT_ISSUER"],
-          sub: client.id,
-          iat: Time.now.to_i,
-          exp: Time.now.to_i + (60 * 60),
-          scopes: client.scopes,
-          sup: client.supplemental,
-        )
+      token = Auth::Token.new iss: ENV["JWT_ISSUER"],
+                              sub: client.id,
+                              iat: Time.now.to_i,
+                              exp: Time.now.to_i + (60 * 60),
+                              scopes: client.scopes,
+                              sup: client.supplemental
 
       status 200
       {

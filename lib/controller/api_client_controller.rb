@@ -2,7 +2,7 @@
 
 module Controller
   class ApiClientController < BaseController
-    get prefix_route("/api/client/:clientId"), jwt_auth: [] do
+    get prefix_route("/api/client/:clientId"), jwt_auth: %w[client:fetch] do
       content_type :json
       container = Container.new
 
@@ -22,7 +22,7 @@ module Controller
       }.to_json
     end
 
-    post prefix_route("/api/client"), jwt_auth: [] do
+    post prefix_route("/api/client"), jwt_auth: %w[client:create] do
       container = Container.new
       body = json_body
       scopes = body["scopes"].nil? ? [] : body["scopes"]
@@ -41,7 +41,7 @@ module Controller
       }.to_json
     end
 
-    put prefix_route("/api/client/:clientId"), jwt_auth: [] do
+    put prefix_route("/api/client/:clientId"), jwt_auth: %w[client:update] do
       container = Container.new
 
       client = container.get_client_from_id_use_case.execute params["clientId"]

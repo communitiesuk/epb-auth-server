@@ -27,12 +27,16 @@ module Controller
       route
     end
 
-    set(:jwt_auth) do
+    set(:jwt_auth) do |*scopes|
       condition do
-        Auth::Sinatra::Conditional.process_request env
+        token = Auth::Sinatra::Conditional.process_request env
+        env[:jwt_auth] = token
+        unless token.scopes?(scopes)
+          halt 403, { errors: [{ code: "InsufficientPrivileges" }] }.to_json
+        end
       rescue Auth::Errors::Error => e
         content_type :json
-        halt 401, { error: e }.to_json
+        halt 401, { errors: [{ code: e }] }.to_json
       end
     end
   end

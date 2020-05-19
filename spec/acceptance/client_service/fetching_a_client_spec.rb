@@ -12,7 +12,8 @@ describe "fetching details of a client" do
     let(:token) do
       Auth::Token.new iss: ENV["JWT_ISSUER"],
                       sub: "72d1d680-92ee-463a-98a8-f3e3973df038",
-                      iat: Time.now.to_i
+                      iat: Time.now.to_i,
+                      scopes: %w[client:fetch]
     end
     let(:response) do
       header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
@@ -45,7 +46,8 @@ describe "fetching details of a client" do
     let(:token) do
       Auth::Token.new iss: ENV["JWT_ISSUER"],
                       sub: "72d1d680-92ee-463a-98a8-f3e3973df038",
-                      iat: Time.now.to_i
+                      iat: Time.now.to_i,
+                      scopes: %w[client:fetch]
     end
     let(:response) do
       header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
@@ -59,6 +61,34 @@ describe "fetching details of a client" do
 
     it "returns a valid error" do
       expect(body["error"]).to eq "Could not find client NONEXISTANT_CLIENT"
+    end
+  end
+
+  describe "fetching a client as an unauthenticated user" do
+    let(:response) do
+      get "/api/client/72d1d680-92ee-463a-98a8-f3e3973df038"
+    end
+    let(:body) { JSON.parse response.body }
+
+    it "returns a not found status code" do
+      expect(response.status).to eq 401
+    end
+  end
+
+  describe "fetching a client as an unauthorised user" do
+    let(:token) do
+      Auth::Token.new iss: ENV["JWT_ISSUER"],
+                      sub: "72d1d680-92ee-463a-98a8-f3e3973df038",
+                      iat: Time.now.to_i
+    end
+    let(:response) do
+      header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
+      get "/api/client/NONEXISTANT_CLIENT"
+    end
+    let(:body) { JSON.parse response.body }
+
+    it "returns a not found status code" do
+      expect(response.status).to eq 403
     end
   end
 end
