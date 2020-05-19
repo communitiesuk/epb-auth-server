@@ -77,3 +77,9 @@ deploy-app: ## Deploys the app to PaaS
 	cf set-env "${DEPLOY_APPNAME}" URL_PREFIX "/auth"
 
 	cf v3-zdt-push "${DEPLOY_APPNAME}" --wait-for-deploy-complete
+
+.PHONY: migrate-db-and-wait-for-success
+migrate-db-and-wait-for-success:
+	$(if ${DEPLOY_APPNAME},,$(error Must specify DEPLOY_APPNAME))
+	cf run-task "${DEPLOY_APPNAME}" "rake db:migrate" --name migrate
+	@scripts/check-for-migration-result.sh
