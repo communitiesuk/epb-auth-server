@@ -117,7 +117,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_paranoid (~> 0.6.3)
+  acts_as_paranoid (~> 0.6.3)!
   epb-auth-tools (~> 1.0)!
   jwt (~> 2.2)!
   multi_json (~> 1.14)!
@@ -130,7 +130,7 @@ DEPENDENCIES
   rubocop-govuk (~> 3.10)!
   sinatra (~> 2.0)!
   sinatra-activerecord (~> 2.0)!
-  sinatra-contrib (~> 2.0)
+  sinatra-contrib (~> 2.0)!
   uuid (~> 2.3)!
   zeitwerk (~> 2.2)!
 
