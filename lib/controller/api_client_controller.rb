@@ -96,6 +96,20 @@ module Controller
     end
 
     post prefix_route("/api/client/:clientId/rotate-secret"), jwt_auth: [] do
+      container = Container.new
+
+      auth_token = env[:jwt_auth]
+
+      if params["clientId"] != auth_token.sub
+        halt 403,
+             {
+               error: sprintf(
+                 "Your client (%s) does not have permission to update client %s",
+                 auth_token.sub,
+                 params["clientId"],
+               ),
+             }.to_json
+      end
     end
   end
 end
