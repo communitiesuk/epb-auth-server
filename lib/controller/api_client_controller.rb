@@ -94,5 +94,8 @@ module Controller
         },
       }.to_json
     end
+
+    post prefix_route("/api/client/:clientId/rotate-secret"), jwt_auth: [] do
+    end
   end
 end
