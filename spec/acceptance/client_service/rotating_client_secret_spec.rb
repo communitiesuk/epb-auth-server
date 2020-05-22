@@ -18,13 +18,12 @@ describe "Acceptance: Rotating a client secret" do
       it "returns a secret that can be used to request a new token" do
         new_secret = body["data"]["client"]["secret"]
         auth_header = Base64.encode64 [
-                                        @client_test.id,
-                                        new_secret
-                                      ].join(":")
+          @client_test.id,
+          new_secret,
+        ].join(":")
 
         header "Authorization", "Basic " + auth_header
         response = post "/oauth/token"
-        body = JSON.parse response.body
 
         expect(response.status).to eq 200
       end

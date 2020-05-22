@@ -16,8 +16,6 @@ describe UseCase::RotateAClientSecret do
       let(:client_id) { "72d1d680-0000-463a-98a8-f3e3973df038" }
 
       it "raises a client not found error" do
-
-
         expect {
           described_class.new(Container.new).execute client_id
         }.to raise_error described_class::ClientNotFoundError

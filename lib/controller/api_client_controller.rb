@@ -115,13 +115,13 @@ module Controller
 
       status 200
       {
-          data: { client: client.to_hash.merge(secret: client.secret) },
-          meta: {},
+        data: { client: client.to_hash.merge(secret: client.secret) },
+        meta: {},
       }.to_json
     rescue StandardError
       halt 404,
            {
-               error: "Could not find client #{params['clientId']}",
+             error: "Could not find client #{params['clientId']}",
            }.to_json
     end
   end
