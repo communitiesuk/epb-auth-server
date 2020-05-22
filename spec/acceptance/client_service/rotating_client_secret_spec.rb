@@ -1,5 +1,35 @@
 describe "Acceptance: Rotating a client secret" do
   context "with correct credentials" do
+    describe "a client that exists" do
+      let(:response) do
+        header "Authorization", "Bearer " + @client_test_token.encode(ENV["JWT_SECRET"])
+        post "/api/client/#{@client_test.id}/rotate-secret"
+      end
+      let(:body) { JSON.parse response.body }
+
+      it "rotates the client secret" do
+        expect(response.status).to eq 200
+      end
+
+      it "returns a new secret" do
+        expect(body["data"]["client"]["secret"]).not_to eq @client_test.secret
+      end
+
+      it "returns a secret that can be used to request a new token" do
+        new_secret = body["data"]["client"]["secret"]
+        auth_header = Base64.encode64 [
+                                        @client_test.id,
+                                        new_secret
+                                      ].join(":")
+
+        header "Authorization", "Basic " + auth_header
+        response = post "/oauth/token"
+        body = JSON.parse response.body
+
+        expect(response.status).to eq 200
+      end
+    end
+
     describe "a client that does not exist" do
       let(:token) do
         Auth::Token.new iss: ENV["JWT_ISSUER"],

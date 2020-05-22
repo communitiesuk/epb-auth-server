@@ -4,7 +4,8 @@ class Container
               :get_client_from_id_use_case,
               :authenticate_a_client,
               :update_client_use_case,
-              :delete_client_use_case
+              :delete_client_use_case,
+              :rotate_a_client_secret_use_case
 
   def initialize
     @client_gateway =
@@ -19,5 +20,7 @@ class Container
       UseCase::UpdateClient.new self
     @delete_client_use_case =
       UseCase::DeleteClient.new self
+    @rotate_a_client_secret_use_case =
+      UseCase::RotateAClientSecret.new self
   end
 end
