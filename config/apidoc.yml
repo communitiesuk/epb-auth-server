@@ -215,6 +215,42 @@ paths:
               schema:
                 $ref: "#/components/schemas/OAuthClientAccessToken"
 
+  /api/client/:clientId/rotate-secret:
+    post:
+      tags:
+        - Manage clients
+      summary: >-
+        Rotate the secret of the client signing the request. The previous secret
+        will be valid for up to an hour after rotation.
+      security:
+        - oauth: []
+      responses:
+        200:
+          description: Client secret succesfully rotated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientCreatedResponse'
+        401:
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthenticatedResponse"
+        403:
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorisedResponse"
+        404:
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundResponse"
+
+
 components:
   securitySchemes:
     oauth:
