@@ -110,6 +110,15 @@ module Controller
                ),
              }.to_json
       end
+
+      client = container.get_client_from_id_use_case.execute params["clientId"]
+
+      unless client
+        halt 404,
+             {
+                 error: "Could not find client #{params['clientId']}",
+             }.to_json
+      end
     end
   end
 end
