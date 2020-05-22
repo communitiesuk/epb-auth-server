@@ -1,15 +1,9 @@
 # frozen_string_literal: true
 
-describe "updating a client" do
+describe "Acceptance: Updating a client" do
   context "updating a client as an authenticated client" do
-    let(:token) do
-      Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: @client_test.id,
-                      iat: Time.now.to_i,
-                      scopes: %w[client:update]
-    end
     let(:response) do
-      header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
+      header "Authorization", "Bearer " + @client_test_token.encode(ENV["JWT_SECRET"])
       put "/api/client/#{@client_test.id}",
           {
             name: "updated-client-name",
@@ -64,9 +58,10 @@ describe "updating a client" do
     let(:token) do
       Auth::Token.new iss: ENV["JWT_ISSUER"],
                       sub: @client_test.id,
-                      iat: Time.now.to_i
+                      iat: Time.now.to_i,
+                      exp: Time.now.to_i + (60 * 60),
+                      scopes: []
     end
-
     let(:response) do
       header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
       put "/api/client/#{@client_test.id}",

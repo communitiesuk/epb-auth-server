@@ -1,16 +1,9 @@
 # frozen_string_literal: true
 
-describe "creating a new client" do
+describe "Acceptance: Creating a new client" do
   context "creating a new client as an authenticated client without scopes" do
-    let(:token) do
-      Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: @client_test.id,
-                      iat: Time.now.to_i,
-                      scopes: %w[client:create]
-    end
-
     let(:response) do
-      header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
+      header "Authorization", "Bearer " + @client_test_token.encode(ENV["JWT_SECRET"])
       post "/api/client",
            { name: "test-create-client" }.to_json,
            CONTENT_TYPE: "application/json"
@@ -44,14 +37,8 @@ describe "creating a new client" do
   end
 
   context "creating a new client as an authenticated client with scopes and supplemental data" do
-    let(:token) do
-      Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: @client_test.id,
-                      iat: Time.now.to_i,
-                      scopes: %w[client:create]
-    end
     let(:response) do
-      header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
+      header "Authorization", "Bearer " + @client_test_token.encode(ENV["JWT_SECRET"])
       post "/api/client",
            {
              name: "test-create-client",

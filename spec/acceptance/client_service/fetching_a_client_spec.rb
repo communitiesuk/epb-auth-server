@@ -1,23 +1,8 @@
-describe "fetching details of a client" do
+describe "Acceptance: Fetching details of a client" do
   describe "fetching an existing client" do
-    let(:client) do
-      {
-        id: @client_test.id,
-        name: "test-client",
-        secret: @client_test.secret,
-        supplemental: { test: [true] },
-        scopes: %w[scope:one scope:two],
-      }
-    end
-    let(:token) do
-      Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: @client_test.id,
-                      iat: Time.now.to_i,
-                      scopes: %w[client:fetch]
-    end
     let(:response) do
-      header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
-      get "/api/client/#{client[:id]}"
+      header "Authorization", "Bearer " + @client_test_token.encode(ENV["JWT_SECRET"])
+      get "/api/client/#{@client_test.id}"
     end
     let(:body) { JSON.parse response.body }
 
@@ -43,14 +28,8 @@ describe "fetching details of a client" do
   end
 
   describe "fetching a client that does not exist" do
-    let(:token) do
-      Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: @client_test.id,
-                      iat: Time.now.to_i,
-                      scopes: %w[client:fetch]
-    end
     let(:response) do
-      header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
+      header "Authorization", "Bearer " + @client_test_token.encode(ENV["JWT_SECRET"])
       get "/api/client/NONEXISTANT_CLIENT"
     end
     let(:body) { JSON.parse response.body }
@@ -79,7 +58,9 @@ describe "fetching details of a client" do
     let(:token) do
       Auth::Token.new iss: ENV["JWT_ISSUER"],
                       sub: @client_test.id,
-                      iat: Time.now.to_i
+                      iat: Time.now.to_i,
+                      exp: Time.now.to_i + (60 * 60),
+                      scopes: []
     end
     let(:response) do
       header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])

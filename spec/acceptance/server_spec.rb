@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Service do
+describe "Acceptance: Base service" do
   context "responses from /" do
     let(:response) { get "/" }
 

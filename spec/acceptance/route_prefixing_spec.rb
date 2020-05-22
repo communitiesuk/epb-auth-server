@@ -3,7 +3,7 @@
 require "oauth2"
 require "net/http"
 
-describe "Using route prefixing with the server" do
+describe "Acceptance: Using route prefixing with the server" do
   before(:all) do
     process =
       IO.popen(

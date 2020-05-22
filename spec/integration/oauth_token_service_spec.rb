@@ -3,7 +3,7 @@
 require "oauth2"
 require "net/http"
 
-describe "OAuth Client Integration" do
+describe "Integration: OAuth Client" do
   before(:all) do
     process = IO.popen(["rackup", "-q", err: %i[child out]])
     @process_id = process.pid

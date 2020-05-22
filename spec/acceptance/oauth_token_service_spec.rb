@@ -2,7 +2,7 @@
 
 require "base64"
 
-describe Controller::OAuthTokenController do
+describe "Acceptance: OAuth token service" do
   context "requesting a new token with valid client credentials in the header" do
     let(:client_id) { @client_test.id }
     let(:client_secret) { @client_test.secret }

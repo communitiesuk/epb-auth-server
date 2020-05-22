@@ -41,6 +41,17 @@ RSpec.configure do |config|
     @client_test = client_gateway.create name: "test-client",
                                          supplemental: { test: [true] },
                                          scopes: %w[scope:one scope:two]
+
+    @client_test_token = Auth::Token.new iss: ENV["JWT_ISSUER"],
+                                         sub: @client_test.id,
+                                         iat: Time.now.to_i,
+                                         exp: Time.now.to_i + (60 * 60),
+                                         scopes: [
+                                           "client:create",
+                                           "client:fetch",
+                                           "client:delete",
+                                           "client:update",
+                                         ]
   end
 end
 
