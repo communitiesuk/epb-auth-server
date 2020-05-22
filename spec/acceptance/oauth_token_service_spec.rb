@@ -4,16 +4,13 @@ require "base64"
 
 describe Controller::OAuthTokenController do
   context "requesting a new token with valid client credentials in the header" do
-    client_id = "72d1d680-92ee-463a-98a8-f3e3973df038"
-    client_secret = "test-client-secret"
-
-    auth_header = Base64.encode64([client_id, client_secret].join(":"))
-
+    let(:client_id) { @client_test.id }
+    let(:client_secret) { @client_test.secret }
+    let(:auth_header) { Base64.encode64([client_id, client_secret].join(":")) }
     let(:response) do
       header "Authorization", "Basic " + auth_header
       post "/oauth/token"
     end
-
     let(:body) { JSON.parse response.body }
 
     it "gives a status of 200" do
@@ -48,8 +45,8 @@ describe Controller::OAuthTokenController do
   end
 
   context "requesting a new token with valid client credentials in the request body" do
-    client_id = "72d1d680-92ee-463a-98a8-f3e3973df038"
-    client_secret = "test-client-secret"
+    let(:client_id) { @client_test.id }
+    let(:client_secret) { @client_test.secret }
 
     let(:response) do
       post "/oauth/token", client_id: client_id, client_secret: client_secret
@@ -100,24 +97,6 @@ describe Controller::OAuthTokenController do
 
     it "gives a status of 401" do
       expect(response.status).to eq 401
-    end
-  end
-
-  context "requesting a new token with valid client credentials with a : in the secret" do
-    client_id = "54d1d680-92ee-463a-98a8-f3e3973df038"
-    client_secret = "test-client-secret-with-:-in-it"
-
-    auth_header = Base64.encode64([client_id, client_secret].join(":"))
-
-    let(:response) do
-      header "Authorization", "Basic " + auth_header
-      post "/oauth/token"
-    end
-
-    let(:body) { JSON.parse response.body }
-
-    it "gives a status of 200" do
-      expect(response.status).to eq 200
     end
   end
 end

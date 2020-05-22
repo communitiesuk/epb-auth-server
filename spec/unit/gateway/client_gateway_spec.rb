@@ -30,10 +30,10 @@ describe Gateway::ClientGateway do
   end
 
   context "when getting an existing client object" do
-    let(:client) { gateway.fetch id: "72d1d680-92ee-463a-98a8-f3e3973df038" }
+    let(:client) { gateway.fetch id: @client_test.id }
 
     it "has the correct id" do
-      expect(client.id).to eq "72d1d680-92ee-463a-98a8-f3e3973df038"
+      expect(client.id).to eq @client_test.id
     end
 
     it "has the correct name" do
@@ -46,7 +46,7 @@ describe Gateway::ClientGateway do
   end
 
   context "when updating an existing client" do
-    let(:client_id) { "72d1d680-92ee-463a-98a8-f3e3973df038" }
+    let(:client_id) { @client_test.id }
     let(:client) { gateway.fetch id: client_id }
 
     describe "updating the name" do
@@ -96,7 +96,7 @@ describe Gateway::ClientGateway do
   end
 
   context "when deleting an existing client" do
-    let(:client_id) { "72d1d680-92ee-463a-98a8-f3e3973df038" }
+    let(:client_id) { @client_test.id }
     let(:client) { gateway.fetch id: client_id }
 
     describe "deleting the client" do
@@ -108,6 +108,5 @@ describe Gateway::ClientGateway do
         expect(deleted_client).to be_nil
       end
     end
-
   end
 end

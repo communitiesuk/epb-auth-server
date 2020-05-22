@@ -1,7 +1,7 @@
 describe UseCase::UpdateClient do
   context "a valid client" do
     describe "a valid request" do
-      let(:client_id) { "72d1d680-92ee-463a-98a8-f3e3973df038" }
+      let(:client_id) { @client_test.id }
       let(:client_name) { "test-client-updated" }
       let(:client_scopes) { %w[scope:three scope:four] }
       let(:client_supplemental) { { "test" => false } }

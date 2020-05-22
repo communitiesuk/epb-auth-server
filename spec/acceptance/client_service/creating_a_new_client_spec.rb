@@ -4,7 +4,7 @@ describe "creating a new client" do
   context "creating a new client as an authenticated client without scopes" do
     let(:token) do
       Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: "72d1d680-92ee-463a-98a8-f3e3973df038",
+                      sub: @client_test.id,
                       iat: Time.now.to_i,
                       scopes: %w[client:create]
     end
@@ -46,7 +46,7 @@ describe "creating a new client" do
   context "creating a new client as an authenticated client with scopes and supplemental data" do
     let(:token) do
       Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: "72d1d680-92ee-463a-98a8-f3e3973df038",
+                      sub: @client_test.id,
                       iat: Time.now.to_i,
                       scopes: %w[client:create]
     end

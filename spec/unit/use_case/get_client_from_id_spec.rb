@@ -1,8 +1,8 @@
 describe UseCase::GetClientFromId do
   context "a client that exists" do
     describe "fetching the client" do
-      let(:client_id) { "72d1d680-92ee-463a-98a8-f3e3973df038" }
-      let(:client_secret) { "test-client-secret" }
+      let(:client_id) { @client_test.id }
+      let(:client_secret) { @client_test.secret }
       let(:client) do
         UseCase::GetClientFromId.new(Container.new)
                                 .execute client_id
@@ -14,15 +14,13 @@ describe UseCase::GetClientFromId do
     end
 
     describe "an invalid client id and secret" do
-      let(:client_id) { "72d1d680-0000-463a-98a8-f3e3973df038" }
-      let(:client_secret) { "test-client-secret" }
+      let(:client_id) { "does-not-exist" }
+      let(:client_secret) { "does-not-exist-secret" }
 
       it "returns a nil client" do
-        client = UseCase::GetClientFromIdAndSecret.new(Container.new)
-                                                  .execute(
-                                                    client_id,
-                                                    client_secret,
-                                                  )
+        client = UseCase::AuthenticateAClient.new(Container.new)
+                                             .execute client_id,
+                                                      client_secret
 
         expect(client).to be_nil
       end

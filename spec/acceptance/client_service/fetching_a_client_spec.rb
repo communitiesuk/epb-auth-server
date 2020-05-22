@@ -2,16 +2,16 @@ describe "fetching details of a client" do
   describe "fetching an existing client" do
     let(:client) do
       {
-        id: "72d1d680-92ee-463a-98a8-f3e3973df038",
+        id: @client_test.id,
         name: "test-client",
-        secret: "test-client-secret",
+        secret: @client_test.secret,
         supplemental: { test: [true] },
         scopes: %w[scope:one scope:two],
       }
     end
     let(:token) do
       Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: "72d1d680-92ee-463a-98a8-f3e3973df038",
+                      sub: @client_test.id,
                       iat: Time.now.to_i,
                       scopes: %w[client:fetch]
     end
@@ -45,7 +45,7 @@ describe "fetching details of a client" do
   describe "fetching a client that does not exist" do
     let(:token) do
       Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: "72d1d680-92ee-463a-98a8-f3e3973df038",
+                      sub: @client_test.id,
                       iat: Time.now.to_i,
                       scopes: %w[client:fetch]
     end
@@ -66,7 +66,7 @@ describe "fetching details of a client" do
 
   describe "fetching a client as an unauthenticated user" do
     let(:response) do
-      get "/api/client/72d1d680-92ee-463a-98a8-f3e3973df038"
+      get "/api/client/#{@client_test.id}"
     end
     let(:body) { JSON.parse response.body }
 
@@ -78,7 +78,7 @@ describe "fetching details of a client" do
   describe "fetching a client as an unauthorised user" do
     let(:token) do
       Auth::Token.new iss: ENV["JWT_ISSUER"],
-                      sub: "72d1d680-92ee-463a-98a8-f3e3973df038",
+                      sub: @client_test.id,
                       iat: Time.now.to_i
     end
     let(:response) do

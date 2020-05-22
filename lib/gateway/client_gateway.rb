@@ -5,8 +5,9 @@ module Gateway
   class ClientGateway
     module Model
       class Client < ActiveRecord::Base
-        validates_presence_of :name, :secret
+        validates_presence_of :name
         has_many :client_scopes, dependent: :delete_all
+        has_many :client_secrets, dependent: :delete_all
         accepts_nested_attributes_for :client_scopes, allow_destroy: true
         acts_as_paranoid
       end
@@ -16,6 +17,11 @@ module Gateway
         belongs_to :client
         acts_as_paranoid
       end
+
+      class ClientSecret < ActiveRecord::Base
+        validates_presence_of :client, :secret
+        belongs_to :client
+      end
     end
 
     def create(name:, scopes: [], supplemental: {})
@@ -24,18 +30,67 @@ module Gateway
       ActiveRecord::Base.transaction do
         model =
           Model::Client.create! name: name,
-                                secret: SecureRandom.alphanumeric(64),
                                 supplemental: supplemental,
                                 client_scopes_attributes: scopes.to_a
+
+        secret = create_secret(model)
 
         model = Model::Client.find_by! id: model.id
 
         Domain::Client.new id: model.id,
                            name: model.name,
-                           secret: model.secret,
+                           secret: secret,
                            scopes: model.client_scopes.map(&:scope),
                            supplemental: model.supplemental.as_json
       end
+    end
+
+    def create_secret(client, secret = nil)
+      secret = SecureRandom.alphanumeric(64) if secret.nil?
+
+      sql = "INSERT INTO client_secrets (client_id, secret)
+             VALUES ($1, crypt($2, gen_salt('bf')))"
+
+      binds = [
+        ActiveRecord::Relation::QueryAttribute.new(
+          "client_id",
+          client.id,
+          ActiveRecord::Type::String.new,
+        ),
+        ActiveRecord::Relation::QueryAttribute.new(
+          "secret",
+          secret,
+          ActiveRecord::Type::String.new,
+        ),
+      ]
+
+      Model::ClientSecret.connection.exec_query sql, "SQL", binds
+
+      secret
+    end
+
+    def authenticate_secret(client_id, secret)
+      sql = "SELECT bool_or(secret = crypt($2, secret)) AS authenticated
+             FROM client_secrets
+             WHERE client_id = $1
+             GROUP BY client_id"
+
+      binds = [
+        ActiveRecord::Relation::QueryAttribute.new(
+          "client_id",
+          client_id,
+          ActiveRecord::Type::String.new,
+        ),
+        ActiveRecord::Relation::QueryAttribute.new(
+          "secret",
+          secret,
+          ActiveRecord::Type::String.new,
+        ),
+      ]
+
+      results = ActiveRecord::Base.connection.exec_query sql, "SQL", binds
+
+      results[0] && results[0]["authenticated"]
     end
 
     def fetch(attributes)

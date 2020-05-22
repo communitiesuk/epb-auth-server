@@ -88,9 +88,9 @@ module Controller
         data: {},
         meta: {
           action: [{
-                     client_id: params["clientId"],
-                     deleted: true
-                   }]
+            client_id: params["clientId"],
+            deleted: true,
+          }],
         },
       }.to_json
     end

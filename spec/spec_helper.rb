@@ -33,33 +33,14 @@ RSpec.configure do |config|
 
   config.before(:each) do
     ActiveRecord::Base.connection.exec_query "DELETE FROM client_scopes"
+    ActiveRecord::Base.connection.exec_query "DELETE FROM client_secrets"
     ActiveRecord::Base.connection.exec_query "DELETE FROM clients"
 
-    client =
-      Gateway::ClientGateway::Model::Client.create(
-        id: "72d1d680-92ee-463a-98a8-f3e3973df038",
-        name: "test-client",
-        secret: "test-client-secret",
-        supplemental: { test: [true] },
-      )
-    client.client_scopes.create(scope: "scope:one")
-    client.client_scopes.create(scope: "scope:two")
+    client_gateway = Gateway::ClientGateway.new
 
-    client =
-      Gateway::ClientGateway::Model::Client.create(
-        id: "93d1d680-92ee-463a-98a8-f3e3973df038",
-        name: "test-delete-client",
-        secret: "test-client-secret",
-        supplemental: { test: [true] },
-      )
-    client.client_scopes.create(scope: "scope:one")
-    client.client_scopes.create(scope: "scope:two")
-
-    Gateway::ClientGateway::Model::Client.create(
-      id: "54d1d680-92ee-463a-98a8-f3e3973df038",
-      name: "test-client-two",
-      secret: "test-client-secret-with-:-in-it",
-    )
+    @client_test = client_gateway.create name: "test-client",
+                                         supplemental: { test: [true] },
+                                         scopes: %w[scope:one scope:two]
   end
 end
 

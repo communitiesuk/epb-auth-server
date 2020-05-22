@@ -17,7 +17,7 @@ module Controller
         end
 
       client =
-        container.get_client_from_id_and_secret_use_case.execute(
+        container.authenticate_a_client.execute(
           client_id,
           client_secret,
         )
