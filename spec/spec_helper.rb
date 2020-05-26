@@ -8,6 +8,7 @@ ENV["JWT_SECRET"] = "TestingSecretString"
 ENV["JWT_ISSUER"] = "test.auth"
 
 require "epb-auth-tools"
+require "faker"
 require "rack/test"
 require "rake"
 require "rspec"
@@ -26,6 +27,16 @@ loader.setup
 module RSpecMixin
   def app
     Service.new
+  end
+
+  def create_user(name: nil, email: nil, password: nil)
+    name = Faker::Name.unique.name if name.nil?
+    email = Faker::Internet.unique.email if email.nil?
+    password = Faker::Alphanumeric.alpha number: 16 if password.nil?
+
+    Gateway::UserGateway.new.create email: email,
+                                    name: name,
+                                    password: password
   end
 
   def create_client(name: nil, supplemental: {}, scopes: [])

@@ -7,6 +7,10 @@ source "https://rubygems.org" do
     gem "rubocop-govuk", "~> 3.10"
   end
 
+  group :test do
+    gem "faker", "~> 2.11"
+  end
+
   gem "acts_as_paranoid", "~> 0.6.3"
   gem "epb-auth-tools", "~> 1.0"
   gem "jwt", "~> 2.2"

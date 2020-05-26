@@ -5,7 +5,7 @@ require "rspec"
 describe Gateway::ClientGateway do
   let(:gateway) { described_class.new }
 
-  describe "creating a new client object" do
+  describe "creating a new client" do
     let(:client_name) { "test-client" }
 
     let(:client) do
@@ -29,7 +29,7 @@ describe Gateway::ClientGateway do
     end
   end
 
-  describe "fetching an existing client object" do
+  describe "fetching an existing client" do
     let(:created_client) { create_client }
     let(:client) { gateway.fetch id: created_client.id }
 
@@ -84,10 +84,10 @@ describe Gateway::ClientGateway do
       let(:supplemental) { { "test" => false } }
 
       it "has the new supplemental data" do
-        client_with_new_supplemental_data = client.dup
-        client_with_new_supplemental_data.supplemental = supplemental
+        client_with_new_supplemental = client.dup
+        client_with_new_supplemental.supplemental = supplemental
 
-        gateway.update(client_with_new_supplemental_data)
+        gateway.update(client_with_new_supplemental)
 
         new_client = gateway.fetch(id: client.id)
 
