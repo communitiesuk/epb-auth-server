@@ -1,10 +1,11 @@
 describe UseCase::UpdateClient do
   context "a valid client" do
     describe "a valid request" do
-      let(:client_id) { @client_test.id }
+      let(:test_client) { create_client }
+      let(:client_id) { test_client.id }
       let(:client_name) { "test-client-updated" }
       let(:client_scopes) { %w[scope:three scope:four] }
-      let(:client_supplemental) { { "test" => false } }
+      let(:client_supplemental) { { test: false } }
 
       let(:client) do
         described_class.new(Container.new).execute client_id,
@@ -22,7 +23,7 @@ describe UseCase::UpdateClient do
       end
 
       it "has the right supplemental data" do
-        expect(client.supplemental).to eq client_supplemental
+        expect(client.supplemental).to eq({ "test" => false })
       end
     end
   end

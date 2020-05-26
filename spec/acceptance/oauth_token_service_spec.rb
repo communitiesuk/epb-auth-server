@@ -3,100 +3,105 @@
 require "base64"
 
 describe "Acceptance: OAuth token service" do
-  context "requesting a new token with valid client credentials in the header" do
-    let(:client_id) { @client_test.id }
-    let(:client_secret) { @client_test.secret }
-    let(:auth_header) { Base64.encode64([client_id, client_secret].join(":")) }
-    let(:response) do
-      header "Authorization", "Basic " + auth_header
-      post "/oauth/token"
-    end
-    let(:body) { JSON.parse response.body }
+  context "with valid client credentials" do
+    context "in the header" do
+      describe "generating a new token" do
+        let(:client) { create_client scopes: %w[scope:one scope:two], supplemental: { test: true } }
+        let(:response) { request_token client.id, client.secret }
+        let(:token) do
+          processor = Auth::TokenProcessor.new ENV["JWT_SECRET"], ENV["JWT_ISSUER"]
+          processor.process response.get(%i[access_token])
+        end
 
-    it "gives a status of 200" do
-      expect(response.status).to eq 200
-    end
+        it "gives a status of 200" do
+          expect(response.status).to eq 200
+        end
 
-    it "gives a response with a valid jwt based access_token" do
-      expect(body["access_token"]).to be_a_valid_jwt_token
-    end
+        it "gives a response with a valid jwt based access_token" do
+          expect(response.get(%i[access_token])).to be_a_valid_jwt_token
+        end
 
-    it "gives a response with a token that expires at least an hour in the future" do
-      expect(body["expires_in"]).to be >= 3_600
-    end
+        it "gives a response with a token that expires at least an hour in the future" do
+          expect(response.get(%i[expires_in])).to be >= 3_600
+        end
 
-    it "gives a response with a token of type Bearer" do
-      expect(body["token_type"]).to eq "bearer"
-    end
+        it "gives a response with a token of type Bearer" do
+          expect(response.get(%i[token_type])).to eq "bearer"
+        end
 
-    it "gives a response with scopes" do
-      processor = Auth::TokenProcessor.new ENV["JWT_SECRET"], ENV["JWT_ISSUER"]
-      token = processor.process body["access_token"]
+        it "gives a token with scopes" do
+          expect(token.scopes?(%w[scope:one scope:two])).to be_truthy
+        end
 
-      expect(token.scopes?(%w[scope:one scope:two])).to be_truthy
-    end
-
-    it "gives a response with supplemental data" do
-      processor = Auth::TokenProcessor.new ENV["JWT_SECRET"], ENV["JWT_ISSUER"]
-      token = processor.process body["access_token"]
-
-      expect(token.supplemental("test")).to contain_exactly true
-    end
-  end
-
-  context "requesting a new token with valid client credentials in the request body" do
-    let(:client_id) { @client_test.id }
-    let(:client_secret) { @client_test.secret }
-
-    let(:response) do
-      post "/oauth/token", client_id: client_id, client_secret: client_secret
+        it "gives a token with supplemental data" do
+          expect(token.supplemental("test")).to eq true
+        end
+      end
     end
 
-    let(:body) { JSON.parse response.body }
+    context "in the request body" do
+      describe "generating a new token" do
+        let(:client) { create_client scopes: %w[scope:one scope:two], supplemental: { test: true } }
+        let(:response) do
+          make_request do
+            post "/oauth/token", client_id: client.id, client_secret: client.secret
+          end
+        end
+        let(:token) do
+          processor = Auth::TokenProcessor.new ENV["JWT_SECRET"], ENV["JWT_ISSUER"]
+          processor.process response.get(%i[access_token])
+        end
 
-    it "gives a status of 200" do
-      expect(response.status).to eq 200
-    end
+        it "gives a status of 200" do
+          expect(response.status).to eq 200
+        end
 
-    it "gives a response with a valid jwt based access_token" do
-      expect(body["access_token"]).to be_a_valid_jwt_token
-    end
+        it "gives a response with a valid jwt based access_token" do
+          expect(response.get(%i[access_token])).to be_a_valid_jwt_token
+        end
 
-    it "gives a response with a token that expires at least an hour in the future" do
-      expect(body["expires_in"]).to be >= 3_600
-    end
+        it "gives a response with a token that expires at least an hour in the future" do
+          expect(response.get(%i[expires_in])).to be >= 3_600
+        end
 
-    it "gives a response with a token of type Bearer" do
-      expect(body["token_type"]).to eq "bearer"
-    end
-  end
+        it "gives a response with a token of type Bearer" do
+          expect(response.get(%i[token_type])).to eq "bearer"
+        end
 
-  context "requesting a new token without valid client credentials in the header" do
-    client_id = "invalid-id"
-    client_secret = "invalid-secret"
+        it "gives a token with scopes" do
+          expect(token.scopes?(%w[scope:one scope:two])).to be_truthy
+        end
 
-    auth_header = Base64.encode64([client_id, client_secret].join(":"))
-
-    let(:response) do
-      header "Authorization", "Basic " + auth_header
-      post "/oauth/token"
-    end
-
-    it "gives a status of 401" do
-      expect(response.status).to eq 401
+        it "gives a token with supplemental data" do
+          expect(token.supplemental("test")).to eq true
+        end
+      end
     end
   end
 
-  context "requesting a new token without valid client credentials in the request body" do
-    client_id = "invalid-id"
-    client_secret = "invalid-secret"
-
-    let(:response) do
-      post "/oauth/token", client_id: client_id, client_secret: client_secret
+  context "with invalid client credentials" do
+    context "in the header" do
+      describe "generating a new token" do
+        let(:response) { request_token "invalid-client", "invalid-secret" }
+        it "gives a status of 401" do
+          expect(response.status).to eq 401
+        end
+      end
     end
 
-    it "gives a status of 401" do
-      expect(response.status).to eq 401
+    context "in the request body" do
+      describe "generating a new token" do
+        let(:response) do
+          make_request do
+            post "/oauth/token",
+                 client_id: "invalid-client",
+                 client_secret: "invalid-secret"
+          end
+        end
+        it "gives a status of 401" do
+          expect(response.status).to eq 401
+        end
+      end
     end
   end
 end

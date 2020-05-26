@@ -5,7 +5,7 @@ require "rspec"
 describe Gateway::ClientGateway do
   let(:gateway) { described_class.new }
 
-  context "when creating a new client object" do
+  describe "creating a new client object" do
     let(:client_name) { "test-client" }
 
     let(:client) do
@@ -29,15 +29,16 @@ describe Gateway::ClientGateway do
     end
   end
 
-  context "when getting an existing client object" do
-    let(:client) { gateway.fetch id: @client_test.id }
+  describe "fetching an existing client object" do
+    let(:created_client) { create_client }
+    let(:client) { gateway.fetch id: created_client.id }
 
     it "has the correct id" do
-      expect(client.id).to eq @client_test.id
+      expect(client.id).to eq created_client.id
     end
 
     it "has the correct name" do
-      expect(client.name).to eq "test-client"
+      expect(client.name).to eq created_client.name
     end
 
     it "does not return a secret" do
@@ -45,9 +46,9 @@ describe Gateway::ClientGateway do
     end
   end
 
-  context "when updating an existing client" do
-    let(:client_id) { @client_test.id }
-    let(:client) { gateway.fetch id: client_id }
+  describe "updating an existing client" do
+    let(:created_client) { create_client }
+    let(:client) { gateway.fetch id: created_client.id }
 
     describe "updating the name" do
       let(:name) { "new-client-name" }
@@ -58,7 +59,7 @@ describe Gateway::ClientGateway do
 
         gateway.update(client_with_new_name)
 
-        new_client = gateway.fetch(id: client_id)
+        new_client = gateway.fetch(id: client.id)
 
         expect(new_client.name).to eq name
       end
@@ -73,7 +74,7 @@ describe Gateway::ClientGateway do
 
         gateway.update(client_with_new_scopes)
 
-        new_client = gateway.fetch(id: client_id)
+        new_client = gateway.fetch(id: client.id)
 
         expect(new_client.scopes).to eq scopes
       end
@@ -88,22 +89,22 @@ describe Gateway::ClientGateway do
 
         gateway.update(client_with_new_supplemental_data)
 
-        new_client = gateway.fetch(id: client_id)
+        new_client = gateway.fetch(id: client.id)
 
         expect(new_client.supplemental).to eq supplemental
       end
     end
   end
 
-  context "when deleting an existing client" do
-    let(:client_id) { @client_test.id }
-    let(:client) { gateway.fetch id: client_id }
+  describe "deleting an existing client" do
+    let(:created_client) { create_client }
+    let(:client) { gateway.fetch id: created_client.id }
 
     describe "deleting the client" do
       it "is not available in the gateway" do
         gateway.delete(client)
 
-        deleted_client = gateway.fetch(id: client_id)
+        deleted_client = gateway.fetch(id: client.id)
 
         expect(deleted_client).to be_nil
       end

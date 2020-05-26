@@ -1,28 +1,26 @@
 describe UseCase::AuthenticateAClient do
   context "a client that exists" do
-    describe "a valid client id and secret" do
-      let(:client_id) { @client_test.id }
-      let(:client_secret) { @client_test.secret }
+    describe "a valid secret" do
+      let(:client) { create_client }
 
       it "finds the client" do
-        client = described_class.new(Container.new)
-                                .execute client_id,
-                                         client_secret
+        response = described_class.new(Container.new)
+                                  .execute client.id,
+                                           client.secret
 
-        expect(client.id).to eq client_id
+        expect(response.id).to eq client.id
       end
     end
 
-    describe "an invalid client id and secret" do
-      let(:client_id) { "72d1d680-0000-463a-98a8-f3e3973df038" }
-      let(:client_secret) { @client_test.secret }
+    describe "an invalid secret" do
+      let(:client) { create_client }
 
       it "returns a nil client" do
-        client = described_class.new(Container.new)
-                                .execute client_id,
-                                         client_secret
+        response = described_class.new(Container.new)
+                                  .execute client.id,
+                                           "invalid"
 
-        expect(client).to be_nil
+        expect(response).to be_nil
       end
     end
   end

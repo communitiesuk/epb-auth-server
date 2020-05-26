@@ -9,8 +9,10 @@ ENV["JWT_ISSUER"] = "test.auth"
 
 require "epb-auth-tools"
 require "rack/test"
+require "rake"
 require "rspec"
 require "sinatra/activerecord"
+require "sinatra/activerecord/rake"
 require "uuid"
 require "zeitwerk"
 
@@ -25,6 +27,63 @@ module RSpecMixin
   def app
     Service.new
   end
+
+  def create_client(name: nil, supplemental: {}, scopes: [])
+    if name.nil?
+      name = SecureRandom.alphanumeric 10
+    end
+
+    Gateway::ClientGateway.new.create name: name,
+                                      scopes: scopes,
+                                      supplemental: supplemental
+  end
+
+  def client_token(client)
+    create_token id: client.id,
+                 scopes: client.scopes,
+                 supplemental: client.supplemental
+  end
+
+  def create_token(id: nil, scopes: [], supplemental: {})
+    Auth::Token.new iss: ENV["JWT_ISSUER"],
+                    sub: id,
+                    iat: Time.now.to_i,
+                    exp: Time.now.to_i + (60 * 60),
+                    scopes: scopes,
+                    supplemental: supplemental
+  end
+
+  def request_token(client_id, client_secret)
+    header "Authorization", "Basic " + Base64.encode64([client_id, client_secret].join(":"))
+    response = post "/oauth/token"
+
+    MockedResponse.new body: JSON.parse(response.body, symbolize_names: true),
+                       status: response.status
+  end
+
+  def make_request(token = nil, &block)
+    if token
+      header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
+    end
+
+    response = block.call
+
+    MockedResponse.new body: JSON.parse(response.body, symbolize_names: true),
+                       status: response.status
+  end
+
+  class MockedResponse
+    attr_reader :body, :status
+
+    def initialize(body:, status:)
+      @body = body
+      @status = status
+    end
+
+    def get(path)
+      @body.dig(*path)
+    end
+  end
 end
 
 RSpec.configure do |config|
@@ -32,26 +91,9 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
 
   config.before(:each) do
-    ActiveRecord::Base.connection.exec_query "DELETE FROM client_scopes"
-    ActiveRecord::Base.connection.exec_query "DELETE FROM client_secrets"
-    ActiveRecord::Base.connection.exec_query "DELETE FROM clients"
-
-    client_gateway = Gateway::ClientGateway.new
-
-    @client_test = client_gateway.create name: "test-client",
-                                         supplemental: { test: [true] },
-                                         scopes: %w[scope:one scope:two]
-
-    @client_test_token = Auth::Token.new iss: ENV["JWT_ISSUER"],
-                                         sub: @client_test.id,
-                                         iat: Time.now.to_i,
-                                         exp: Time.now.to_i + (60 * 60),
-                                         scopes: [
-                                           "client:create",
-                                           "client:fetch",
-                                           "client:delete",
-                                           "client:update",
-                                         ]
+    Rake::Task["db:drop"].invoke
+    Rake::Task["db:create"].invoke
+    Rake::Task["db:migrate"].invoke
   end
 end
 
