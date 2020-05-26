@@ -1,4 +1,4 @@
-describe UseCase::DeleteClient do
+describe UseCase::Client::DeleteClient do
   context "a valid client" do
     describe "a valid request" do
       let(:client) { create_client }

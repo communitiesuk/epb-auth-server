@@ -1,4 +1,4 @@
-describe UseCase::RotateAClientSecret do
+describe UseCase::Client::RotateAClientSecret do
   context "a client that exists" do
     describe "a valid client id and secret" do
       let(:client) { create_client }

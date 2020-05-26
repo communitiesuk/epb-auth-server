@@ -1,4 +1,4 @@
-describe UseCase::CreateNewClient do
+describe UseCase::Client::CreateNewClient do
   context "a valid client" do
     describe "a valid request" do
       let(:client_name) { "test-client" }
@@ -6,7 +6,7 @@ describe UseCase::CreateNewClient do
       let(:client_supplemental) { { "test" => true } }
 
       let(:client) do
-        UseCase::CreateNewClient.new(Container.new)
+        UseCase::Client::CreateNewClient.new(Container.new)
                                 .execute(
                                   client_name,
                                   client_scopes,

@@ -11,16 +11,16 @@ class Container
     @client_gateway =
       Gateway::ClientGateway.new
     @create_new_client_use_case =
-      UseCase::CreateNewClient.new self
+      UseCase::Client::CreateNewClient.new self
     @get_client_from_id_use_case =
-      UseCase::GetClientFromId.new self
+      UseCase::Client::GetClientFromId.new self
     @authenticate_a_client =
-      UseCase::AuthenticateAClient.new self
+      UseCase::Client::AuthenticateAClient.new self
     @update_client_use_case =
-      UseCase::UpdateClient.new self
+      UseCase::Client::UpdateClient.new self
     @delete_client_use_case =
-      UseCase::DeleteClient.new self
+      UseCase::Client::DeleteClient.new self
     @rotate_a_client_secret_use_case =
-      UseCase::RotateAClientSecret.new self
+      UseCase::Client::RotateAClientSecret.new self
   end
 end

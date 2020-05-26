@@ -1,4 +1,4 @@
-describe UseCase::UpdateClient do
+describe UseCase::Client::UpdateClient do
   context "a valid client" do
     describe "a valid request" do
       let(:test_client) { create_client }

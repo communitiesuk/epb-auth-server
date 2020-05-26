@@ -1,4 +1,4 @@
-describe UseCase::AuthenticateAClient do
+describe UseCase::Client::AuthenticateAClient do
   context "a client that exists" do
     describe "a valid secret" do
       let(:client) { create_client }
