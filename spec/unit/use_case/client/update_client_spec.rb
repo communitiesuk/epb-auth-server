@@ -23,7 +23,7 @@ describe UseCase::Client::UpdateClient do
       end
 
       it "has the right supplemental data" do
-        expect(client.supplemental).to eq({ "test" => false })
+        expect(client.supplemental).to eq({ test: false })
       end
     end
   end

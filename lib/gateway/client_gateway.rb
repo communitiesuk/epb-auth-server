@@ -33,15 +33,7 @@ module Gateway
                                 supplemental: supplemental,
                                 client_scopes_attributes: scopes.to_a
 
-        secret = create_secret(model)
-
-        model = Model::Client.find_by! id: model.id
-
-        Domain::Client.new id: model.id,
-                           name: model.name,
-                           secret: secret,
-                           scopes: model.client_scopes.map(&:scope),
-                           supplemental: model.supplemental.as_json
+        model_to_client(Model::Client.find_by!(id: model.id), create_secret(model))
       end
     end
 
@@ -94,14 +86,7 @@ module Gateway
     end
 
     def fetch(attributes)
-      model = Model::Client.find_by(attributes)
-
-      unless model.nil?
-        Domain::Client.new id: model.id,
-                           name: model.name,
-                           scopes: model.client_scopes.map(&:scope),
-                           supplemental: model.supplemental
-      end
+      model_to_client(Model::Client.find_by(attributes))
     end
 
     def update(client)
@@ -138,7 +123,9 @@ module Gateway
       ActiveRecord::Base.transaction do
         model = Model::Client.find_by(client.to_hash.slice(:id))
 
-        model.destroy
+        model.destroy!
+
+        !model.deleted_at.nil?
       end
     end
 
@@ -150,6 +137,22 @@ module Gateway
 
     def client_scopes_to_model_scopes(scopes)
       scopes.map { |scope| { scope: scope } }.to_a
+    end
+
+    def model_to_client(model = nil, secret = nil)
+      return nil unless model
+
+      client = {
+        id: model.id,
+        name: model.name,
+        secret: secret,
+        scopes: model.client_scopes.map(&:scope),
+        supplemental: JSON.parse(model.supplemental.to_json, symbolize_names: true),
+      }
+
+      client = client.merge secret: secret if secret
+
+      Domain::Client.new client
     end
   end
 end

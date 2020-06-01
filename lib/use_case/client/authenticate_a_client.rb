@@ -1,10 +1,6 @@
 module UseCase
   module Client
-    class AuthenticateAClient
-      def initialize(container)
-        @container = container
-      end
-
+    class AuthenticateAClient < UseCase::BaseUseCase
       def execute(id, secret)
         gateway = @container.client_gateway
 

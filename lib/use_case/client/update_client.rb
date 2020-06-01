@@ -1,16 +1,10 @@
 module UseCase
   module Client
-    class UpdateClient
-      class ClientNotFoundError < StandardError; end
-
-      def initialize(container)
-        @container = container
-      end
-
+    class UpdateClient < UseCase::BaseUseCase
       def execute(id, name, scopes, supplemental)
         client = @container.client_gateway.fetch id: id
 
-        raise ClientNotFoundError unless client
+        raise Boundary::NotFoundError unless client
 
         client.name = name
         client.scopes = scopes

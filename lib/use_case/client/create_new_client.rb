@@ -1,14 +1,14 @@
 module UseCase
   module Client
-    class CreateNewClient
-      def initialize(container)
-        @container = container
-      end
-
-      def execute(name, scopes, supplemental)
-        @container.client_gateway.create name: name,
-                                         scopes: scopes,
-                                         supplemental: supplemental
+    class CreateNewClient < UseCase::BaseUseCase
+      def execute(name: nil, scopes: [], supplemental: {})
+        client = {
+          name: name,
+          scopes: scopes,
+          supplemental: supplemental,
+        }
+        @container.validation_helper.validate({ name: %w[not_empty] }, client)
+        @container.client_gateway.create client
       end
     end
   end

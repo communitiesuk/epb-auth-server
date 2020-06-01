@@ -35,6 +35,28 @@ describe "Acceptance: Creating a new client" do
       end
     end
 
+    describe "creating a client without a name" do
+      let(:response) do
+        make_request token do
+          post "/api/client",
+               {}.to_json,
+               CONTENT_TYPE: "application/json"
+        end
+      end
+
+      it "returns a validation failure status" do
+        expect(response.status).to eq 422
+      end
+
+      it "gives name invalid error code" do
+        expect(response.get([:code])).to eq "VALIDATION_ERROR"
+      end
+
+      it "gives name invalid error message" do
+        expect(response.get(%i[errors name])).to include "name cannot be empty"
+      end
+    end
+
     describe "creating a new client with scopes and supplemental data" do
       let(:token) { client_token create_client scopes: %w[client:create] }
       let(:response) do
@@ -76,22 +98,21 @@ describe "Acceptance: Creating a new client" do
   end
 
   context "as an unauthenticated client" do
-    let(:response) { post "/api/client", name: "test-create-client" }
+    let(:response) { make_request { post "/api/client" } }
 
     it "fails with an appropriate code" do
       expect(response.status).to eq 401
     end
 
     it "fails with an appropriate error message" do
-      expect(response.body).to include "Auth::Errors::TokenMissing"
+      expect(response.get([:code])).to eq "NOT_AUTHENTICATED"
     end
   end
 
   context "as an authenticated client without client:create scope" do
-    let(:token) { client_token create_client }
     let(:response) do
-      make_request token do
-        post "/api/client", name: "test-create-client"
+      make_request create_token do
+        post "/api/client"
       end
     end
 
@@ -100,7 +121,7 @@ describe "Acceptance: Creating a new client" do
     end
 
     it "fails with an appropriate error message" do
-      expect(response.get([:errors, 0, :code])).to eq "InsufficientPrivileges"
+      expect(response.get([:code])).to eq "NOT_AUTHORIZED"
     end
   end
 end

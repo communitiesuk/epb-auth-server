@@ -1,12 +1,12 @@
 module UseCase
   module Client
-    class GetClientFromId
-      def initialize(container)
-        @container = container
-      end
-
+    class GetClientFromId < UseCase::BaseUseCase
       def execute(id)
-        @container.client_gateway.fetch id: id
+        client = @container.client_gateway.fetch id: id
+
+        raise Boundary::NotFoundError unless client
+
+        client
       end
     end
   end

@@ -27,6 +27,10 @@ module RSpecMixin
     Service.new
   end
 
+  def container
+    Container.new
+  end
+
   def create_user(name: nil, email: nil, password: nil)
     name = Faker::Name.unique.name if name.nil?
     email = Faker::Internet.unique.email if email.nil?
@@ -39,7 +43,7 @@ module RSpecMixin
 
   def create_client(name: nil, supplemental: {}, scopes: [])
     if name.nil?
-      name = SecureRandom.alphanumeric 10
+      name = Faker::Company.name
     end
 
     Gateway::ClientGateway.new.create name: name,

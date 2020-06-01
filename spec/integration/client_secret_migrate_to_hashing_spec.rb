@@ -9,8 +9,8 @@ describe "Integration: Migrating client secrets to use hashes" do
     )
     system("rake db:migrate")
   end
-  context "an existing client in the database" do
-    describe "migrating from plaintext to hashed secrets" do
+  context "migrating from plaintext to hashed secrets" do
+    describe "using the correct authentication details" do
       let(:migrated_client) { Gateway::ClientGateway.new.fetch name: "test-client" }
       let(:response) { request_token migrated_client.id, "test-secret" }
 
@@ -28,6 +28,15 @@ describe "Integration: Migrating client secrets to use hashes" do
 
       it "gives a response with a token of type Bearer" do
         expect(response.get(%i[token_type])).to eq "bearer"
+      end
+    end
+
+    describe "using incorrect authentication details" do
+      let(:migrated_client) { Gateway::ClientGateway.new.fetch name: "test-client" }
+      let(:response) { request_token migrated_client.id, "invalid-secret" }
+
+      it "gives a status of 401" do
+        expect(response.status).to eq 401
       end
     end
   end

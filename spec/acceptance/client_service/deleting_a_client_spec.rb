@@ -23,23 +23,22 @@ describe "Acceptance: Deleting a client" do
 
   context "as an unauthenticated client" do
     describe "deleting a client" do
-      let(:response) { delete "/api/client/test" }
+      let(:response) { make_request { delete "/api/client/test" } }
 
       it "fails with an appropriate code" do
         expect(response.status).to eq 401
       end
 
       it "fails with an appropriate error message" do
-        expect(response.body).to include "Auth::Errors::TokenMissing"
+        expect(response.get([:code])).to eq "NOT_AUTHENTICATED"
       end
     end
   end
 
   context "as an unauthorised client" do
     describe "deleting a client" do
-      let(:token) { create_token }
       let(:response) do
-        make_request token do
+        make_request create_token do
           delete "/api/client/test"
         end
       end
@@ -49,7 +48,7 @@ describe "Acceptance: Deleting a client" do
       end
 
       it "fails with an appropriate error message" do
-        expect(response.get([:errors, 0, :code])).to eq "InsufficientPrivileges"
+        expect(response.get([:code])).to eq "NOT_AUTHORIZED"
       end
     end
   end

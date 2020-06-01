@@ -4,38 +4,57 @@ require "sinatra/base"
 module Controller
   class BaseController < Sinatra::Base
     helpers do
+      def container
+        Container.new
+      end
+
       def json_body
-        ::MultiJson.decode request.body
-      rescue MultiJson::ParseError
-        ::MultiJson.decode request.body.string
+        JSON.parse request.body, symbolize_names: true
+      rescue TypeError
+        JSON.parse request.body.string, symbolize_names: true
       end
 
-      def json_params
-        ::MultiJson.decode params
+      def json_response(status, body = nil)
+        content_type :json
+        halt status, body.to_json
       end
 
-      def json_request
-        ::MultiJson.decode params.merge(request.body)
+      def authorize(scopes: nil)
+        env[:token] = Auth::Sinatra::Conditional.process_request env
+
+        unless scopes.nil?
+          raise Boundary::NotAuthorizedError unless env[:token].scopes?(scopes)
+        end
+      rescue Auth::Errors::Error
+        raise Boundary::NotAuthenticatedError
       end
+    end
+
+    error Boundary::NotAuthenticatedError do |_error|
+      json_response 401,
+                    code: "NOT_AUTHENTICATED"
+    end
+
+    error Boundary::NotAuthorizedError do |_error|
+      json_response 403,
+                    code: "NOT_AUTHORIZED"
+    end
+
+    error Boundary::NotFoundError do |_error|
+      json_response 404,
+                    code: "NOT_FOUND"
+    end
+
+    error Boundary::ValidationError do |error|
+      json_response 422,
+                    code: "VALIDATION_ERROR",
+                    errors: error.errors
     end
 
     def self.prefix_route(route)
       return ENV["URL_PREFIX"] + route if ENV["URL_PREFIX"]
 
       route
-    end
-
-    set(:jwt_auth) do |*scopes|
-      condition do
-        token = Auth::Sinatra::Conditional.process_request env
-        env[:jwt_auth] = token
-        unless token.scopes?(scopes)
-          halt 403, { errors: [{ code: "InsufficientPrivileges" }] }.to_json
-        end
-      rescue Auth::Errors::Error => e
-        content_type :json
-        halt 401, { errors: [{ code: e }] }.to_json
-      end
     end
   end
 end

@@ -5,41 +5,50 @@ describe "Integration: OAuth Client" do
   before(:all) do
     process = IO.popen(["rackup", "-q", err: %i[child out]])
     @process_id = process.pid
+    @server_url = "http://localhost:9292"
 
     sleep 2
   end
 
   after(:all) { Process.kill("KILL", @process_id) }
 
-  context "given an oauth client with valid credentials and an authenticated token" do
-    let(:client) do
-      test_client = create_client
-      OAuth2::Client.new test_client.id,
-                         test_client.secret,
-                         site: "http://localhost:9292"
+  context "with an authenticated client" do
+    let(:client) { create_client }
+    let(:authenticated_client) do
+      OAuth2::Client.new(
+        client.id,
+        client.secret,
+        site: @server_url,
+      ).client_credentials.get_token
     end
-
-    let(:authenticated_client) { client.client_credentials.get_token }
 
     it "is not expired" do
       expect(authenticated_client.expired?).to be_falsey
     end
 
-    it "can be used to make a request" do
-      expect {
-        @response = authenticated_client.get("http://localhost:9292/oauth/token/test")
-      }.to_not raise_error
+    describe "making a request" do
+      let(:response) { authenticated_client.get("#{@server_url}/oauth/token/test") }
+      let(:body) { JSON.parse response.body, symbolize_names: true }
 
-      expect(@response.body).to eq '{"message":"ok"}'
+      it "returns a successful response" do
+        expect(response.status).to eq 200
+      end
+
+      it "gives a response with the expected subject" do
+        expect(body[:data][:subject]).to eq client.id
+      end
     end
   end
 
-  context "given a http client is not authenticated" do
-    it "cannot be used to make a request to a secured route" do
-      uri = URI("http://localhost:9292/oauth/token/test")
-      response = Net::HTTP.get_response(uri)
+  context "with an unauthenticated client" do
+    describe "making a request" do
+      let(:response) do
+        Net::HTTP.get_response URI("#{@server_url}/oauth/token/test")
+      end
 
-      expect(response).to be_an_instance_of Net::HTTPUnauthorized
+      it "cannot be used to make a request" do
+        expect(response).to be_an_instance_of Net::HTTPUnauthorized
+      end
     end
   end
 end

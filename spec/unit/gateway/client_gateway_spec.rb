@@ -5,7 +5,6 @@ describe Gateway::ClientGateway do
 
   describe "creating a new client" do
     let(:client_name) { "test-client" }
-
     let(:client) do
       gateway.create name: client_name, scopes: %w[scope:one scope:two]
     end
@@ -79,7 +78,7 @@ describe Gateway::ClientGateway do
     end
 
     describe "updating the supplemental data" do
-      let(:supplemental) { { "test" => false } }
+      let(:supplemental) { { test: false } }
 
       it "has the new supplemental data" do
         client_with_new_supplemental = client.dup
