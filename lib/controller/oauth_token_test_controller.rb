@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Controller
   class OAuthTokenTestController < BaseController
     get prefix_route("/oauth/token/test"), jwt_auth: [] do

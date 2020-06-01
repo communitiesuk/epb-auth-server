@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Controller
   class ApiClientController < BaseController
     get prefix_route("/api/client/:clientId"), jwt_auth: %w[client:fetch] do

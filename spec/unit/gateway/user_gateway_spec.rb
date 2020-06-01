@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 describe Gateway::UserGateway do
   let(:gateway) { described_class.new }
 

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require "epb-auth-tools"
 
 module Controller

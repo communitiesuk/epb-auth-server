@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 describe "Acceptance: Deleting a client" do
   context "as an authorised client" do
     describe "deleting a client" do
