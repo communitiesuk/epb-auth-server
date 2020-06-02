@@ -121,7 +121,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_paranoid (~> 0.6.3)!
   epb-auth-tools (~> 1.0)!
-  faker (~> 2.11)
+  faker (~> 2.11)!
   jwt (~> 2.2)!
   multi_json (~> 1.14)!
   oauth2 (~> 1.4)!

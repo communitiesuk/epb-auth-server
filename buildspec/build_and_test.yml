@@ -18,7 +18,7 @@ phases:
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
       - docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_PASSWORD=$DOCKER_POSTGRES_PASSWORD postgres:11
       - until docker run --rm --link postgres-test:pg postgres:11 pg_isready -U postgres -h pg; do sleep 1; done
-      - DATABASE_URL="postgresql://postgres:$DOCKER_POSTGRES_PASSWORD@127.0.0.1/auth_test" RACK_ENV=test make install
+      - make install ENV=test
   build:
     commands:
-      - DATABASE_URL="postgresql://postgres:$DOCKER_POSTGRES_PASSWORD@127.0.0.1/auth_test" make test
+      - make test ENV=test

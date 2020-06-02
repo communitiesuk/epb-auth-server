@@ -30,7 +30,7 @@ run: ## Run the authentication server
 .PHONY: install
 install: ## Run to install dependancies and perform any setup tasks
 	@bundle install
-	$(MAKE) db-setup
+	$(MAKE) db-setup ENV=$$ENV
 
 .PHONY: db-setup
 db-setup: ## Run to create and populate test dbs
