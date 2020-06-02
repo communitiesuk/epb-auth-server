@@ -6,6 +6,11 @@ module UseCase
 
         raise Boundary::NotFoundError unless client
 
+        @container.validation_helper.validate(
+          { name: %w[not_empty] },
+          client.to_hash,
+        )
+
         client.name = name
         client.scopes = scopes
         client.supplemental = supplemental
