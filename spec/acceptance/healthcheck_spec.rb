@@ -1,12 +1,4 @@
-describe "Acceptance: Base service" do
-  context "responses from /" do
-    let(:response) { get "/" }
-
-    it "returns status 200" do
-      expect(response.status).to eq 200
-    end
-  end
-
+describe "Acceptance: Healthcheck" do
   context "responses from /healthcheck" do
     let(:response) { get "/healthcheck" }
 
