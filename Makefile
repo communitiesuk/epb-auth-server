@@ -28,28 +28,28 @@ run: ## Run the authentication server
 	@bundle exec rackup -p 9090
 
 .PHONY: install
-install: ## Run to install dependancies and perform any setup tasks
+install: ## Run to install dependencies and perform any setup tasks
 	@bundle install
 	$(MAKE) db-setup ENV=$$ENV
 
 .PHONY: db-setup
 db-setup: ## Run to create and populate test dbs
 	@echo ">>>>> Creating DB"
-	@DATABASE_URL="postgresql://postgres:postgres@127.0.0.1/auth_$$ENV" RACK_ENV=$$ENV bundle exec rake db:create
+	@bundle exec rake db:create
 	@echo ">>>>> Migrating DB"
-	@DATABASE_URL="postgresql://postgres:postgres@127.0.0.1/auth_$$ENV" RACK_ENV=$$ENV bundle exec rake db:migrate
+	@bundle exec rake db:migrate
 	@echo ">>>>> Populating Test DB"
-	@DATABASE_URL="postgresql://postgres:postgres@127.0.0.1/auth_$$ENV" RACK_ENV=$$ENV bundle exec rake db:test:prepare
+	@bundle exec rake db:test:prepare
 
 .PHONY: db-teardown
 db-teardown: ## Run to tear down test dbs
 	@echo ">>>>> Dropping DBs"
-	@DATABASE_URL="postgresql://postgres:postgres@127.0.0.1/auth_$$ENV" RACK_ENV=$$ENV  bundle exec rake db:drop
+	@bundle exec rake db:drop
 
 .PHONY: db-create-migration
 db-create-migration: ## Run to create a new migration append NAME=
 	$(if ${NAME},,$(error Must specify NAME))
-	@DATABASE_URL="postgresql://postgres:postgres@127.0.0.1/auth_$$ENV" RACK_ENV=$$ENV bundle exec rake db:create_migration NAME=${NAME}
+	@bundle exec rake db:create_migration NAME=${NAME}
 
 .PHONY: format
 format:
@@ -75,6 +75,7 @@ deploy-app: ## Deploys the app to PaaS
 	cf set-env "${DEPLOY_APPNAME}" JWT_ISSUER "${JWT_ISSUER}"
 	cf set-env "${DEPLOY_APPNAME}" JWT_SECRET "${JWT_SECRET}"
 	cf set-env "${DEPLOY_APPNAME}" URL_PREFIX "/auth"
+	cf set-env "${DEPLOY_APPNAME}" RACK_ENV "production"
 
 	cf v3-zdt-push "${DEPLOY_APPNAME}" --wait-for-deploy-complete
 
