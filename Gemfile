@@ -6,7 +6,7 @@ source "https://rubygems.org" do
   end
 
   group :test do
-    gem "faker", "~> 2.11"
+    gem "faker", "~> 2.13"
   end
 
   gem "acts_as_paranoid", "~> 0.6.3"
