@@ -23,5 +23,5 @@ source "https://rubygems.org" do
   gem "sinatra-activerecord", "~> 2.0"
   gem "sinatra-contrib", "~> 2.0"
   gem "uuid", "~> 2.3"
-  gem "zeitwerk", "~> 2.2"
+  gem "zeitwerk", "~> 2.3"
 end
