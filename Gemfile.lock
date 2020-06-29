@@ -22,7 +22,7 @@ GEM
     epb-auth-tools (1.0.5)
       jwt (~> 2.2)
       oauth2 (~> 1.4)
-    faker (2.11.0)
+    faker (2.13.0)
       i18n (>= 1.6, < 2)
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
@@ -126,7 +126,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_paranoid (~> 0.6.3)!
   epb-auth-tools (~> 1.0)!
-  faker (~> 2.11)!
+  faker (~> 2.13)!
   jwt (~> 2.2)!
   multi_json (~> 1.14)!
   oauth2 (~> 1.4)!
