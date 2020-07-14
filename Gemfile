@@ -12,7 +12,7 @@ source "https://rubygems.org" do
   gem "acts_as_paranoid", "~> 0.6.3"
   gem "epb-auth-tools", "~> 1.0"
   gem "jwt", "~> 2.2"
-  gem "multi_json", "~> 1.14"
+  gem "multi_json", "~> 1.15"
   gem "oauth2", "~> 1.4"
   gem "pg", "~> 1.1"
   gem "rack", "~> 2.2"

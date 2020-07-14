@@ -32,7 +32,7 @@ GEM
     macaddr (1.7.2)
       systemu (~> 2.6.5)
     minitest (5.14.1)
-    multi_json (1.14.1)
+    multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     mustermann (1.1.1)
@@ -128,7 +128,7 @@ DEPENDENCIES
   epb-auth-tools (~> 1.0)!
   faker (~> 2.13)!
   jwt (~> 2.2)!
-  multi_json (~> 1.14)!
+  multi_json (~> 1.15)!
   oauth2 (~> 1.4)!
   pg (~> 1.1)!
   rack (~> 2.2)!
