@@ -9,7 +9,7 @@ source "https://rubygems.org" do
     gem "faker", "~> 2.13"
   end
 
-  gem "acts_as_paranoid", "~> 0.6.3"
+  gem "acts_as_paranoid", "~> 0.7.0"
   gem "epb-auth-tools", "~> 1.0"
   gem "jwt", "~> 2.2"
   gem "multi_json", "~> 1.15"
