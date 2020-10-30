@@ -116,7 +116,7 @@ GEM
     unicode-display_width (1.7.0)
     uuid (2.3.9)
       macaddr (~> 1.0)
-    zeitwerk (2.4.0)
+    zeitwerk (2.4.1)
 
 PLATFORMS
   ruby
