@@ -68,7 +68,7 @@ deploy-app: ## Deploys the app to PaaS
 
 	@$(MAKE) generate-manifest
 
-	cf v3-apply-manifest -f manifest.yml
+	cf apply-manifest -f manifest.yml
 
 	cf set-env "${DEPLOY_APPNAME}" EPB_UNLEASH_URI "${EPB_UNLEASH_URI}"
 	cf set-env "${DEPLOY_APPNAME}" STAGE "${PAAS_SPACE}"
@@ -77,10 +77,10 @@ deploy-app: ## Deploys the app to PaaS
 	cf set-env "${DEPLOY_APPNAME}" URL_PREFIX "/auth"
 	cf set-env "${DEPLOY_APPNAME}" RACK_ENV "production"
 
-	cf v3-zdt-push "${DEPLOY_APPNAME}" --wait-for-deploy-complete
+	cf push "${DEPLOY_APPNAME}" --strategy rolling
 
 .PHONY: migrate-db-and-wait-for-success
 migrate-db-and-wait-for-success:
 	$(if ${DEPLOY_APPNAME},,$(error Must specify DEPLOY_APPNAME))
-	cf run-task "${DEPLOY_APPNAME}" "rake db:migrate" --name migrate
+	cf run-task ${DEPLOY_APPNAME} --command "rake db:migrate" --name migrate
 	@scripts/check-for-migration-result.sh
