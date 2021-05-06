@@ -1,7 +1,7 @@
 version: 0.2
 
 runtime-versions:
-  ruby: 2.7.2
+  ruby: 2.7
 
 env:
   variables:
@@ -20,7 +20,7 @@ env:
 phases:
   install:
     runtime-versions:
-      ruby: 2.7.2
+      ruby: 2.7
   pre_build:
     commands:
       - cf login -a $PAAS_API -u $PAAS_LOGIN -p "$PAAS_PW" -o $PAAS_ORG -s $PAAS_SPACE
