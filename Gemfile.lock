@@ -110,7 +110,7 @@ GEM
       rack (~> 2.2)
       rack-protection (= 2.1.0)
       tilt (~> 2.0)
-    sinatra-activerecord (2.0.22)
+    sinatra-activerecord (2.0.23)
       activerecord (>= 4.1)
       sinatra (>= 1.0)
     sinatra-contrib (2.1.0)
@@ -145,7 +145,7 @@ DEPENDENCIES
   rspec (~> 3.10)!
   rubocop-govuk (~> 3.17)!
   sinatra (~> 2.0)!
-  sinatra-activerecord (~> 2.0.22)!
+  sinatra-activerecord (~> 2.0.23)!
   sinatra-contrib (~> 2.0)!
   uuid (~> 2.3)!
   zeitwerk (~> 2.4)!
