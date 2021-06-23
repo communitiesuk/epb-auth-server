@@ -21,17 +21,21 @@ GEM
     ast (2.4.2)
     concurrent-ruby (1.1.8)
     diff-lcs (1.4.4)
-    epb-auth-tools (1.0.7)
+    epb-auth-tools (1.0.8)
       jwt (~> 2.2)
       oauth2 (~> 1.4)
     faker (2.18.0)
       i18n (>= 1.6, < 2)
-    faraday (1.4.1)
+    faraday (1.4.2)
+      faraday-em_http (~> 1.0)
+      faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
       faraday-net_http (~> 1.0)
       faraday-net_http_persistent (~> 1.1)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords (>= 0.0.4)
+    faraday-em_http (1.0.0)
+    faraday-em_synchrony (1.0.0)
     faraday-excon (1.1.0)
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.1.0)
@@ -133,7 +137,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_paranoid (~> 0.7.0)!
-  epb-auth-tools (~> 1.0.7)!
+  epb-auth-tools (~> 1.0.8)!
   faker (~> 2.18)!
   jwt (~> 2.2)!
   multi_json (~> 1.15)!
