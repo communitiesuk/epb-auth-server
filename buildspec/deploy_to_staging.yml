@@ -13,7 +13,6 @@ env:
     PAAS_SPACE: "epbr-govpaas-staging-space"
     PAAS_API: "epbr-govpaas-api"
     PAAS_ORG: "epbr-govpaas-orgname"
-    EPB_UNLEASH_URI: "epbr-unleash-staging-uri"
     JWT_ISSUER: "epbr-jwt-issuer-staging"
     JWT_SECRET: "epbr-jwt-secret-staging"
 
