@@ -3,7 +3,7 @@ require "net/http"
 
 describe "Integration: OAuth Client" do
   before(:all) do
-    process = IO.popen(["rackup", "-q", err: %i[child out]])
+    process = IO.popen(["rackup", "-q", { err: %i[child out] }])
     @process_id = process.pid
     @server_url = "http://localhost:9292"
 

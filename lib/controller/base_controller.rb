@@ -22,8 +22,8 @@ module Controller
       def authorize(scopes: nil)
         env[:token] = Auth::Sinatra::Conditional.process_request env
 
-        unless scopes.nil?
-          raise Boundary::NotAuthorizedError unless env[:token].scopes?(scopes)
+        if !scopes.nil? && !env[:token].scopes?(scopes)
+          raise Boundary::NotAuthorizedError
         end
       rescue Auth::Errors::Error
         raise Boundary::NotAuthenticatedError
