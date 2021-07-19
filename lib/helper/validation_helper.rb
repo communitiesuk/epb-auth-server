@@ -21,18 +21,18 @@ module Helper
         rules = ruleset[name]
 
         rules.each do |rule|
-          if ValidationHelper.const_defined? rule.to_s.upcase
-            validator = ValidationHelper.const_get(rule.to_s.upcase)
+          next unless ValidationHelper.const_defined? rule.to_s.upcase
 
-            if validator.key?(:pattern)
-              error = validate_pattern validator, name, data[name]
-              (errors[name] ||= []) << error if error
-            end
+          validator = ValidationHelper.const_get(rule.to_s.upcase)
 
-            if validator.key?(:lambda)
-              error = validate_lambda validator, name, data[name]
-              (errors[name] ||= []) << error if error
-            end
+          if validator.key?(:pattern)
+            error = validate_pattern validator, name, data[name]
+            (errors[name] ||= []) << error if error
+          end
+
+          if validator.key?(:lambda)
+            error = validate_lambda validator, name, data[name]
+            (errors[name] ||= []) << error if error
           end
         end
       end

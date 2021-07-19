@@ -5,7 +5,7 @@ describe "Acceptance: Using route prefixing with the server" do
   before(:all) do
     process =
       IO.popen(
-        [{ "URL_PREFIX" => "/prefix" }, "rackup", "-q", err: %i[child out]],
+        [{ "URL_PREFIX" => "/prefix" }, "rackup", "-q", { err: %i[child out] }],
       )
     @process_id = process.pid
 
