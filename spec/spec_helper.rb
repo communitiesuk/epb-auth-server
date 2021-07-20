@@ -67,7 +67,7 @@ module RSpecMixin
   end
 
   def request_token(client_id, client_secret)
-    header "Authorization", "Basic " + Base64.encode64([client_id, client_secret].join(":"))
+    header "Authorization", "Basic #{Base64.encode64([client_id, client_secret].join(':'))}"
     response = post "/oauth/token"
 
     MockedResponse.new body: JSON.parse(response.body, symbolize_names: true),
@@ -76,7 +76,7 @@ module RSpecMixin
 
   def make_request(token = nil, &block)
     if token
-      header "Authorization", "Bearer " + token.encode(ENV["JWT_SECRET"])
+      header "Authorization", "Bearer #{token.encode(ENV['JWT_SECRET'])}"
     end
 
     response = block.call

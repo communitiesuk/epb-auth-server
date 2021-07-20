@@ -22,7 +22,7 @@ describe "Acceptance: Rotating a client secret" do
           response.get(%i[data client secret]),
         ].join(":")
 
-        header "Authorization", "Basic " + auth_header
+        header "Authorization", "Basic #{auth_header}"
         response = post "/oauth/token"
 
         expect(response.status).to eq 200
