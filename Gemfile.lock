@@ -19,12 +19,12 @@ GEM
       activerecord (>= 5.2, < 7.0)
       activesupport (>= 5.2, < 7.0)
     ast (2.4.2)
-    concurrent-ruby (1.1.8)
+    concurrent-ruby (1.1.9)
     diff-lcs (1.4.4)
     epb-auth-tools (1.0.8)
       jwt (~> 2.2)
       oauth2 (~> 1.4)
-    faker (2.18.0)
+    faker (2.19.0)
       i18n (>= 1.6, < 2)
     faraday (1.4.2)
       faraday-em_http (~> 1.0)
@@ -139,7 +139,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_paranoid (~> 0.7.0)!
   epb-auth-tools (~> 1.0.8)!
-  faker (~> 2.18)!
+  faker (~> 2.19)!
   jwt (~> 2.2)!
   multi_json (~> 1.15)!
   oauth2 (~> 1.4)!
