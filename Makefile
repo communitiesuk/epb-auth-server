@@ -75,6 +75,7 @@ deploy-app: ## Deploys the app to PaaS
 	cf set-env "${DEPLOY_APPNAME}" JWT_SECRET "${JWT_SECRET}"
 	cf set-env "${DEPLOY_APPNAME}" URL_PREFIX "/auth"
 	cf set-env "${DEPLOY_APPNAME}" RACK_ENV "production"
+	cf set-env "${DEPLOY_APPNAME}" SENTRY_DSN "${SENTRY_DSN}"
 
 	cf push "${DEPLOY_APPNAME}" --strategy rolling
 
