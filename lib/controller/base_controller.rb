@@ -51,6 +51,16 @@ module Controller
                     errors: error.errors
     end
 
+    def server_error(exception)
+      Sentry.capture_exception(exception) if defined?(Sentry)
+
+      ActiveRecord::Base.clear_active_connections!
+
+      json_response 500,
+                    code: "SERVER_ERROR",
+                    errors: exception
+    end
+
     def self.prefix_route(route)
       return ENV["URL_PREFIX"] + route if ENV["URL_PREFIX"]
 
