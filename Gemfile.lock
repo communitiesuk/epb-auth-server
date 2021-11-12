@@ -26,19 +26,25 @@ GEM
       oauth2 (~> 1.4)
     faker (2.19.0)
       i18n (>= 1.6, < 2)
-    faraday (1.4.2)
+    faraday (1.8.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
+      faraday-httpclient (~> 1.0.1)
       faraday-net_http (~> 1.0)
       faraday-net_http_persistent (~> 1.1)
+      faraday-patron (~> 1.0)
+      faraday-rack (~> 1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords (>= 0.0.4)
     faraday-em_http (1.0.0)
     faraday-em_synchrony (1.0.0)
     faraday-excon (1.1.0)
+    faraday-httpclient (1.0.1)
     faraday-net_http (1.0.1)
-    faraday-net_http_persistent (1.1.0)
+    faraday-net_http_persistent (1.2.0)
+    faraday-patron (1.0.0)
+    faraday-rack (1.0.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jwt (2.3.0)
@@ -112,12 +118,12 @@ GEM
       rubocop (~> 1.0)
       rubocop-ast (>= 1.1.0)
     ruby-progressbar (1.11.0)
-    ruby2_keywords (0.0.4)
-    sentry-ruby (4.7.3)
+    ruby2_keywords (0.0.5)
+    sentry-ruby (4.8.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       faraday (>= 1.0)
-      sentry-ruby-core (= 4.7.3)
-    sentry-ruby-core (4.7.3)
+      sentry-ruby-core (= 4.8.0)
+    sentry-ruby-core (4.8.0)
       concurrent-ruby
       faraday
     sinatra (2.1.0)
@@ -160,7 +166,7 @@ DEPENDENCIES
   rake (~> 13.0)!
   rspec (~> 3.10)!
   rubocop-govuk (~> 4.1)!
-  sentry-ruby (~> 4.2)!
+  sentry-ruby (~> 4.8)!
   sinatra (~> 2.0)!
   sinatra-activerecord (~> 2.0.23)!
   sinatra-contrib (~> 2.0)!
