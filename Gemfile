@@ -2,7 +2,7 @@ ruby "2.7.3"
 
 source "https://rubygems.org" do
   group :development do
-    gem "rubocop-govuk", "~> 4.1"
+    gem "rubocop-govuk", "~> 4.2"
   end
 
   group :test do
