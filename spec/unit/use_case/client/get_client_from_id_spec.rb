@@ -1,6 +1,7 @@
 describe UseCase::Client::GetClientFromId do
   context "a client that exists" do
     let(:client) { create_client }
+
     describe "fetching the client" do
       let(:fetched_client) { UseCase::Client::GetClientFromId.new(Container.new).execute client.id }
 

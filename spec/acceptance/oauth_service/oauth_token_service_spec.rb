@@ -81,6 +81,7 @@ describe "Acceptance: OAuth token service" do
     context "in the header" do
       describe "generating a new token" do
         let(:response) { request_token "invalid-client", "invalid-secret" }
+
         it "gives a status of 401" do
           expect(response.status).to eq 401
         end
@@ -96,6 +97,7 @@ describe "Acceptance: OAuth token service" do
                  client_secret: "invalid-secret"
           end
         end
+
         it "gives a status of 401" do
           expect(response.status).to eq 401
         end

@@ -43,7 +43,7 @@ module Helper
   private
 
     def validate_pattern(validator, name, value)
-      unless value =~ Regexp.new(validator[:pattern])
+      unless value&.match?(Regexp.new(validator[:pattern]))
         generate_message(validator[:message], name, value)
       end
     end

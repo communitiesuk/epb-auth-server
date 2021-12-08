@@ -74,12 +74,12 @@ module RSpecMixin
                        status: response.status
   end
 
-  def make_request(token = nil, &block)
+  def make_request(token = nil)
     if token
       header "Authorization", "Bearer #{token.encode(ENV['JWT_SECRET'])}"
     end
 
-    response = block.call
+    response = yield
 
     MockedResponse.new body: JSON.parse(response.body, symbolize_names: true),
                        status: response.status
@@ -103,7 +103,7 @@ RSpec.configure do |config|
   config.include RSpecMixin
   config.include Rack::Test::Methods
 
-  config.before(:each) do
+  config.before do
     Rake::Task["db:drop"].invoke
     Rake::Task["db:create"].invoke
     Rake::Task["db:migrate"].invoke

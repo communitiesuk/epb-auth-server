@@ -9,6 +9,7 @@ describe "Integration: Migrating client secrets to use hashes" do
     )
     system("rake db:migrate")
   end
+
   context "migrating from plaintext to hashed secrets" do
     describe "using the correct authentication details" do
       let(:migrated_client) { Gateway::ClientGateway.new.fetch name: "test-client" }

@@ -1,6 +1,7 @@
 describe "Acceptance: Creating a new client" do
   context "as an authenticated client" do
     let(:token) { client_token create_client scopes: %w[client:create] }
+
     describe "creating a client with only a name" do
       let(:response) do
         make_request token do
