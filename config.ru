@@ -8,8 +8,12 @@ loader.inflector.inflect "oauth_token_test_controller" => "OAuthTokenTestControl
 
 loader.setup
 
-unless %w[development test].include?(ENV["STAGE"])
-  Sentry.init
+environment = ENV["STAGE"]
+
+unless %w[development test].include?(environment)
+  Sentry.init do |config|
+    config.environment = environment
+  end
   use Sentry::Rack::CaptureExceptions
 end
 
