@@ -51,6 +51,11 @@ module Controller
                     errors: error.errors
     end
 
+    error Sinatra::NotFound do
+      json_response 404,
+                    code: "NOT_FOUND"
+    end
+
     def server_error(exception)
       Sentry.capture_exception(exception) if defined?(Sentry)
 
