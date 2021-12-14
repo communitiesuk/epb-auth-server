@@ -16,8 +16,8 @@ phases:
     commands:
       - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2&
       - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
-      - docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_PASSWORD=$DOCKER_POSTGRES_PASSWORD postgres:11
-      - until docker run --rm --link postgres-test:pg postgres:11 pg_isready -U postgres -h pg; do sleep 1; done
+      - docker run -d -p 5432:5432 --name postgres-test -e POSTGRES_PASSWORD=$DOCKER_POSTGRES_PASSWORD 689681667086.dkr.ecr.eu-west-2.amazonaws.com/codebuild-image-postgres:latest
+      - until docker run --rm --link postgres-test:pg 689681667086.dkr.ecr.eu-west-2.amazonaws.com/codebuild-image-postgres:latest pg_isready -U postgres -h pg; do sleep 1; done
       - DATABASE_URL="postgresql://postgres:$DOCKER_POSTGRES_PASSWORD@127.0.0.1/auth_test" RACK_ENV=test make install
   build:
     commands:
