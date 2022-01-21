@@ -6,6 +6,8 @@ module UseCase
 
         client = gateway.fetch id: id
 
+        gateway.update_client_secret_last_used_at(id, secret) if client
+
         client if client && gateway.authenticate_secret(client.id, secret)
       end
     end

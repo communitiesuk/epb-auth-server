@@ -34,6 +34,13 @@ describe "Acceptance: OAuth token service" do
         it "gives a token with supplemental data" do
           expect(token.supplemental("test")).to eq true
         end
+
+        it "records when the client secret was last used at" do
+          request_token(client.id, client.secret)
+
+          client_secret = Gateway::ClientGateway::Model::ClientSecret.find_by(client_id: client.id)
+          expect(client_secret.last_used_at).to be_within(5.seconds).of(Time.now)
+        end
       end
     end
 
