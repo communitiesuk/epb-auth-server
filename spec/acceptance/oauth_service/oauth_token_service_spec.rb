@@ -28,7 +28,7 @@ describe "Acceptance: OAuth token service" do
         end
 
         it "gives a token with scopes" do
-          expect(token.scopes?(%w[scope:one scope:two])).to be_truthy
+          expect(token).to be_scopes(%w[scope:one scope:two])
         end
 
         it "gives a token with supplemental data" do
@@ -74,7 +74,7 @@ describe "Acceptance: OAuth token service" do
         end
 
         it "gives a token with scopes" do
-          expect(token.scopes?(%w[scope:one scope:two])).to be_truthy
+          expect(token).to be_scopes(%w[scope:one scope:two])
         end
 
         it "gives a token with supplemental data" do

@@ -23,7 +23,7 @@ describe "Integration: OAuth Client" do
     end
 
     it "is not expired" do
-      expect(authenticated_client.expired?).to be_falsey
+      expect(authenticated_client).not_to be_expired
     end
 
     describe "making a request" do

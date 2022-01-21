@@ -28,11 +28,11 @@ describe "Acceptance: Creating a new client" do
       end
 
       it "returns an empty list of scopes" do
-        expect(response.get(%i[data client scopes]).empty?).to be_truthy
+        expect(response.get(%i[data client scopes])).to be_empty
       end
 
       it "returns no supplemental data" do
-        expect(response.get(%i[data client supplemental]).empty?).to be_truthy
+        expect(response.get(%i[data client supplemental])).to be_empty
       end
     end
 

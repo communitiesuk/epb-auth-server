@@ -10,7 +10,7 @@ describe UseCase::User::CreateNewUser do
       end
 
       let(:user) do
-        UseCase::User::CreateNewUser.new(Container.new).execute user_hash
+        described_class.new(Container.new).execute user_hash
       end
 
       it "has the right email" do
