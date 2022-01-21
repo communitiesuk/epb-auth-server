@@ -85,6 +85,26 @@ module RSpecMixin
                        status: response.status
   end
 
+  def find_client_secret(client_id, secret)
+    sql = "SELECT *
+         FROM client_secrets
+         WHERE client_id = $1 AND secret = crypt($2, secret)"
+
+    binds = [
+      ActiveRecord::Relation::QueryAttribute.new(
+        "client_id",
+        client_id,
+        ActiveRecord::Type::String.new,
+      ),
+      ActiveRecord::Relation::QueryAttribute.new(
+        "secret",
+        secret,
+        ActiveRecord::Type::String.new,
+      ),
+    ]
+    ActiveRecord::Base.connection.exec_query(sql, "SQL", binds)
+  end
+
   class MockedResponse
     attr_reader :body, :status
 

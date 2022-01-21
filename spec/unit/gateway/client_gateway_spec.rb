@@ -93,6 +93,17 @@ describe Gateway::ClientGateway do
     end
   end
 
+  describe "updating last used at" do
+    it "updates last used at to current time" do
+      client = create_client
+      gateway.update_client_secret_last_used_at(client.id, client.secret)
+
+      client_secret = find_client_secret(client.id, client.secret).first
+
+      expect(client_secret["last_used_at"]).to be_within(5.seconds).of(Time.now)
+    end
+  end
+
   describe "deleting an existing client" do
     let(:created_client) { create_client }
     let(:client) { gateway.fetch id: created_client.id }

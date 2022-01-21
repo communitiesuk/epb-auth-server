@@ -129,6 +129,32 @@ module Gateway
       end
     end
 
+    def update_client_secret_last_used_at(client_id, secret)
+      sql = "UPDATE client_secrets
+             SET last_used_at = $1
+             WHERE client_id = $2 AND secret = crypt($3, secret)"
+
+      binds = [
+        ActiveRecord::Relation::QueryAttribute.new(
+          "last_used_at",
+          Time.now,
+          ActiveRecord::Type::Time.new,
+        ),
+        ActiveRecord::Relation::QueryAttribute.new(
+          "client_id",
+          client_id,
+          ActiveRecord::Type::String.new,
+        ),
+        ActiveRecord::Relation::QueryAttribute.new(
+          "secret",
+          secret,
+          ActiveRecord::Type::String.new,
+        ),
+      ]
+
+      ActiveRecord::Base.connection.exec_query sql, "SQL", binds
+    end
+
   private
 
     def model_scopes_to_client_scopes(scopes)
