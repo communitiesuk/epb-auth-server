@@ -6,6 +6,8 @@ module UseCase
 
         raise Boundary::NotFoundError unless client
 
+        @container.client_gateway.update_client_secret_superseded_at(client_id, Time.now + 1.day)
+
         client.secret = @container.client_gateway.create_secret client
 
         client
