@@ -7,6 +7,7 @@ source "https://rubygems.org" do
 
   group :test do
     gem "faker", "~> 2.19"
+    gem "timecop"
   end
 
   gem "acts_as_paranoid", "~> 0.7.0"

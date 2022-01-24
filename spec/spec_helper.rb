@@ -12,6 +12,7 @@ require "rake"
 require "rspec"
 require "sinatra/activerecord"
 require "sinatra/activerecord/rake"
+require "timecop"
 require "uuid"
 require "zeitwerk"
 
