@@ -95,12 +95,14 @@ describe Gateway::ClientGateway do
 
   describe "updating last used at" do
     it "updates last used at to current time" do
-      client = create_client
-      gateway.update_client_secret_last_used_at(client.id, client.secret)
+      Timecop.freeze(2022, 01, 24, 8, 0, 0) do
+        client = create_client
+        gateway.update_client_secret_last_used_at(client.id, client.secret)
 
-      client_secret = find_client_secret(client.id, client.secret).first
+        client_secret = find_client_secret(client.id, client.secret).first
 
-      expect(client_secret["last_used_at"]).to be_within(5.seconds).of(Time.now)
+        expect(client_secret["last_used_at"]).to eq(Time.new(2022, 01, 24, 8, 0, 0))
+      end
     end
   end
 

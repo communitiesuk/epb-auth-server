@@ -137,7 +137,7 @@ module Gateway
       binds = [
         ActiveRecord::Relation::QueryAttribute.new(
           "last_used_at",
-          Time.now,
+          DateTime.now,
           ActiveRecord::Type::Time.new,
         ),
         ActiveRecord::Relation::QueryAttribute.new(
