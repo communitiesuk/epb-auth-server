@@ -12,12 +12,14 @@ describe UseCase::Client::AuthenticateAClient do
       end
 
       it "records when a client secret was last used" do
-        response = described_class.new(Container.new)
-                                  .execute client.id,
-                                           client.secret
-        client_secret = find_client_secret(client.id, client.secret).first
+        Timecop.freeze(2022, 01, 24, 8, 0, 0) do
+          response = described_class.new(Container.new)
+                                    .execute client.id,
+                                             client.secret
+          client_secret = find_client_secret(client.id, client.secret).first
 
-        expect(client_secret["last_used_at"]).to be_within(5.seconds).of(Time.now)
+          expect(client_secret["last_used_at"]).to eq(Time.new(2022, 01, 24, 8, 0, 0))
+        end
       end
     end
 

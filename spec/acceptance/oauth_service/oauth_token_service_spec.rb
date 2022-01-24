@@ -36,10 +36,12 @@ describe "Acceptance: OAuth token service" do
         end
 
         it "records when the client secret was last used at" do
-          request_token(client.id, client.secret)
+          Timecop.freeze(2022, 01, 24, 8, 0, 0) do
+            request_token(client.id, client.secret)
 
-          client_secret = Gateway::ClientGateway::Model::ClientSecret.find_by(client_id: client.id)
-          expect(client_secret.last_used_at).to be_within(5.seconds).of(Time.now)
+            client_secret = Gateway::ClientGateway::Model::ClientSecret.find_by(client_id: client.id)
+            expect(client_secret.last_used_at).to eq(Time.new(2022, 01, 24, 8, 0, 0))
+          end
         end
       end
     end
