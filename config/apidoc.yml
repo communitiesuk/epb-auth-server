@@ -221,7 +221,7 @@ paths:
         - Manage clients
       summary: >-
         Rotate the secret of the client signing the request. The previous secret
-        will be valid for up to an hour after rotation.
+        will be valid for 24 hours after rotation.
       security:
         - oauth: []
       responses:
@@ -344,4 +344,3 @@ components:
         expires_in:
           type: number
           example: 3600
-

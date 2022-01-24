@@ -155,6 +155,12 @@ module Gateway
       ActiveRecord::Base.connection.exec_query sql, "SQL", binds
     end
 
+    def update_client_secret_superseded_at(client_id, time)
+      last_used_client_secret = Model::Client.find(client_id).client_secrets.order(:last_used_at).first
+
+      last_used_client_secret.update(superceded_at: time)
+    end
+
   private
 
     def model_scopes_to_client_scopes(scopes)
