@@ -117,7 +117,7 @@ describe Gateway::ClientGateway do
       gateway.update_client_secret_superseded_at(@client.id, Time.new(2022, 0o1, 25, 11, 0, 0))
       client_secret = Gateway::ClientGateway::Model::ClientSecret.where(client_id: @client.id).last
 
-      expect(client_secret.superceded_at).to eq(Time.new(2022, 0o1, 25, 11, 0, 0))
+      expect(client_secret.superseded_at).to eq(Time.new(2022, 0o1, 25, 11, 0, 0))
     end
 
     it "updates superseded at of the most recently used client secret" do
@@ -132,8 +132,8 @@ describe Gateway::ClientGateway do
         @latest_client_secret.reload
         unused_client_secret = Gateway::ClientGateway::Model::ClientSecret.find_by(client_id: @client.id, last_used_at: nil)
 
-        expect(@latest_client_secret.superceded_at).to eq(Time.new(2022, 0o1, 24, 11, 0, 0))
-        expect(unused_client_secret.superceded_at).to eq(nil)
+        expect(@latest_client_secret.superseded_at).to eq(Time.new(2022, 0o1, 24, 11, 0, 0))
+        expect(unused_client_secret.superseded_at).to eq(nil)
       end
     end
   end

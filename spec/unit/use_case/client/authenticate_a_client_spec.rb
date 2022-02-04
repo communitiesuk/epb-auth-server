@@ -24,7 +24,7 @@ describe UseCase::Client::AuthenticateAClient do
 
       it "authenticates when secret was superseded but is still valid" do
         Gateway::ClientGateway::Model::ClientSecret.where(client_id: client.id)
-          .update_all(superceded_at: Time.now + 1.day)
+          .update_all(superseded_at: Time.now + 1.day)
 
         response = described_class.new(Container.new)
                                   .execute client.id,
@@ -47,7 +47,7 @@ describe UseCase::Client::AuthenticateAClient do
 
       it "does not authenticate when the secret was superseded" do
         Gateway::ClientGateway::Model::ClientSecret.where(client_id: client.id)
-          .update_all(superceded_at: Time.now - 1.day)
+          .update_all(superseded_at: Time.now - 1.day)
 
         response = described_class.new(Container.new)
                                   .execute client.id,

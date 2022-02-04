@@ -65,7 +65,7 @@ module Gateway
       sql = "SELECT bool_or(secret = crypt($2, secret)) AS authenticated
              FROM client_secrets
              WHERE client_id = $1
-             AND (superceded_at IS NULL OR superceded_at >= now())
+             AND (superseded_at IS NULL OR superseded_at >= now())
              GROUP BY client_id"
 
       binds = [
@@ -159,7 +159,7 @@ module Gateway
     def update_client_secret_superseded_at(client_id, time)
       last_used_client_secret = Model::Client.find(client_id).client_secrets.order(:last_used_at).first
 
-      last_used_client_secret.update(superceded_at: time)
+      last_used_client_secret.update(superseded_at: time)
     end
 
   private
