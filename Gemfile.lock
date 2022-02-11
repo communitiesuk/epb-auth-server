@@ -122,10 +122,10 @@ GEM
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
-    sentry-ruby (5.0.2)
+    sentry-ruby (5.1.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-      sentry-ruby-core (= 5.0.2)
-    sentry-ruby-core (5.0.2)
+      sentry-ruby-core (= 5.1.0)
+    sentry-ruby-core (5.1.0)
       concurrent-ruby
     sinatra (2.1.0)
       mustermann (~> 1.0)
@@ -168,7 +168,7 @@ DEPENDENCIES
   rake (~> 13.0)!
   rspec (~> 3.11)!
   rubocop-govuk (~> 4.3)!
-  sentry-ruby (~> 5.0)!
+  sentry-ruby (~> 5.1)!
   sinatra (~> 2.0)!
   sinatra-activerecord (~> 2.0.25)!
   sinatra-contrib (~> 2.0)!
