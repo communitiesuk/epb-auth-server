@@ -20,7 +20,7 @@ GEM
       activesupport (>= 5.2, < 7.0)
     ast (2.4.2)
     concurrent-ruby (1.1.9)
-    diff-lcs (1.4.4)
+    diff-lcs (1.5.0)
     epb-auth-tools (1.0.8)
       jwt (~> 2.2)
       oauth2 (~> 1.4)
@@ -82,19 +82,19 @@ GEM
     rake (13.0.6)
     regexp_parser (2.2.0)
     rexml (3.2.5)
-    rspec (3.10.0)
-      rspec-core (~> 3.10.0)
-      rspec-expectations (~> 3.10.0)
-      rspec-mocks (~> 3.10.0)
-    rspec-core (3.10.1)
-      rspec-support (~> 3.10.0)
-    rspec-expectations (3.10.1)
+    rspec (3.11.0)
+      rspec-core (~> 3.11.0)
+      rspec-expectations (~> 3.11.0)
+      rspec-mocks (~> 3.11.0)
+    rspec-core (3.11.0)
+      rspec-support (~> 3.11.0)
+    rspec-expectations (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
-    rspec-mocks (3.10.2)
+      rspec-support (~> 3.11.0)
+    rspec-mocks (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.10.0)
-    rspec-support (3.10.2)
+      rspec-support (~> 3.11.0)
+    rspec-support (3.11.0)
     rubocop (1.25.0)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
@@ -166,7 +166,7 @@ DEPENDENCIES
   rack (~> 2.2)!
   rack-test (~> 1.1)!
   rake (~> 13.0)!
-  rspec (~> 3.10)!
+  rspec (~> 3.11)!
   rubocop-govuk (~> 4.3)!
   sentry-ruby (~> 5.0)!
   sinatra (~> 2.0)!

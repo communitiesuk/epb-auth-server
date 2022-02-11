@@ -20,7 +20,7 @@ source "https://rubygems.org" do
   gem "rack", "~> 2.2"
   gem "rack-test", "~> 1.1"
   gem "rake", "~> 13.0"
-  gem "rspec", "~> 3.10"
+  gem "rspec", "~> 3.11"
   gem "sentry-ruby", "~> 5.0"
   gem "sinatra", "~> 2.0"
   gem "sinatra-activerecord", "~> 2.0.25"
