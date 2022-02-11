@@ -15,7 +15,7 @@ source "https://rubygems.org" do
   gem "jwt", "~> 2.3"
   gem "multi_json", "~> 1.15"
   gem "oauth2", "~> 1.4"
-  gem "pg", "~> 1.1"
+  gem "pg", "~> 1.3"
   gem "puma", "~> 5.6"
   gem "rack", "~> 2.2"
   gem "rack-test", "~> 1.1"
