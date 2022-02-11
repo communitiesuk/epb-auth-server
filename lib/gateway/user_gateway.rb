@@ -1,3 +1,5 @@
+require "active_support"
+require "active_support/core_ext"
 require "sinatra/activerecord"
 require "acts_as_paranoid"
 
