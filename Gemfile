@@ -11,7 +11,7 @@ source "https://rubygems.org" do
   end
 
   gem "acts_as_paranoid", "~> 0.8.0"
-  gem "epb-auth-tools", "~> 1.0.8"
+  gem "epb-auth-tools", "~> 1.0.9"
   gem "jwt", "~> 2.3"
   gem "multi_json", "~> 1.15"
   gem "oauth2", "~> 1.4"
