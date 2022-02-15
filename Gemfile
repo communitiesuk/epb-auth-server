@@ -22,9 +22,9 @@ source "https://rubygems.org" do
   gem "rake", "~> 13.0"
   gem "rspec", "~> 3.11"
   gem "sentry-ruby", "~> 5.1"
-  gem "sinatra", "~> 2.0"
+  gem "sinatra", "~> 2.2"
   gem "sinatra-activerecord", "~> 2.0.25"
-  gem "sinatra-contrib", "~> 2.0"
+  gem "sinatra-contrib", "~> 2.2"
   gem "uuid", "~> 2.3"
   gem "zeitwerk", "~> 2.5"
 end
