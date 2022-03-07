@@ -6,7 +6,7 @@ source "https://rubygems.org" do
   end
 
   group :test do
-    gem "faker", "~> 2.19"
+    gem "faker", "~> 2.20"
     gem "timecop"
   end
 
