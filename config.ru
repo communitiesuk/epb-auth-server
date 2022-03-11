@@ -13,6 +13,10 @@ environment = ENV["STAGE"]
 unless %w[development test].include?(environment)
   Sentry.init do |config|
     config.environment = environment
+    config.traces_sampler = lambda do |sampling_context|
+      # if this is the continuation of a trace, just use that decision (rate controlled by the caller)
+      !!sampling_context[:parent_sampled]
+    end
   end
   use Sentry::Rack::CaptureExceptions
 end
