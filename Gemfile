@@ -3,6 +3,7 @@ ruby "2.7.5"
 source "https://rubygems.org" do
   group :development do
     gem "rubocop-govuk", "~> 4.3"
+    gem "rubocop-performance", "~> 1.13"
   end
 
   group :test do
