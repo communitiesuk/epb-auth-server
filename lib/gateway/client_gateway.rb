@@ -141,7 +141,7 @@ module Gateway
         ActiveRecord::Relation::QueryAttribute.new(
           "last_used_at",
           DateTime.now,
-          ActiveRecord::Type::Time.new,
+          ActiveRecord::Type::DateTime.new,
         ),
         ActiveRecord::Relation::QueryAttribute.new(
           "client_id",
