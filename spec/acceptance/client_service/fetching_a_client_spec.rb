@@ -1,5 +1,5 @@
 describe "Acceptance: Fetching details of a client" do
-  context "as an authorised client" do
+  context "when authorised" do
     let(:token) { create_token scopes: %w[client:fetch] }
 
     describe "fetching an existing client" do
@@ -44,7 +44,7 @@ describe "Acceptance: Fetching details of a client" do
     end
   end
 
-  context "as an unauthenticated user" do
+  context "when unauthenticated" do
     describe "fetching a client " do
       let(:response) { get "/api/client/test" }
 

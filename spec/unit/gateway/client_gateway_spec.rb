@@ -107,32 +107,35 @@ describe Gateway::ClientGateway do
   end
 
   describe "updating superseded at" do
+    client = nil
+    latest_client_secret = nil
+
     before do
       Timecop.travel(2022, 0o1, 24, 8, 0, 0) do
-        @client = create_client
+        client = create_client
       end
     end
 
     it "updates superseded at to a given time" do
-      gateway.update_client_secret_superseded_at(@client.id, Time.new(2022, 0o1, 25, 11, 0, 0))
-      client_secret = Gateway::ClientGateway::Model::ClientSecret.where(client_id: @client.id).last
+      gateway.update_client_secret_superseded_at(client.id, Time.new(2022, 0o1, 25, 11, 0, 0))
+      client_secret = Gateway::ClientGateway::Model::ClientSecret.where(client_id: client.id).last
 
       expect(client_secret.superseded_at).to eq(Time.new(2022, 0o1, 25, 11, 0, 0))
     end
 
     it "updates superseded at of the most recently used client secret" do
       Timecop.travel(2022, 0o1, 24, 9, 0, 0) do
-        gateway.create_secret(@client)
-        @latest_client_secret = Gateway::ClientGateway::Model::ClientSecret.where(client_id: @client.id).last
-        @latest_client_secret.update(last_used_at: Time.now)
+        gateway.create_secret(client)
+        latest_client_secret = Gateway::ClientGateway::Model::ClientSecret.where(client_id: client.id).last
+        latest_client_secret.update(last_used_at: Time.now)
       end
 
       Timecop.freeze(2022, 0o1, 24, 11, 0, 0) do
-        gateway.update_client_secret_superseded_at(@client.id, Time.now)
-        @latest_client_secret.reload
-        unused_client_secret = Gateway::ClientGateway::Model::ClientSecret.find_by(client_id: @client.id, last_used_at: nil)
+        gateway.update_client_secret_superseded_at(client.id, Time.now)
+        latest_client_secret.reload
+        unused_client_secret = Gateway::ClientGateway::Model::ClientSecret.find_by(client_id: client.id, last_used_at: nil)
 
-        expect(@latest_client_secret.superseded_at).to eq(Time.new(2022, 0o1, 24, 11, 0, 0))
+        expect(latest_client_secret.superseded_at).to eq(Time.new(2022, 0o1, 24, 11, 0, 0))
         expect(unused_client_secret.superseded_at).to eq(nil)
       end
     end

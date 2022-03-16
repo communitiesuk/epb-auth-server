@@ -1,5 +1,5 @@
 describe "Acceptance: Healthcheck" do
-  context "responses from /healthcheck" do
+  context "when serving a response from /healthcheck" do
     let(:response) { get "/healthcheck" }
 
     it "returns status 200" do

@@ -1,5 +1,5 @@
 describe UseCase::Client::AuthenticateAClient do
-  context "a client that exists" do
+  context "when using a client that exists" do
     describe "a valid secret" do
       let(:client) { create_client }
 
@@ -13,7 +13,7 @@ describe UseCase::Client::AuthenticateAClient do
 
       it "records when a client secret was last used" do
         Timecop.freeze(2022, 0o1, 24, 8, 0, 0) do
-          response = described_class.new(Container.new)
+          described_class.new(Container.new)
                                     .execute client.id,
                                              client.secret
           client_secret = find_client_secret(client.id, client.secret).first

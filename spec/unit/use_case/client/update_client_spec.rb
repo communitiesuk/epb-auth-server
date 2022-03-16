@@ -1,5 +1,5 @@
 describe UseCase::Client::UpdateClient do
-  context "a valid client" do
+  context "when using a valid client" do
     describe "a valid request" do
       let(:test_client) { create_client }
       let(:client_id) { test_client.id }

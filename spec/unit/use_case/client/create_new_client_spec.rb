@@ -1,5 +1,5 @@
 describe UseCase::Client::CreateNewClient do
-  context "a valid client" do
+  context "when using a valid client" do
     describe "a valid request" do
       let(:client_hash) do
         {

@@ -1,5 +1,5 @@
 describe "Acceptance: NotFound" do
-  context "responses from a get request to a non existent endpoint" do
+  context "when responding to a get request to a non existent endpoint" do
     let(:response) { get "/wp-admin/admin-ajax.php" }
 
     it "returns status 404" do
@@ -11,7 +11,7 @@ describe "Acceptance: NotFound" do
     end
   end
 
-  context "responses from a post request to a non existent endpoint" do
+  context "when responding to a post request to a non existent endpoint" do
     let(:response) { post "/wp-admin/admin-ajax.php" }
 
     it "returns status 404" do

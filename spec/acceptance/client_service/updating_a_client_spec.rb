@@ -1,7 +1,7 @@
 describe "Acceptance: Updating a client" do
   let(:client) { create_client }
 
-  context "as an authorised client" do
+  context "when authorised" do
     let(:token) { create_token scopes: %w[client:update] }
 
     describe "updating a client" do
@@ -45,7 +45,7 @@ describe "Acceptance: Updating a client" do
     end
   end
 
-  context "as an unauthenticated client" do
+  context "when unauthenticated" do
     describe "updating a client" do
       let(:response) { put "/api/client/#{client.id}" }
 
@@ -55,7 +55,7 @@ describe "Acceptance: Updating a client" do
     end
   end
 
-  context "as an unauthorised client" do
+  context "when unauthorised" do
     let(:token) { create_token }
 
     describe "updating a client" do

@@ -6,3 +6,6 @@ inherit_gem:
   rubocop-govuk:
     - config/default.yml
     - config/rspec.yml
+
+RSpec/BeforeAfterAll:
+  Enabled: false

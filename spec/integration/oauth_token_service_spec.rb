@@ -2,15 +2,18 @@ require "oauth2"
 require "net/http"
 
 describe "Integration: OAuth Client" do
+  server_url = nil
+  process_id = nil
+
   before(:all) do
     process = IO.popen(["rackup", "-q", { err: %i[child out] }])
-    @process_id = process.pid
-    @server_url = "http://localhost:9292"
+    process_id = process.pid
+    server_url = "http://localhost:9292"
 
     sleep 2
   end
 
-  after(:all) { Process.kill("KILL", @process_id) }
+  after(:all) { Process.kill("KILL", process_id) }
 
   context "with an authenticated client" do
     let(:client) { create_client }
@@ -18,7 +21,7 @@ describe "Integration: OAuth Client" do
       OAuth2::Client.new(
         client.id,
         client.secret,
-        site: @server_url,
+        site: server_url,
       ).client_credentials.get_token
     end
 
@@ -27,7 +30,7 @@ describe "Integration: OAuth Client" do
     end
 
     describe "making a request" do
-      let(:response) { authenticated_client.get("#{@server_url}/oauth/token/test") }
+      let(:response) { authenticated_client.get("#{server_url}/oauth/token/test") }
       let(:body) { JSON.parse response.body, symbolize_names: true }
 
       it "returns a successful response" do
@@ -43,7 +46,7 @@ describe "Integration: OAuth Client" do
   context "with an unauthenticated client" do
     describe "making a request" do
       let(:response) do
-        Net::HTTP.get_response URI("#{@server_url}/oauth/token/test")
+        Net::HTTP.get_response URI("#{server_url}/oauth/token/test")
       end
 
       it "cannot be used to make a request" do

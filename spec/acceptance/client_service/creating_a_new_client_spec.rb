@@ -1,5 +1,5 @@
 describe "Acceptance: Creating a new client" do
-  context "as an authenticated client" do
+  context "when authenticated" do
     let(:token) { client_token create_client scopes: %w[client:create] }
 
     describe "creating a client with only a name" do
@@ -98,7 +98,7 @@ describe "Acceptance: Creating a new client" do
     end
   end
 
-  context "as an unauthenticated client" do
+  context "when not authenticated" do
     let(:response) { make_request { post "/api/client" } }
 
     it "fails with an appropriate code" do
@@ -110,7 +110,7 @@ describe "Acceptance: Creating a new client" do
     end
   end
 
-  context "as an authenticated client without client:create scope" do
+  context "when authenticated without client:create scope" do
     let(:response) do
       make_request create_token do
         post "/api/client"

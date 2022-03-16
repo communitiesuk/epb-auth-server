@@ -1,5 +1,5 @@
 describe "Acceptance: Deleting a client" do
-  context "as an authorised client" do
+  context "when authorised and authenticated" do
     describe "deleting a client" do
       let(:client) { create_client }
       let(:token) { create_token scopes: %w[client:delete client:fetch] }
@@ -21,7 +21,7 @@ describe "Acceptance: Deleting a client" do
     end
   end
 
-  context "as an unauthenticated client" do
+  context "when not authenticated" do
     describe "deleting a client" do
       let(:response) { make_request { delete "/api/client/test" } }
 
@@ -35,7 +35,7 @@ describe "Acceptance: Deleting a client" do
     end
   end
 
-  context "as an unauthorised client" do
+  context "when unauthorised" do
     describe "deleting a client" do
       let(:response) do
         make_request create_token do
