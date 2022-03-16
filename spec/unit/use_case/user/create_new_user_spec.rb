@@ -35,5 +35,9 @@ describe UseCase::User::CreateNewUser do
         password: Faker::Alphanumeric.alphanumeric(number: 16),
       }
     end
+
+    it "fails validation when trying to create a user" do
+      expect { described_class.new(Container.new).execute user_hash }.to raise_error Boundary::ValidationError
+    end
   end
 end
