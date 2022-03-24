@@ -76,6 +76,7 @@ deploy-app: ## Deploys the app to PaaS
 	cf set-env "${DEPLOY_APPNAME}" URL_PREFIX "/auth"
 	cf set-env "${DEPLOY_APPNAME}" RACK_ENV "production"
 	cf set-env "${DEPLOY_APPNAME}" SENTRY_DSN "${SENTRY_DSN}"
+	cf set-env "${DEPLOY_APPNAME}" PERMANENTLY_BANNED_IP_ADDRESSES "${subst ",\",${PERMANENTLY_BANNED_IP_ADDRESSES}}"
 
 	cf push "${DEPLOY_APPNAME}" --strategy rolling
 
