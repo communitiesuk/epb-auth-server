@@ -4,9 +4,11 @@ ENV["RAILS_ENV"] = "test"
 ENV["DATABASE_URL"] ||= "postgresql://postgres:postgres@127.0.0.1/auth_test"
 ENV["JWT_SECRET"] = "TestingSecretString"
 ENV["JWT_ISSUER"] = "test.auth"
+ENV["PERMANENTLY_BANNED_IP_ADDRESSES"] = '[{"reason":"did a bad thing", "ip_address": "198.51.100.100"},{"reason":"did another bad thing", "ip_address": "198.53.120.110"}]'
 
 require "epb-auth-tools"
 require "faker"
+require "rack/attack"
 require "rack/test"
 require "rake"
 require "rspec"
@@ -27,7 +29,11 @@ loader.setup
 
 module RSpecMixin
   def app
-    Service.new
+    Rack::Builder.new do
+      use Rack::Attack
+      require_relative "../config/rack_attack_config"
+      run Service
+    end
   end
 
   def container
