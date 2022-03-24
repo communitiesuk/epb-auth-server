@@ -1,6 +1,7 @@
 ENV["RACK_ENV"] = "test"
 ENV["APP_ENV"] = "test"
 ENV["RAILS_ENV"] = "test"
+ENV["STAGE"] = "test"
 ENV["DATABASE_URL"] ||= "postgresql://postgres:postgres@127.0.0.1/auth_test"
 ENV["JWT_SECRET"] = "TestingSecretString"
 ENV["JWT_ISSUER"] = "test.auth"
