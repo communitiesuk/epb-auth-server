@@ -8,6 +8,9 @@ loader.inflector.inflect "oauth_token_test_controller" => "OAuthTokenTestControl
 
 loader.setup
 
+use Rack::Attack
+require_relative "./config/rack_attack_config"
+
 environment = ENV["STAGE"]
 
 unless %w[development test].include?(environment)
