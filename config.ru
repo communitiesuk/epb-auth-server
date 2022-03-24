@@ -1,3 +1,6 @@
+require "active_support"
+require "active_support/cache"
+require "active_support/notifications"
 require "rack/attack"
 require "sentry-ruby"
 require "zeitwerk"
