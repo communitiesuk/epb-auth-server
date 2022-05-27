@@ -1,3 +1,3 @@
 module Boundary
-  class NotAuthenticatedError < StandardError; end
+  class NotAuthenticatedError < Boundary::Error; end
 end

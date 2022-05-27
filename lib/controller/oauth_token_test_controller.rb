@@ -9,6 +9,13 @@ module Controller
                         subject: env[:token].sub,
                       },
                     }
+    rescue StandardError => e
+      case e
+      when Boundary::Error
+        raise
+      else
+        server_error e
+      end
     end
   end
 end

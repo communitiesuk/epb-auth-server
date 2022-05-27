@@ -1,5 +1,5 @@
 module Boundary
-  class ValidationError < StandardError
+  class ValidationError < Boundary::Error
     attr_reader :errors
 
     def initialize(errors)
