@@ -1,3 +1,3 @@
 module Boundary
-  class NotFoundError < StandardError; end
+  class NotFoundError < Boundary::Error; end
 end

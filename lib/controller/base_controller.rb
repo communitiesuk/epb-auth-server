@@ -59,6 +59,17 @@ module Controller
     def server_error(exception)
       Sentry.capture_exception(exception) if defined?(Sentry)
 
+      message =
+        exception.methods.include?(:message) ? exception.message : exception
+
+      error = { type: exception.class.name, message: message }
+
+      if exception.methods.include? :backtrace
+        error[:backtrace] = exception.backtrace
+      end
+
+      Logger.new($stdout, level: Logger::ERROR).error JSON.generate(error)
+
       ActiveRecord::Base.clear_active_connections!
 
       json_response 500,

@@ -37,6 +37,13 @@ module Controller
         expires_in: 3_600,
         token_type: "bearer",
       }.to_json
+    rescue StandardError => e
+      case e
+      when Boundary::Error
+        raise
+      else
+        server_error e
+      end
     end
   end
 end

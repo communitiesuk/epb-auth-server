@@ -10,6 +10,13 @@ module Controller
       json_response 201,
                     data: { user: user.to_hash },
                     meta: {}
+    rescue StandardError => e
+      case e
+      when Boundary::Error
+        raise
+      else
+        server_error e
+      end
     end
   end
 end
