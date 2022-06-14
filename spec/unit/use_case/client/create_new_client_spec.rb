@@ -10,7 +10,7 @@ describe UseCase::Client::CreateNewClient do
       end
 
       let(:client) do
-        described_class.new(Container.new).execute client_hash
+        described_class.new(Container.new).execute(**client_hash)
       end
 
       it "has the right name" do

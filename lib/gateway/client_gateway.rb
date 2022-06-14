@@ -27,7 +27,7 @@ module Gateway
     end
 
     def create(name:, scopes: [], supplemental: {})
-      scopes = scopes.map { |scope| { scope: scope } }
+      scopes = scopes.map { |scope| { scope: } }
 
       ActiveRecord::Base.transaction do
         model =
@@ -171,7 +171,7 @@ module Gateway
     end
 
     def client_scopes_to_model_scopes(scopes)
-      scopes.map { |scope| { scope: scope } }.to_a
+      scopes.map { |scope| { scope: } }.to_a
     end
 
     def model_to_client(model = nil, secret = nil)
@@ -180,14 +180,14 @@ module Gateway
       client = {
         id: model.id,
         name: model.name,
-        secret: secret,
+        secret:,
         scopes: model.client_scopes.map(&:scope),
         supplemental: JSON.parse(model.supplemental.to_json, symbolize_names: true),
       }
 
       client = client.merge secret: secret if secret
 
-      Domain::Client.new client
+      Domain::Client.new(**client)
     end
   end
 end

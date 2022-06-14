@@ -21,7 +21,7 @@ module Controller
 
     post prefix_route("/api/client") do
       authorize scopes: %w[client:create]
-      client = container.create_new_client_use_case.execute json_body.slice :name, :scopes, :supplemental
+      client = container.create_new_client_use_case.execute(**json_body.slice(:name, :scopes, :supplemental))
 
       json_response 201,
                     data: { client: client.to_hash.merge(secret: client.secret) },

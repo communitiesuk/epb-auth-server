@@ -10,7 +10,7 @@ describe UseCase::User::CreateNewUser do
       end
 
       let(:user) do
-        described_class.new(Container.new).execute user_hash
+        described_class.new(Container.new).execute(**user_hash)
       end
 
       it "has the right email" do
@@ -37,7 +37,7 @@ describe UseCase::User::CreateNewUser do
     end
 
     it "fails validation when trying to create a user" do
-      expect { described_class.new(Container.new).execute user_hash }.to raise_error Boundary::ValidationError
+      expect { described_class.new(Container.new).execute(**user_hash) }.to raise_error Boundary::ValidationError
     end
   end
 end

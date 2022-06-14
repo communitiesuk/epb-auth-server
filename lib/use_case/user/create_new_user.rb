@@ -3,9 +3,9 @@ module UseCase
     class CreateNewUser < UseCase::BaseUseCase
       def execute(email: nil, name: nil, password: nil)
         user = {
-          email: email,
-          name: name,
-          password: password,
+          email:,
+          name:,
+          password:,
         }
 
         @container.validation_helper.validate(
@@ -17,7 +17,7 @@ module UseCase
           user,
         )
 
-        @container.user_gateway.create user
+        @container.user_gateway.create(**user)
       end
     end
   end

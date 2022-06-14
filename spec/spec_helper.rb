@@ -46,9 +46,9 @@ module RSpecMixin
     email = Faker::Internet.unique.email if email.nil?
     password = Faker::Alphanumeric.alpha number: 16 if password.nil?
 
-    Gateway::UserGateway.new.create email: email,
-                                    name: name,
-                                    password: password
+    Gateway::UserGateway.new.create email:,
+                                    name:,
+                                    password:
   end
 
   def create_client(name: nil, supplemental: {}, scopes: [])
@@ -56,9 +56,9 @@ module RSpecMixin
       name = Faker::Company.name
     end
 
-    Gateway::ClientGateway.new.create name: name,
-                                      scopes: scopes,
-                                      supplemental: supplemental
+    Gateway::ClientGateway.new.create name:,
+                                      scopes:,
+                                      supplemental:
   end
 
   def client_token(client)
@@ -72,8 +72,8 @@ module RSpecMixin
                     sub: id,
                     iat: Time.now.to_i,
                     exp: Time.now.to_i + (60 * 60),
-                    scopes: scopes,
-                    supplemental: supplemental
+                    scopes:,
+                    supplemental:
   end
 
   def request_token(client_id, client_secret)

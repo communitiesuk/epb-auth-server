@@ -11,7 +11,7 @@ module Domain
     end
 
     def to_hash
-      { id: id, name: name, scopes: scopes, supplemental: supplemental }
+      { id:, name:, scopes:, supplemental: }
     end
   end
 end

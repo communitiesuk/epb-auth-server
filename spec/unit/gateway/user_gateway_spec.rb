@@ -5,7 +5,7 @@ describe Gateway::UserGateway do
     let(:name) { "test-user" }
     let(:email) { "test-user@example.com" }
     let(:password) { "test-password" }
-    let(:user) { gateway.create email: email, name: name, password: password }
+    let(:user) { gateway.create email:, name:, password: }
 
     it "has a valid id" do
       expect(user.id).not_to be_nil

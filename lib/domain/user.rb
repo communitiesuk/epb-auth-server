@@ -10,7 +10,7 @@ module Domain
     end
 
     def to_hash
-      { id: id, email: email, name: name }
+      { id:, email:, name: }
     end
   end
 end
