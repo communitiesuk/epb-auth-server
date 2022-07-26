@@ -53,7 +53,7 @@ db-create-migration: ## Run to create a new migration append NAME=
 
 .PHONY: format
 format:
-	@bundle exec rubocop --auto-correct --format offenses || true
+	@bundle exec rubocop --autocorrect --format offenses || true
 
 .PHONY: generate-manifest
 generate-manifest: ## Generate manifest file for PaaS
