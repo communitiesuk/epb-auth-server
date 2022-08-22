@@ -281,6 +281,12 @@ components:
       flows:
         clientCredentials:
           tokenUrl: /oauth/token
+          scopes:
+            "client:fetch": fetch clients and new tokens
+            "client:delete": delete clients
+            "client:update": update clients
+            "client:create": create clients
+
 
   schemas:
     NotFoundResponse:
