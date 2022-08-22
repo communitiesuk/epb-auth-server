@@ -4,6 +4,9 @@ info:
   description: >-
     Auth server for all public facing EPBR services,
     maintained by the EPBR Service Team at MHCLG.
+  contact:
+    name: DLUHC Digital helpdesk (prefix email subject with "EPB")
+    email: dluhc.digital-services@levellingup.gov.uk
   version: "1.0.0"
 
 servers:
@@ -24,6 +27,8 @@ paths:
       tags:
         - Manage clients
       summary: Add a new client to the auth server
+      description: Adds a new client to the auth server
+      operationId: add-new-client
       security:
         - oauth: ["client:create"]
       requestBody:
@@ -34,30 +39,32 @@ paths:
             schema:
               $ref: '#/components/schemas/Client'
       responses:
-        201:
+        '201':
           description: Client succesfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientCreatedResponse'
-        401:
+        '401':
           description: Unauthenticated
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthenticatedResponse"
-        403:
+        '403':
           description: Unauthorised
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthorisedResponse"
 
-  /api/client/:clientId:
+  /api/client/{clientId}:
     put:
       tags:
         - Manage clients
       summary: Update an existing client on the auth server
+      description: Updates an existing client on the auth server
+      operationId: update-a-client
       security:
         - oauth: ["client:update"]
       parameters:
@@ -76,25 +83,25 @@ paths:
             schema:
               $ref: '#/components/schemas/Client'
       responses:
-        200:
+        '200':
           description: Client succesfully created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientCreatedResponse'
-        401:
+        '401':
           description: Unauthenticated
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthenticatedResponse"
-        403:
+        '403':
           description: Unauthorised
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthorisedResponse"
-        404:
+        '404':
           description: Not Found
           content:
             application/json:
@@ -105,6 +112,8 @@ paths:
       tags:
         - Manage clients
       summary: Fetch an existing client from the auth server
+      description: Fetches an existing client from the auth server
+      operationId: fetch-existing-clients
       security:
         - oauth: ["client:fetch"]
       parameters:
@@ -116,25 +125,25 @@ paths:
             type: string
             example: "72d1d680-92ee-463a-98a8-f3e3973df038"
       responses:
-        200:
+        '200':
           description: Client succesfully found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientUpdatedResponse'
-        401:
+        '401':
           description: Unauthenticated
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthenticatedResponse"
-        403:
+        '403':
           description: Unauthorised
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthorisedResponse"
-        404:
+        '404':
           description: Not Found
           content:
             application/json:
@@ -145,6 +154,8 @@ paths:
       tags:
         - Manage clients
       summary: Delete an existing client from the auth server
+      description: Deletes an existing client from the auth server
+      operationId: delete-existing-client
       security:
         - oauth: ["client:delete"]
       parameters:
@@ -156,21 +167,21 @@ paths:
             type: string
             example: "72d1d680-92ee-463a-98a8-f3e3973df038"
       responses:
-        200:
+        '200':
           description: Client succesfully deleted
-        401:
+        '401':
           description: Unauthenticated
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthenticatedResponse"
-        403:
+        '403':
           description: Unauthorised
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthorisedResponse"
-        404:
+        '404':
           description: Not Found
           content:
             application/json:
@@ -182,6 +193,8 @@ paths:
       tags:
         - OAuth2.0
       summary: Given a client id and secret, return a token valid for 1 hour
+      description: Provides a token valid for one hour
+      operationId: new-token
       security:
         - oauth: ["client:fetch"]
       parameters:
@@ -208,42 +221,52 @@ paths:
             type: string
             example: "a5pkL1YtDG0LEaRwqxJDGRBBseOeLjue4XQieOSkhUDSDteBjjrG2A3kAr8uOB4a"
       responses:
-        200:
+        '200':
           description: A complete OAuth access token
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/OAuthClientAccessToken"
 
-  /api/client/:clientId/rotate-secret:
+  /api/client/{clientId}/rotate-secret:
     post:
       tags:
         - Manage clients
       summary: >-
         Rotate the secret of the client signing the request. The previous secret
         will be valid for 24 hours after rotation.
+      description: Rotates client secret
+      operationId: rotate-secret
+      parameters:
+        - in: path
+          name: clientId
+          required: true
+          description: the client's id
+          schema:
+            type: string
+            example: "72d1d680-92ee-463a-98a8-f3e3973df038"
       security:
         - oauth: []
       responses:
-        200:
+        '200':
           description: Client secret succesfully rotated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClientCreatedResponse'
-        401:
+        '401':
           description: Unauthenticated
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthenticatedResponse"
-        403:
+        '403':
           description: Unauthorised
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UnauthorisedResponse"
-        404:
+        '404':
           description: Unauthorised
           content:
             application/json:
