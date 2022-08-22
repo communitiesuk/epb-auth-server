@@ -55,6 +55,10 @@ db-create-migration: ## Run to create a new migration append NAME=
 format:
 	@bundle exec rubocop --autocorrect --format offenses || true
 
+.PHONY: lint-api-spec
+lint-api-spec:
+	@npx spectral lint config/apidoc.yml -r ./.spectral.yaml
+
 .PHONY: generate-manifest
 generate-manifest: ## Generate manifest file for PaaS
 	$(if ${DEPLOY_APPNAME},,$(error Must specify DEPLOY_APPNAME))
