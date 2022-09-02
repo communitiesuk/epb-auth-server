@@ -21,7 +21,7 @@ GEM
     epb-auth-tools (1.0.11)
       jwt (~> 2.3)
       oauth2 (>= 1.4, < 3.0)
-    faker (2.22.0)
+    faker (2.23.0)
       i18n (>= 1.8.11, < 2)
     faraday (2.5.2)
       faraday-net_http (>= 2.0, < 3.1)
@@ -142,7 +142,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_paranoid (~> 0.8.1)
   epb-auth-tools (~> 1.0.11)
-  faker (~> 2.22)
+  faker (~> 2.23)
   jwt (~> 2.5)
   multi_json (~> 1.15)
   oauth2 (~> 1.4)

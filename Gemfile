@@ -8,7 +8,7 @@ group :development do
 end
 
 group :test do
-  gem "faker", "~> 2.22"
+  gem "faker", "~> 2.23"
   gem "timecop"
 end
 
