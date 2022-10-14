@@ -21,7 +21,7 @@ unless %w[development test].include?(environment)
   Sentry.init do |config|
     config.environment = environment
     config.before_send = lambda do |event, hint|
-      if hint[:exception].is_a?(Boundary::NotAuthorizedError)
+      if hint[:exception].is_a?(Boundary::NotAuthenticatedError)
         nil
       else
         event
