@@ -20,6 +20,13 @@ unless %w[development test].include?(environment)
 
   Sentry.init do |config|
     config.environment = environment
+    config.before_send = lambda do |event, hint|
+      if hint[:exception].is_a?(Boundary::NotAuthorizedError)
+        nil
+      else
+        event
+      end
+    end
     config.traces_sampler = lambda do |sampling_context|
       # if this is the continuation of a trace, just use that decision (rate controlled by the caller)
       !!sampling_context[:parent_sampled]
