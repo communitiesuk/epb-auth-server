@@ -19,9 +19,15 @@ unless %w[development test].include?(environment)
   require_relative "./config/rack_attack_config"
 
   Sentry.init do |config|
+    boundary_errors = [
+      Boundary::NotAuthenticatedError,
+      Boundary::NotAuthorizedError,
+      Boundary::NotFoundError,
+      Boundary::ValidationError
+    ]
     config.environment = environment
     config.before_send = lambda do |event, hint|
-      if hint[:exception].is_a?(Boundary::NotAuthenticatedError)
+      if boundary_errors.include?(hint[:exception])
         nil
       else
         event
