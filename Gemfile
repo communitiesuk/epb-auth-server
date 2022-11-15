@@ -13,7 +13,7 @@ group :test do
 end
 
 gem "acts_as_paranoid", "~> 0.8.1"
-gem "epb-auth-tools", "~> 1.0.11"
+gem "epb-auth-tools", "~> 1.1.0"
 gem "jwt", "~> 2.5"
 gem "multi_json", "~> 1.15"
 gem "oauth2", "~> 1.4"
