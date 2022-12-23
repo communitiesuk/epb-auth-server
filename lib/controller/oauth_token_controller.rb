@@ -2,8 +2,6 @@ require "epb-auth-tools"
 
 module Controller
   class OAuthTokenController < BaseController
-    TOKEN_EXPIRY_IN_SECONDS = (30 * 60)
-
     post prefix_route("/oauth/token") do
       content_type :json
       container = Container.new
@@ -29,14 +27,14 @@ module Controller
       token = Auth::Token.new iss: ENV["JWT_ISSUER"],
                               sub: client.id,
                               iat: Time.now.to_i,
-                              exp: Time.now.to_i + TOKEN_EXPIRY_IN_SECONDS,
+                              exp: Time.now.to_i + (60 * 60),
                               scopes: client.scopes,
                               sup: client.supplemental
 
       status 200
       {
         access_token: token.encode(ENV["JWT_SECRET"]),
-        expires_in: TOKEN_EXPIRY_IN_SECONDS,
+        expires_in: 3_600,
         token_type: "bearer",
       }.to_json
     rescue StandardError => e

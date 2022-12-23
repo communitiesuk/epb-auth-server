@@ -18,8 +18,8 @@ describe "Acceptance: OAuth token service" do
         expect(response.get(%i[access_token])).to be_a_valid_jwt_token
       end
 
-      it "gives a response with a token that expires at least half an hour into the future" do
-        expect(response.get(%i[expires_in])).to be >= 1_800
+      it "gives a response with a token that expires at least an hour in the future" do
+        expect(response.get(%i[expires_in])).to be >= 3_600
       end
 
       it "gives a response with a token of type Bearer" do
@@ -66,8 +66,8 @@ describe "Acceptance: OAuth token service" do
         expect(response.get(%i[access_token])).to be_a_valid_jwt_token
       end
 
-      it "gives a response with a token that expires at least half an hour into the future" do
-        expect(response.get(%i[expires_in])).to be >= 1_800
+      it "gives a response with a token that expires at least an hour in the future" do
+        expect(response.get(%i[expires_in])).to be >= 3_600
       end
 
       it "gives a response with a token of type Bearer" do
