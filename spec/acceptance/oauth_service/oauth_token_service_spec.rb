@@ -1,6 +1,10 @@
 require "base64"
 
 describe "Acceptance: OAuth token service" do
+  before do
+    allow(Helper::Toggles).to receive(:enabled?)
+  end
+
   context "with valid client credentials in the header" do
     describe "generating a new token" do
       let(:client) { create_client scopes: %w[scope:one scope:two], supplemental: { test: true } }
@@ -18,8 +22,24 @@ describe "Acceptance: OAuth token service" do
         expect(response.get(%i[access_token])).to be_a_valid_jwt_token
       end
 
-      it "gives a response with a token that expires at least an hour in the future" do
-        expect(response.get(%i[expires_in])).to be >= 3_600
+      context "when feature flag is on to set JWT expiry to fifteen minutes" do
+        before do
+          allow(Helper::Toggles).to receive(:enabled?).with("auth-server-fifteen-minute-jwt-expiry").and_return(true)
+        end
+
+        it "gives a response with a token that expires at most fifteen minutes into the future" do
+          expect(response.get(%i[expires_in])).to be <= 900
+        end
+      end
+
+      context "when feature flag is off to set JWT expiry to fifteen minutes (so remain at one hour)" do
+        before do
+          allow(Helper::Toggles).to receive(:enabled?).with("auth-server-fifteen-minute-jwt-expiry").and_return(false)
+        end
+
+        it "gives a response with a token that expires at least half an hour into the future" do
+          expect(response.get(%i[expires_in])).to be >= 1_800
+        end
       end
 
       it "gives a response with a token of type Bearer" do
@@ -66,8 +86,24 @@ describe "Acceptance: OAuth token service" do
         expect(response.get(%i[access_token])).to be_a_valid_jwt_token
       end
 
-      it "gives a response with a token that expires at least an hour in the future" do
-        expect(response.get(%i[expires_in])).to be >= 3_600
+      context "when feature flag is on to set JWT expiry to fifteen minutes" do
+        before do
+          allow(Helper::Toggles).to receive(:enabled?).with("auth-server-fifteen-minute-jwt-expiry").and_return(true)
+        end
+
+        it "gives a response with a token that expires at most fifteen minutes into the future" do
+          expect(response.get(%i[expires_in])).to be <= 900
+        end
+      end
+
+      context "when feature flag is off to set JWT expiry to fifteen minutes (so remain at one hour)" do
+        before do
+          allow(Helper::Toggles).to receive(:enabled?).with("auth-server-fifteen-minute-jwt-expiry").and_return(false)
+        end
+
+        it "gives a response with a token that expires at least half an hour into the future" do
+          expect(response.get(%i[expires_in])).to be >= 1_800
+        end
       end
 
       it "gives a response with a token of type Bearer" do

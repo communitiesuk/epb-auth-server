@@ -10,6 +10,10 @@ describe "Integration: Migrating client secrets to use hashes" do
     system("rake db:migrate")
   end
 
+  before do
+    allow(Helper::Toggles).to receive(:enabled?)
+  end
+
   context "when migrating from plaintext to hashed secrets" do
     describe "using the correct authentication details" do
       let(:migrated_client) { Gateway::ClientGateway.new.fetch name: "test-client" }
@@ -23,8 +27,24 @@ describe "Integration: Migrating client secrets to use hashes" do
         expect(response.get(%i[access_token])).to be_a_valid_jwt_token
       end
 
-      it "gives a response with a token that expires at least an hour in the future" do
-        expect(response.get(%i[expires_in])).to be >= 3_600
+      context "when feature flag is on to set JWT expiry to fifteen minutes" do
+        before do
+          allow(Helper::Toggles).to receive(:enabled?).with("auth-server-fifteen-minute-jwt-expiry").and_return(true)
+        end
+
+        it "gives a response with a token that expires at most fifteen minutes into the future" do
+          expect(response.get(%i[expires_in])).to be <= 900
+        end
+      end
+
+      context "when feature flag is off to set JWT expiry to fifteen minutes (so remain at one hour)" do
+        before do
+          allow(Helper::Toggles).to receive(:enabled?).with("auth-server-fifteen-minute-jwt-expiry").and_return(false)
+        end
+
+        it "gives a response with a token that expires at least half an hour into the future" do
+          expect(response.get(%i[expires_in])).to be >= 1_800
+        end
       end
 
       it "gives a response with a token of type Bearer" do
