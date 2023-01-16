@@ -15,7 +15,7 @@ end
 
 gem "acts_as_paranoid", "~> 0.8.1"
 gem "epb-auth-tools", "~> 1.1"
-gem "jwt", "~> 2.5"
+gem "jwt", "~> 2.6"
 gem "multi_json", "~> 1.15"
 gem "oauth2", "~> 2.0"
 gem "pg", "~> 1.4"
