@@ -8,7 +8,7 @@ group :development do
 end
 
 group :test do
-  gem "faker", "~> 3.0"
+  gem "faker", "~> 3.1"
   gem "timecop"
   gem "webmock", "~> 3.18"
 end
