@@ -10,6 +10,7 @@ end
 group :test do
   gem "faker", "~> 3.0"
   gem "timecop"
+  gem "webmock", "~> 3.18"
 end
 
 gem "acts_as_paranoid", "~> 0.8.1"
@@ -29,5 +30,6 @@ gem "sentry-ruby", "~> 5.7"
 gem "sinatra", "~> 3.0"
 gem "sinatra-activerecord", "~> 2.0.26"
 gem "sinatra-contrib", "~> 3.0"
+gem "unleash", "~> 4.4.2"
 gem "uuid", "~> 2.3"
 gem "zeitwerk", "~> 2.6"

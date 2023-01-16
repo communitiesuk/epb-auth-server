@@ -6,6 +6,7 @@ ENV["DATABASE_URL"] ||= "postgresql://postgres:postgres@127.0.0.1/auth_test"
 ENV["JWT_SECRET"] = "TestingSecretString"
 ENV["JWT_ISSUER"] = "test.auth"
 ENV["PERMANENTLY_BANNED_IP_ADDRESSES"] = '[{"reason":"did a bad thing", "ip_address": "198.51.100.100"},{"reason":"did another bad thing", "ip_address": "198.53.120.110"}]'
+ENV["EPB_UNLEASH_URI"] = "https://test-toggle-server/api"
 
 require "epb-auth-tools"
 require "faker"
@@ -21,12 +22,32 @@ require "timecop"
 require "uuid"
 require "zeitwerk"
 
-loader = Zeitwerk::Loader.new
-loader.push_dir("#{__dir__}/../lib/")
-loader.inflector.inflect "oauth_token_controller" => "OAuthTokenController"
-loader.inflector.inflect "oauth_token_test_controller" => "OAuthTokenTestController"
+class TestLoader
+  def self.setup
+    @loader = Zeitwerk::Loader.new
+    @loader.push_dir("#{__dir__}/../lib/")
+    @loader.push_dir("#{__dir__}/../spec/test_doubles/")
+    @loader.inflector.inflect "oauth_token_controller" => "OAuthTokenController"
+    @loader.inflector.inflect "oauth_token_test_controller" => "OAuthTokenTestController"
+    @loader.setup
+  end
 
-loader.setup
+  def self.override(path)
+    load path
+  end
+end
+
+TestLoader.setup
+
+def loader_enable_override(name)
+  TestLoader.override "overrides/#{name}.rb"
+end
+
+def loader_enable_original(lib_name)
+  TestLoader.override "#{__dir__}/../lib/#{lib_name}.rb"
+end
+
+loader_enable_override "helper/toggles"
 
 module RSpecMixin
   def app
