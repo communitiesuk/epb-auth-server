@@ -20,6 +20,25 @@ When you start a server that will make calls to the authentication server, make
 sure you also set this environment variable as follows:
 `EPB_AUTH_SERVER=http://localhost:9090 make run`
 
+## Windows setup
+You will need to install `make` and `ruby`.
+[Chocolatey](https://chocolatey.org/install) makes this easier.
+It is recommended to use [rbenv](https://github.com/ccmywish/rbenv-for-windows) to manage multiple versions of ruby
+
+In PowerShell in Administrative mode, run in order
+```shell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+choco install make
+choco install 7zip
+
+mkdir "C:\Ruby-on-Windows"
+git -C "C:\Ruby-on-Windows" clone "https://github.com/ccmywish/rbenv-for-windows" rbenv
+
+rbenv install 3.1.2
+rbenv global 3.1.2
+```
+You should be able to run Makefile Scripts at this point
 ## Makefile Scripts
 
 * `make install`
