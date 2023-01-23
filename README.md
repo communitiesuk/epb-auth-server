@@ -72,4 +72,6 @@ Where *host_port* is a free port you want to use on your host machine to make ca
 
 If you want docker to communiacte with a containarized instance of PostgreSQL, or another container in general, you will need to link them.
 
-`docker run -p 8000:80 --link {linked_container_id} --name test-epb-auth-service epb-auth-server`
+`docker run -p {host_port}:80 --link {linked_container_id} --name test-epb-auth-service epb-auth-server`
+
+Where *linked_container_id* is the name or ID of the container you want to access.
