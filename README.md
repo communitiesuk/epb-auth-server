@@ -66,12 +66,15 @@ This will create a persistent deployment and has an interface to provide multipl
 
 To run the docker image with CLI
 
-`docker run -p {host_port}:80 -p {{host_port2}:443 --name test-epb-auth-service epb-auth-server`
+`docker run -p {host_port}:80 -p {host_port2}:443 --name test-epb-auth-service epb-auth-server`
 
 Where *host_port* is a free port you want to use on your host machine to make calls to the API.
 
-If you want docker to communiacte with a containarized instance of PostgreSQL, or another container in general, you will need to link them.
+If you want docker to communicate with a containerized instance of PostgreSQL, or another container in general, 
+you will need to use a bridge network and connect any containers that need to communicate with each other to it
 
-`docker run -p {host_port}:80 -p {{host_port2}:443 --link {linked_container_id} --name test-epb-auth-service epb-auth-server`
+You can set up a bridge network using `docker network create {network_name}`
 
-Where *linked_container_id* is the name or ID of the container you want to access.
+And then connect the containers to the network when going to run them e.g.
+
+`docker run -p {host_port}:80 -p {host_port2}:443 --network {network_name} --name test-epb-auth-service epb-auth-server`
