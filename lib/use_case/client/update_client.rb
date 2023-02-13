@@ -2,7 +2,7 @@ module UseCase
   module Client
     class UpdateClient < UseCase::BaseUseCase
       def execute(id, name, scopes, supplemental)
-        client = @container.client_gateway.fetch id: id
+        client = @container.client_gateway.fetch(id:)
 
         raise Boundary::NotFoundError unless client
 

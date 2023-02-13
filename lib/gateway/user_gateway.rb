@@ -13,8 +13,8 @@ module Gateway
     end
 
     def create(email:, name:, password:)
-      model = Model::User.create! email: email,
-                                  name: name,
+      model = Model::User.create! email:,
+                                  name:,
                                   password: hash_password(password)
 
       Domain::User.new id: model.id,

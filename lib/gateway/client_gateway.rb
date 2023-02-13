@@ -31,8 +31,8 @@ module Gateway
 
       ActiveRecord::Base.transaction do
         model =
-          Model::Client.create! name: name,
-                                supplemental: supplemental,
+          Model::Client.create! name:,
+                                supplemental:,
                                 client_scopes_attributes: scopes.to_a
 
         model_to_client(Model::Client.find_by!(id: model.id), create_secret(model))
