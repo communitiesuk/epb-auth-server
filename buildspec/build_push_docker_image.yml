@@ -16,11 +16,13 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t ebpr-auth-server-image ./
-      - docker tag ebpr-auth-server-image:latest $DOCKER_IMAGE_URI:$IMAGE_TAG
+
 
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
+      - docker tag ebpr-auth-server-image:latest $DOCKER_IMAGE_URI:latest
       - docker push $DOCKER_IMAGE_URI:latest
+      - docker tag ebpr-auth-server-image:latest $DOCKER_IMAGE_URI:$IMAGE_TAG
       - docker push $DOCKER_IMAGE_URI:$IMAGE_TAG
