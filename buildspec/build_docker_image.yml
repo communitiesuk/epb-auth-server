@@ -1,0 +1,35 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+  pre_build:
+    commands:
+      - aws --version
+      - docker login -u AWS -p $(aws ecr get-login-password --region $AWS_DEFAULT_REGION) $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t ebpr-auth-server-image ./
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker tag ebpr-auth-server-image:latest $DOCKER_IMAGE_URI:latest
+      - docker tag ebpr-auth-server-image:latest $DOCKER_IMAGE_URI:$IMAGE_TAG
+      - docker save -o ebpr-auth-server-image.tar ebpr-auth-server-image:local
+
+artifacts:
+  files:
+    - '**/*'
+  name: ebpr-auth-server-pipeline
+  artifact1:
+    files:
+      - ebpr-auth-server-pipeline/ebpr-auth-server-image.tar
+    name: ebpr-auth-server-image
