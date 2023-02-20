@@ -23,7 +23,7 @@ phases:
       - echo Pushing the Docker images...
       - docker tag ebpr-auth-server-image:latest $DOCKER_IMAGE_URI:latest
       - docker tag ebpr-auth-server-image:latest $DOCKER_IMAGE_URI:$IMAGE_TAG
-      - docker save -o ebpr-auth-server-image.tar ebpr-auth-server-image:local
+      - docker save -o ebpr-auth-server-image.tar ebpr-auth-server-image:latest
 
 artifacts:
   files:
@@ -31,5 +31,5 @@ artifacts:
   name: ebpr-auth-server-pipeline
   artifact1:
     files:
-      - ebpr-auth-server-pipeline/ebpr-auth-server-image.tar
+      - build-push/ebpr-auth-server-image.tar
     name: ebpr-auth-server-image
