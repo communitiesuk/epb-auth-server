@@ -17,6 +17,10 @@ phases:
       - docker tag ebpr-auth-server-image:latest $DOCKER_IMAGE_URI:latest
       - docker push $DOCKER_IMAGE_URI:latest
 
+  update_ecs:
+    commands:
+      - aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment
+
   post_build:
     commands:
 
