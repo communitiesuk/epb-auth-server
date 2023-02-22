@@ -19,5 +19,5 @@ phases:
 
   post_build:
     commands:
-      - assume_role.sh $arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server integration
+      - ./assume_role.sh $arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server integration
       - aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment --profile integration
