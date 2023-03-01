@@ -13,8 +13,7 @@ sts=$(aws sts assume-role \
   --output text)
 echo "Converting sts to array"
 sts=($sts)
-echo "AWS_ACCESS_KEY_ID is ${sts[0]}"
+echo "AWS configure set"
 aws configure set aws_access_key_id ${sts[0]} --profile $OUTPUT_PROFILE
 aws configure set aws_secret_access_key ${sts[1]} --profile $OUTPUT_PROFILE
 aws configure set aws_session_token ${sts[2]} --profile $OUTPUT_PROFILE
-echo "credentials stored in the profile named $OUTPUT_PROFILE"

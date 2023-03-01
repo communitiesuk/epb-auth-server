@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      docker: 18
+      docker: 19
   pre_build:
     commands:
       - aws --version
@@ -19,5 +19,5 @@ phases:
 
   post_build:
     commands:
-      - bash ./buildspec/assume_role.sh arn:aws:iam::$AWS_ACCOUNT_ID:role/ci-server integration
+      - bash ./buildspec/assume_role.sh arn:aws:iam::gpgpt:role/ci-server integration
       - aws ecs update-service --cluster $CLUSTER_NAME --service $SERVICE_NAME --force-new-deployment --profile integration
