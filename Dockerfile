@@ -6,8 +6,8 @@ ENV JWT_ISSUER=epb-auth-server
 ENV JWT_SECRET=test-jwt-secret
 ENV URL_PREFIX=/auth
 ENV EPB_UNLEASH_URI=http://epb-feature-flag/api
-ENV RACK_ENV=development
 ENV STAGE=development
+ENV RACK_ENV=production
 
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
