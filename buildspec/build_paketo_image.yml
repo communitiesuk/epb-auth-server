@@ -18,12 +18,12 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Paketo image...
-      - pack build ebpr-auth-image --buildpack paketo-buildpacks/ruby --builder paketobuildpacks/builder:full
+      - pack build ebpr-auth-server-image --buildpack paketo-buildpacks/ruby --builder paketobuildpacks/builder:full
 
   post_build:
     commands:
       - echo Build completed on `date`
-      - docker save -o ebpr-auth-image.tar ebpr-auth-image:latest
+      - docker save -o ebpr-auth-server-image.tar ebpr-auth-server-image:latest
 
 artifacts:
   files:
