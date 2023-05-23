@@ -19,7 +19,7 @@ phases:
       - echo Build started on `date`
       - echo Building the Paketo image...
       - pack config trusted-builders add paketobuildpacks/builder-jammy-full
-      - pack build ebpr-auth-server-image --buildpack paketo-buildpacks/ruby --builder paketobuildpacks/builder-jammy-full --trust-builder --env "BP_LOG_LEVEL=DEBUG" -v
+      - pack build ebpr-auth-server-image --buildpack paketo-buildpacks/ruby --builder paketobuildpacks/builder-jammy-full --trust-builder
 
   post_build:
     commands:
