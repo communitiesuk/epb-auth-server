@@ -1,5 +1,6 @@
 require "multi_json"
 require "sinatra/base"
+require "sinatra/cross_origin"
 
 module Controller
   class BaseController < Sinatra::Base
@@ -28,6 +29,10 @@ module Controller
       rescue Auth::Errors::Error
         raise Boundary::NotAuthenticatedError
       end
+    end
+
+    configure do
+      enable :cross_origin
     end
 
     error Boundary::NotAuthenticatedError do |_error|

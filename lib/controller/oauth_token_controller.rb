@@ -10,6 +10,14 @@ module Controller
       container = Container.new
       auth_token = env.fetch("HTTP_AUTHORIZATION", "")
 
+      unless ENV["EPB_API_DOCS_URL"].nil?
+        response.headers["Access-Control-Allow-Origin"] = ENV["EPB_API_DOCS_URL"]
+        response.headers["Vary"] = "Origin"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Allow-Headers"] =
+          "Content-Type, Cache-Control, Accept"
+      end
+
       client_id, client_secret =
         if auth_token.include? "Basic"
           Base64.decode64(auth_token.slice(6..-1)).split(":", 2)
