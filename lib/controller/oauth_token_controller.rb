@@ -67,7 +67,7 @@ module Controller
         response.headers["Vary"] = "Origin"
         response.headers["Access-Control-Allow-Credentials"] = "true"
         response.headers["Access-Control-Allow-Headers"] =
-          "Content-Type, Cache-Control, Accept, Authorization"
+          "Content-Type, Cache-Control, Accept, Authorization, X-Requested-With"
       end
     end
   end
