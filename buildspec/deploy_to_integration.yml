@@ -6,7 +6,7 @@ runtime-versions:
 env:
   variables:
     DEPLOY_APPNAME: "mhclg-epb-auth-server-integration"
-    EPB_API_DOCS_URL: "https://mhclg-epb-swagger.london.cloudapps.digital/"
+    EPB_API_DOCS_URL: "https://mhclg-epb-swagger.london.cloudapps.digital"
 
   parameter-store:
     PAAS_LOGIN: "epbr-govpaas-integration-login"
