@@ -10,13 +10,7 @@ module Controller
       container = Container.new
       auth_token = env.fetch("HTTP_AUTHORIZATION", "")
 
-      unless ENV["EPB_API_DOCS_URL"].nil?
-        response.headers["Access-Control-Allow-Origin"] = ENV["EPB_API_DOCS_URL"]
-        response.headers["Vary"] = "Origin"
-        response.headers["Access-Control-Allow-Credentials"] = "true"
-        response.headers["Access-Control-Allow-Headers"] =
-          "Content-Type, Cache-Control, Accept"
-      end
+      add_cors_headers
 
       client_id, client_secret =
         if auth_token.include? "Basic"
@@ -56,6 +50,24 @@ module Controller
         raise
       else
         server_error e
+      end
+    end
+
+    options prefix_route("/oauth/token") do
+      add_cors_headers
+
+      200
+    end
+
+  private
+
+    def add_cors_headers
+      unless ENV["EPB_API_DOCS_URL"].nil?
+        response.headers["Access-Control-Allow-Origin"] = ENV["EPB_API_DOCS_URL"]
+        response.headers["Vary"] = "Origin"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Allow-Headers"] =
+          "Content-Type, Cache-Control, Accept"
       end
     end
   end

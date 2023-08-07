@@ -39,7 +39,6 @@ describe "CORS behaviour for allowing calls from API docs" do
     end
 
     it "has an Access-Control-Allow-Origin header set to the docs URL" do
-      # expect(response.status).to eq 303
       expect(response.headers["Access-Control-Allow-Origin"]).to eq docs_url
     end
 
@@ -49,6 +48,24 @@ describe "CORS behaviour for allowing calls from API docs" do
 
     it "has an Access-Control-Allow-Credentials header set to true" do
       expect(response.headers["Access-Control-Allow-Credentials"]).to eq "true"
+    end
+  end
+
+  context "when sending a response from an OPTIONS request to the OAuth token endpoint when API docs URL is set in environment" do
+    let(:docs_url) { "http://epb-api-docs/" }
+    let(:response) { options "/oauth/token" }
+
+    before do
+      allow(ENV).to receive(:[])
+      allow(ENV).to receive(:[]).with("EPB_API_DOCS_URL").and_return(docs_url)
+    end
+
+    it "returns a 200 status" do
+      expect(response.status).to eq 200
+    end
+
+    it "has an Access-Control-Allow-Origin header set to the docs URL" do
+      expect(response.headers["Access-Control-Allow-Origin"]).to eq docs_url
     end
   end
 end
