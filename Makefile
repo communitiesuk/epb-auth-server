@@ -79,6 +79,7 @@ deploy-app: ## Deploys the app to PaaS
 	cf set-env "${DEPLOY_APPNAME}" JWT_SECRET "${JWT_SECRET}"
 	cf set-env "${DEPLOY_APPNAME}" EPB_UNLEASH_AUTH_TOKEN "${EPB_UNLEASH_AUTH_TOKEN}"
 	cf set-env "${DEPLOY_APPNAME}" EPB_UNLEASH_URI "${EPB_UNLEASH_URI}"
+	cf set-env "${DEPLOY_APPNAME}" EPB_API_DOCS_URL "${EPB_API_DOCS_URL}"
 	cf set-env "${DEPLOY_APPNAME}" URL_PREFIX "/auth"
 	cf set-env "${DEPLOY_APPNAME}" RACK_ENV "production"
 	cf set-env "${DEPLOY_APPNAME}" SENTRY_DSN "${SENTRY_DSN}"
