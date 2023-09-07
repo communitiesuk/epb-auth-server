@@ -10,7 +10,7 @@ end
 group :test do
   gem "faker", "~> 3.2"
   gem "timecop"
-  gem "webmock", "~> 3.18"
+  gem "webmock", "~> 3.19"
 end
 
 gem "acts_as_paranoid", "~> 0.8.1"
