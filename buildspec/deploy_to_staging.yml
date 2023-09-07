@@ -6,7 +6,7 @@ runtime-versions:
 env:
   variables:
     DEPLOY_APPNAME: "mhclg-epb-auth-server-staging"
-    EPB_API_DOCS_URL: "https://api-docs.epcregisters.net/"
+    EPB_API_DOCS_URL: "https://api-docs.epcregisters.net"
 
   parameter-store:
     PAAS_LOGIN: "epbr-govpaas-staging-login"
