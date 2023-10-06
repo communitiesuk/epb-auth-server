@@ -13,7 +13,7 @@ group :test do
   gem "webmock", "~> 3"
 end
 
-gem "acts_as_paranoid", "~> 0.8.1"
+gem "acts_as_paranoid", "~> 0.9.0"
 gem "epb-auth-tools", "~> 1.1"
 gem "jwt", "~> 2.7"
 gem "multi_json", "~> 1.15"
