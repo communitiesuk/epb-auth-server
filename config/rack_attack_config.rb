@@ -3,13 +3,10 @@
 REDIS_DB_NUMBER_FOR_AUTH_SERVER = 1 # Frontend uses default DB 0; use 1 for Auth
 environment = ENV["STAGE"]
 
-if Helper::Platform.is_paas?
-  redis_url = Helper::RedisConfigurationReader.read_configuration_url("mhclg-epb-redis-ratelimit-#{environment}")
-  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(url: redis_url, db: REDIS_DB_NUMBER_FOR_AUTH_SERVER)
-else
-  Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
-  Rack::Attack.enabled = false
-end
+
+Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
+Rack::Attack.enabled = false
+
 
 # Monkey patch to have access to the first client IP in X_FORWARDED_FOR header
 class Rack::Attack::Request < ::Rack::Request
