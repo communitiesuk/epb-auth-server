@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 group :development do
   gem "rubocop-govuk", "~> 4.13"
-  gem "rubocop-performance", "~> 1.19"
+  gem "rubocop-performance", "~> 1.20"
 end
 
 group :test do
