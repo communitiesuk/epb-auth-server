@@ -10,9 +10,9 @@ info:
   version: "1.0.0"
 
 servers:
-  - url: https://mhclg-epb-auth-server-integration.london.cloudapps.digital
+  - url: https://auth.epb-integration.digital.communities.gov.uk
     description: Integration server
-  - url: https://mhclg-epb-auth-server-staging.london.cloudapps.digital
+  - url: https://auth.epb-staging.digital.communities.gov.uk
     description: Staging server
 
 tags:
