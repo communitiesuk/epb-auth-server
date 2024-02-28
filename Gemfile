@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 group :development do
   gem "rubocop-govuk", "~> 4.13"
-  gem "rubocop-performance", "~> 1.19"
+  gem "rubocop-performance", "~> 1.20"
 end
 
 group :test do
@@ -26,10 +26,10 @@ gem "rack-test", "~> 2.1"
 gem "rake", "~> 13.1"
 gem "redis", "~> 5.0.8"
 gem "rspec", "~> 3.12"
-gem "sentry-ruby", "~> 5.15"
-gem "sinatra", "~> 3.1"
+gem "sentry-ruby", "~> 5.16"
+gem "sinatra", "~> 3.2"
 gem "sinatra-activerecord", "~> 2.0.27"
-gem "sinatra-contrib", "~> 3.1"
+gem "sinatra-contrib", "~> 3.2"
 gem "sinatra-cross_origin", "~> 0.4.0"
 gem "unleash", "~> 5.0"
 gem "uuid", "~> 2.3"
