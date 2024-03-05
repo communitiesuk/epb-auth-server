@@ -2,7 +2,6 @@ require "epb-auth-tools"
 
 module Controller
   class OAuthTokenController < BaseController
-    ONE_HOUR_IN_SECONDS = (60 * 60)
     FIFTEEN_MINUTES_IN_SECONDS = (15 * 60)
 
     post prefix_route("/oauth/token") do
@@ -29,7 +28,7 @@ module Controller
         halt 401, { error: "Could not resolve client from request" }.to_json
       end
 
-      token_expiry_length = (Helper::Toggles.enabled?("auth-server-fifteen-minute-jwt-expiry") ? FIFTEEN_MINUTES_IN_SECONDS : ONE_HOUR_IN_SECONDS)
+      token_expiry_length = FIFTEEN_MINUTES_IN_SECONDS
 
       token = Auth::Token.new iss: ENV["JWT_ISSUER"],
                               sub: client.id,

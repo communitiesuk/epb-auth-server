@@ -27,24 +27,8 @@ describe "Integration: Migrating client secrets to use hashes" do
         expect(response.get(%i[access_token])).to be_a_valid_jwt_token
       end
 
-      context "when feature flag is on to set JWT expiry to fifteen minutes" do
-        before do
-          allow(Helper::Toggles).to receive(:enabled?).with("auth-server-fifteen-minute-jwt-expiry").and_return(true)
-        end
-
-        it "gives a response with a token that expires at most fifteen minutes into the future" do
-          expect(response.get(%i[expires_in])).to be <= 900
-        end
-      end
-
-      context "when feature flag is off to set JWT expiry to fifteen minutes (so remain at one hour)" do
-        before do
-          allow(Helper::Toggles).to receive(:enabled?).with("auth-server-fifteen-minute-jwt-expiry").and_return(false)
-        end
-
-        it "gives a response with a token that expires at least half an hour into the future" do
-          expect(response.get(%i[expires_in])).to be >= 1_800
-        end
+      it "gives a response with a token that expires at most fifteen minutes into the future" do
+        expect(response.get(%i[expires_in])).to be <= 900
       end
 
       it "gives a response with a token of type Bearer" do
