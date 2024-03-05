@@ -3,10 +3,8 @@
 REDIS_DB_NUMBER_FOR_AUTH_SERVER = 1 # Frontend uses default DB 0; use 1 for Auth
 environment = ENV["STAGE"]
 
-
 Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 Rack::Attack.enabled = false
-
 
 # Monkey patch to have access to the first client IP in X_FORWARDED_FOR header
 class Rack::Attack::Request < ::Rack::Request
