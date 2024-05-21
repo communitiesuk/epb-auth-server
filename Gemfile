@@ -3,12 +3,12 @@ ruby "3.1.3"
 source "https://rubygems.org"
 
 group :development do
-  gem "rubocop-govuk", "~> 4.13"
+  gem "rubocop-govuk", "~> 4.17"
   gem "rubocop-performance", "~> 1.20"
 end
 
 group :test do
-  gem "faker", "~> 3.2"
+  gem "faker", "~> 3.3"
   gem "timecop"
   gem "webmock", "~> 3"
 end
@@ -24,10 +24,10 @@ gem "rack", "~> 3.0"
 gem "rack-attack", "~> 6.7.0"
 gem "rack-test", "~> 2.1"
 gem "rackup", "~> 2.1"
-gem "rake", "~> 13.1"
+gem "rake", "~> 13.2"
 gem "redis", "~> 5.1.0"
 gem "rspec", "~> 3.12"
-gem "sentry-ruby", "~> 5.16"
+gem "sentry-ruby", "~> 5.17"
 gem "sinatra", "~> 4.0"
 gem "sinatra-activerecord", "~> 2.0.27"
 gem "sinatra-contrib", "~> 4.0"
