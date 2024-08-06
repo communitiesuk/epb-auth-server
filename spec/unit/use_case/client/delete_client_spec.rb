@@ -6,7 +6,7 @@ describe UseCase::Client::DeleteClient do
       let(:delete_client) { described_class.new(container).execute client.id }
 
       it "returns true" do
-        expect(delete_client).to eq true
+        expect(delete_client).to be true
       end
 
       describe "deleting the client a second time" do

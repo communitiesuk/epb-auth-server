@@ -35,7 +35,7 @@ describe "Acceptance: OAuth token service" do
       end
 
       it "gives a token with supplemental data" do
-        expect(token.supplemental("test")).to eq true
+        expect(token.supplemental("test")).to be true
       end
 
       it "records when the client secret was last used at" do
@@ -83,7 +83,7 @@ describe "Acceptance: OAuth token service" do
       end
 
       it "gives a token with supplemental data" do
-        expect(token.supplemental("test")).to eq true
+        expect(token.supplemental("test")).to be true
       end
     end
   end

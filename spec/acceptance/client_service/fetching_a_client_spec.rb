@@ -45,7 +45,7 @@ describe "Acceptance: Fetching details of a client" do
   end
 
   context "when unauthenticated" do
-    describe "fetching a client " do
+    describe "fetching a client" do
       let(:response) { get "/api/client/test" }
 
       it "returns an unauthenticated status code" do
