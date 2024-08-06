@@ -3,8 +3,8 @@ ruby "3.3.4"
 source "https://rubygems.org"
 
 group :development do
-  gem "rubocop-govuk", "~> 4.17"
-  gem "rubocop-performance", "~> 1.20"
+  gem "rubocop-govuk", "~> 5.0", require: false
+  gem "rubocop-performance", "~> 1.21", require: false
 end
 
 group :test do
@@ -20,7 +20,7 @@ gem "multi_json", "~> 1.15"
 gem "oauth2", "~> 2.0"
 gem "pg", "~> 1.5"
 gem "puma", "~> 6.4"
-gem "rack", "~> 3.0"
+gem "rack", "~> 3.1"
 gem "rack-attack", "~> 6.7.0"
 gem "rack-test", "~> 2.1"
 gem "rackup", "~> 2.1"
