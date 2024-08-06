@@ -1,7 +1,6 @@
 require "active_support"
 require "active_support/cache"
 require "active_support/notifications"
-require "rack/attack"
 require "sentry-ruby"
 require "zeitwerk"
 
@@ -15,8 +14,6 @@ loader.setup
 environment = ENV["STAGE"]
 
 unless %w[development test].include?(environment)
-  use Rack::Attack
-  require_relative "./config/rack_attack_config"
 
   Sentry.init do |config|
     config.environment = environment

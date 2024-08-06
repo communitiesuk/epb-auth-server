@@ -10,7 +10,6 @@ ENV["EPB_UNLEASH_URI"] = "https://test-toggle-server/api"
 
 require "epb-auth-tools"
 require "faker"
-require "rack/attack"
 require "rack/test"
 require "rake"
 require "rspec"
@@ -52,8 +51,6 @@ loader_enable_override "helper/toggles"
 module RSpecMixin
   def app
     Rack::Builder.new do
-      use Rack::Attack
-      require_relative "../config/rack_attack_config"
       run Service
     end
   end
