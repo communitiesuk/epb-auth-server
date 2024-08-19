@@ -13,7 +13,7 @@ group :test do
   gem "webmock", "~> 3"
 end
 
-gem "acts_as_paranoid", "~> 0.10.0"
+gem "acts_as_paranoid", "~> 0.10"
 gem "epb-auth-tools", "~> 1.1"
 gem "jwt", "~> 2.8"
 gem "multi_json", "~> 1.15"
@@ -26,7 +26,7 @@ gem "rackup", "~> 2.1"
 gem "rake", "~> 13.2"
 gem "redis", "~> 5.2"
 gem "rspec", "~> 3.12"
-gem "sentry-ruby", "~> 5.17"
+gem "sentry-ruby", "~> 5.19"
 gem "sinatra", "~> 4.0"
 gem "sinatra-activerecord", "~> 2.0.27"
 gem "sinatra-contrib", "~> 4.0"
