@@ -9,9 +9,10 @@ describe "Acceptance: Updating a client" do
         make_request token do
           put "/api/client/#{client.id}",
               {
+                id: "#{client.id}",
                 name: "updated-client-name",
                 scopes: %w[scope:three scope:four],
-                supplemental: { test: false },
+                supplemental: { owner: "us" },
               }.to_json,
               {
                 "CONTENT_TYPE" => "application/json",
@@ -40,7 +41,7 @@ describe "Acceptance: Updating a client" do
       end
 
       it "returns updated supplemental data" do
-        expect(response.get(%i[data client supplemental])).to eq({ test: false })
+        expect(response.get(%i[data client supplemental])).to eq({ owner: "us" })
       end
     end
   end
@@ -67,6 +68,67 @@ describe "Acceptance: Updating a client" do
 
       it "tells the user they are not authorised" do
         expect(response.status).to eq 403
+      end
+    end
+  end
+
+  context "when request body incorrectly formatted" do
+    let(:token) { create_token scopes: %w[client:update] }
+
+    describe "updating a client without a require field" do
+      let(:response) do
+        make_request token do
+          put "/api/client/#{client.id}",
+              {
+                id: "#{client.id}",
+                scopes: %w[scope:three scope:four],
+                supplemental: { owner: "us" },
+              }.to_json,
+              {
+                "CONTENT_TYPE" => "application/json",
+              }
+        end
+      end
+
+      it "returns an error" do
+        expect(response.status).to eq 422
+      end
+    end
+
+    describe "updating a client with scopes in wrong format" do
+      let(:response) do
+        make_request token do
+          put "/api/client/#{client.id}",
+              {
+                id: "#{client.id}",
+                scopes: "scope:three scope:four",
+                supplemental: { owner: "us" },
+              }.to_json,
+              {
+                "CONTENT_TYPE" => "application/json",
+              }
+        end
+      end
+
+      it "returns an error" do
+        expect(response.status).to eq 422
+      end
+    end
+
+    describe "updating a client without json" do
+      let(:response) do
+        make_request token do
+          put "/api/client/#{client.id}",
+              {
+                id: "#{client.id}",
+                scopes: "scope:three scope:four",
+                supplemental: { owner: "us" },
+              }
+        end
+      end
+
+      it "returns an error" do
+        expect(response.status).to eq 400
       end
     end
   end
