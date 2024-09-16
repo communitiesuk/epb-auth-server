@@ -93,6 +93,10 @@ describe "Acceptance: Updating a client" do
       it "returns an error" do
         expect(response.status).to eq 422
       end
+
+      it "gives name invalid error code" do
+        expect(response.body[:errors].first[:code]).to eq "INVALID_REQUEST"
+      end
     end
 
     describe "updating a client with scopes in wrong format" do
