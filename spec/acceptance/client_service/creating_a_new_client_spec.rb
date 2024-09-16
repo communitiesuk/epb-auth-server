@@ -7,7 +7,9 @@ describe "Acceptance: Creating a new client" do
         make_request token do
           post "/api/client",
                { name: "client-with-only-name" }.to_json,
-               CONTENT_TYPE: "application/json"
+               {
+                 "CONTENT_TYPE" => "application/json",
+               }
         end
       end
 
@@ -41,7 +43,9 @@ describe "Acceptance: Creating a new client" do
         make_request token do
           post "/api/client",
                {}.to_json,
-               CONTENT_TYPE: "application/json"
+               {
+                 "CONTENT_TYPE" => "application/json",
+               }
         end
       end
 
@@ -50,11 +54,35 @@ describe "Acceptance: Creating a new client" do
       end
 
       it "gives name invalid error code" do
-        expect(response.get([:code])).to eq "VALIDATION_ERROR"
+        expect(response.body[:errors].first[:code]).to eq "INVALID_REQUEST"
       end
 
       it "gives name invalid error message" do
-        expect(response.get(%i[errors name])).to include "name cannot be empty"
+        expect(response.body[:errors].first[:title]).to eq "JSON failed schema validation. Error: The property '#/' did not contain a required property of 'name'"
+      end
+    end
+
+    describe "creating a client with an incorrect format" do
+      let(:response) do
+        make_request token do
+          post "/api/client",
+               { name: "client-with-only-name", scopes: "" }.to_json,
+               {
+                 "CONTENT_TYPE" => "application/json",
+               }
+        end
+      end
+
+      it "returns a validation failure status" do
+        expect(response.status).to eq 422
+      end
+
+      it "gives name invalid error code" do
+        expect(response.body[:errors].first[:code]).to eq "INVALID_REQUEST"
+      end
+
+      it "gives name invalid error message" do
+        expect(response.body[:errors].first[:title]).to eq "JSON failed schema validation. Error: The property '#/scopes' of type string did not match one or more of the following types: array, null"
       end
     end
 
@@ -66,9 +94,11 @@ describe "Acceptance: Creating a new client" do
                {
                  name: "client-with-scopes-and-supplemental-data",
                  scopes: %w[scope:one scope:two],
-                 supplemental: { test: true },
+                 supplemental: { owner: "true" },
                }.to_json,
-               CONTENT_TYPE: "application/json"
+               {
+                 "CONTENT_TYPE" => "application/json",
+               }
         end
       end
 
@@ -93,7 +123,7 @@ describe "Acceptance: Creating a new client" do
       end
 
       it "returns some supplemental data" do
-        expect(response.get(%i[data client supplemental])).to eq test: true
+        expect(response.get(%i[data client supplemental])).to eq owner: "true"
       end
     end
   end

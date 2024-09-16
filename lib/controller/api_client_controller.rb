@@ -3,6 +3,30 @@ require "sinatra/activerecord"
 
 module Controller
   class ApiClientController < BaseController
+    POST_SCHEMA = {
+      type: "object",
+      required: %w[name],
+      properties: {
+        name: {
+          type: "string",
+        },
+        scopes: {
+          type: %w[array null],
+        },
+        supplemental: {
+          type: %w[object null],
+          properties: {
+            owner: {
+              type: %w[string null],
+            },
+            scheme_ids: {
+              type: %w[array null],
+            },
+          },
+        },
+      },
+    }.freeze
+
     PUT_SCHEMA = {
       type: "object",
       required: %w[id name scopes],
@@ -24,7 +48,7 @@ module Controller
             },
             scheme_ids: {
               type: %w[array null],
-            }
+            },
           },
         },
       },
@@ -51,13 +75,28 @@ module Controller
 
     post prefix_route("/api/client") do
       authorize scopes: %w[client:create]
-      client = container.create_new_client_use_case.execute(**json_body.slice(:name, :scopes, :supplemental))
+
+      client = request_body(POST_SCHEMA)
+
+      body = json_body
+
+      client[:name] = body[:name]
+      client[:scopes] = body[:scopes].nil? ? [] : body[:scopes]
+      client[:supplemental] = body[:supplemental].nil? ? {} : body[:supplemental]
+
+      client = container.create_new_client_use_case.execute(client[:name],
+                                                            client[:scopes],
+                                                            client[:supplemental])
 
       json_response 201,
                     data: { client: client.to_hash.merge(secret: client.secret) },
                     meta: {}
     rescue StandardError => e
       case e
+      when Boundary::Json::ParseError
+        error_response(400, "INVALID_REQUEST", e.message)
+      when Boundary::Json::ValidationError
+        error_response(422, "INVALID_REQUEST", e.message)
       when Boundary::Error
         raise
       else
@@ -72,9 +111,11 @@ module Controller
 
       raise Boundary::NotFoundError unless client
 
-      client[:name] = json_body[:name]
-      client[:scopes] = json_body[:scopes]
-      client[:supplemental] = json_body[:supplemental]
+      body = json_body
+
+      client[:name] = body[:name]
+      client[:scopes] = body[:scopes].nil? ? [] : body[:scopes]
+      client[:supplemental] = body[:supplemental].nil? ? {} : body[:supplemental]
 
       client = container.update_client_use_case.execute client[:id],
                                                         client[:name],
@@ -82,7 +123,7 @@ module Controller
                                                         client[:supplemental]
 
       json_response 200,
-                    data: { client: client },
+                    data: { client: },
                     meta: {}
     rescue StandardError => e
       case e

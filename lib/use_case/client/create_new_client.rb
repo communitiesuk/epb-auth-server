@@ -1,7 +1,7 @@
 module UseCase
   module Client
     class CreateNewClient < UseCase::BaseUseCase
-      def execute(name: nil, scopes: [], supplemental: {})
+      def execute(name, scopes, supplemental)
         client = {
           name:,
           scopes:,
