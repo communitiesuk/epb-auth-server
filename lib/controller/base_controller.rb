@@ -10,7 +10,11 @@ module Controller
       end
 
       def json_body
-        JSON.parse request.body, symbolize_names: true
+        if ENV["STAGE"] == "development"
+          JSON.parse request.body.read, symbolize_names: true
+        else
+          JSON.parse request.body, symbolize_names: true
+        end
       rescue TypeError
         JSON.parse request.body.string, symbolize_names: true
       end

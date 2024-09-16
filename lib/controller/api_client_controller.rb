@@ -42,9 +42,11 @@ module Controller
 
       raise Boundary::NotFoundError unless client
 
-      client.name = json_body[:name]
-      client.scopes = json_body[:scopes]
-      client.supplemental = json_body[:supplemental]
+      body = json_body
+
+      client.name = body[:name]
+      client.scopes = body[:scopes]
+      client.supplemental = body[:supplemental]
 
       client = container.update_client_use_case.execute client.id,
                                                         client.name,
