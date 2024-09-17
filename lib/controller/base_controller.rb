@@ -92,7 +92,7 @@ module Controller
 
       Logger.new($stdout, level: Logger::ERROR).error JSON.generate(error)
 
-      # ActiveRecord::Base.clear_active_connections!
+      ActiveRecord::Base.clear_active_connections!
 
       json_response 500,
                     code: "SERVER_ERROR",
