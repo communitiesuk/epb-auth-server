@@ -110,9 +110,11 @@ module Controller
       client = request_body(PUT_SCHEMA)
 
       raise Boundary::NotFoundError unless client
-
+      where_it_got_to = "Before Json parse"
+      request_body = JSON.parse request.body.read
+      where_it_got_to = "After boundary error #{request_body} looop"
       body = json_body
-
+      where_it_got_to = "After json body"
       client[:name] = body[:name]
       client[:scopes] = body[:scopes].nil? ? [] : body[:scopes]
       client[:supplemental] = body[:supplemental].nil? ? {} : body[:supplemental]
@@ -125,17 +127,17 @@ module Controller
       json_response 200,
                     data: { client: },
                     meta: {}
-    rescue StandardError => e
-      case e
-      when Boundary::Json::ParseError
-        error_response(400, "INVALID_REQUEST", e.message)
-      when Boundary::Json::ValidationError
-        error_response(422, "INVALID_REQUEST", e.message)
-      when Boundary::Error
-        raise
-      else
-        server_error e
-      end
+    # rescue StandardError => e
+    #   case e
+    #   when Boundary::Json::ParseError
+    #     error_response(400, "INVALID_REQUEST", e.message)
+    #   when Boundary::Json::ValidationError
+    #     error_response(422, "INVALID_REQUEST", e.message)
+    #   when Boundary::Error
+    #     raise
+    #   else
+    #     server_error e
+    #   end
     end
 
     delete prefix_route("/api/client/:clientId") do

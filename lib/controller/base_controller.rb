@@ -10,7 +10,11 @@ module Controller
       end
 
       def json_body
-        JSON.parse request.body, symbolize_names: true
+        if ENV["STAGE"] == "development"
+          JSON.parse request.body.read, symbolize_names: true
+        else
+          JSON.parse request.body, symbolize_names: true
+        end
       rescue TypeError
         JSON.parse request.body.string, symbolize_names: true
       end
@@ -92,7 +96,7 @@ module Controller
 
       Logger.new($stdout, level: Logger::ERROR).error JSON.generate(error)
 
-      ActiveRecord::Base.clear_active_connections!
+      ActiveRecord::Base.connection_handler.clear_active_connections!(:all)
 
       json_response 500,
                     code: "SERVER_ERROR",
