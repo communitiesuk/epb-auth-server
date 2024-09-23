@@ -13,7 +13,7 @@ module UseCase
 
         client.name = name
         client.scopes = scopes
-        client.supplemental = supplemental
+        client.supplemental = supplemental.nil? ? {} : supplemental
 
         @container.client_gateway.update client
       end
