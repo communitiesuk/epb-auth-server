@@ -182,7 +182,6 @@ describe "Acceptance: Updating a client" do
       end
     end
 
-
     describe "updating a client with incorrectly wrapped json" do
       let(:response) do
         make_request token do
@@ -193,7 +192,7 @@ describe "Acceptance: Updating a client" do
                     id: "#{client.id}",
                     scopes: %w[scope:three scope:four],
                     supplemental: nil,
-                  }
+                  },
 
               }.to_json,
               {
