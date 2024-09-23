@@ -182,7 +182,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
-    unleash (5.0.5)
+    unleash (5.1.1)
       murmurhash3 (~> 0.1.7)
     uri (0.13.0)
     uuid (2.3.9)
@@ -222,7 +222,7 @@ DEPENDENCIES
   sinatra-contrib (~> 4.0)
   sinatra-cross_origin (~> 0.4.0)
   timecop
-  unleash (~> 5.0)
+  unleash (~> 5.1)
   uuid (~> 2.3)
   webmock (~> 3)
   zeitwerk (~> 2.6)
