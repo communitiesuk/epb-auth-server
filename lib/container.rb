@@ -8,10 +8,12 @@ class Container
               :delete_client_use_case,
               :rotate_a_client_secret_use_case,
               :user_gateway,
-              :create_new_user_use_case
+              :create_new_user_use_case,
+              :json_helper
 
   def initialize
     @validation_helper = Helper::ValidationHelper.new
+    @json_helper = Helper::JsonHelper.new
 
     @client_gateway =
       Gateway::ClientGateway.new

@@ -24,6 +24,23 @@ module Controller
         halt status, body.to_json
       end
 
+      def request_body(schema)
+        container.json_helper.convert_to_ruby_hash(request.body.read.to_s, schema:)
+      end
+
+      def error_response(response_code, error_code, title)
+        json_error_response({ errors: [{ code: error_code, title: }] }, response_code)
+      end
+
+      def json_error_response(object, code = 200)
+        content_type :json
+        status code
+
+        ActiveRecord::Base.connection_handler.clear_active_connections!(:all)
+
+        container.json_helper.convert_to_json(object)
+      end
+
       def authorize(scopes: nil)
         env[:token] = Auth::Sinatra::Conditional.process_request env
 
@@ -79,7 +96,7 @@ module Controller
 
       Logger.new($stdout, level: Logger::ERROR).error JSON.generate(error)
 
-      ActiveRecord::Base.clear_active_connections!
+      ActiveRecord::Base.connection_handler.clear_active_connections!(:all)
 
       json_response 500,
                     code: "SERVER_ERROR",

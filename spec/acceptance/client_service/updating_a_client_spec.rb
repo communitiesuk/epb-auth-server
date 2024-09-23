@@ -9,9 +9,10 @@ describe "Acceptance: Updating a client" do
         make_request token do
           put "/api/client/#{client.id}",
               {
+                id: "#{client.id}",
                 name: "updated-client-name",
                 scopes: %w[scope:three scope:four],
-                supplemental: { test: false },
+                supplemental: { owner: "us" },
               }.to_json,
               {
                 "CONTENT_TYPE" => "application/json",
@@ -40,7 +41,28 @@ describe "Acceptance: Updating a client" do
       end
 
       it "returns updated supplemental data" do
-        expect(response.get(%i[data client supplemental])).to eq({ test: false })
+        expect(response.get(%i[data client supplemental])).to eq({ owner: "us" })
+      end
+    end
+
+    describe "updating a client with empty supplemental" do
+      let(:response) do
+        make_request token do
+          put "/api/client/#{client.id}",
+              {
+                id: "#{client.id}",
+                name: "updated-client-name",
+                scopes: %w[scope:three scope:four],
+                supplemental: nil,
+              }.to_json,
+              {
+                "CONTENT_TYPE" => "application/json",
+              }
+        end
+      end
+
+      it "returns an error" do
+        expect(response.status).to eq 200
       end
     end
   end
@@ -67,6 +89,150 @@ describe "Acceptance: Updating a client" do
 
       it "tells the user they are not authorised" do
         expect(response.status).to eq 403
+      end
+    end
+  end
+
+  context "when request body incorrectly formatted" do
+    let(:token) { create_token scopes: %w[client:update] }
+
+    describe "updating a client without a require field" do
+      let(:response) do
+        make_request token do
+          put "/api/client/#{client.id}",
+              {
+                id: "#{client.id}",
+                scopes: %w[scope:three scope:four],
+                supplemental: { owner: "us" },
+              }.to_json,
+              {
+                "CONTENT_TYPE" => "application/json",
+              }
+        end
+      end
+
+      it "returns an error" do
+        expect(response.status).to eq 422
+      end
+
+      it "gives name invalid error code" do
+        expect(response.body[:errors].first[:code]).to eq "INVALID_REQUEST"
+      end
+
+      it "gives name invalid error message" do
+        expect(response.body[:errors].first[:title]).to eq "JSON failed schema validation. Error: The property '#/' did not contain a required property of 'name'"
+      end
+    end
+
+    describe "updating a client with scopes in wrong format" do
+      let(:response) do
+        make_request token do
+          put "/api/client/#{client.id}",
+              {
+                id: "#{client.id}",
+                name: "updated-client-name",
+                scopes: "scope:three scope:four",
+                supplemental: { owner: "us" },
+              }.to_json,
+              {
+                "CONTENT_TYPE" => "application/json",
+              }
+        end
+      end
+
+      it "returns an error" do
+        expect(response.status).to eq 422
+      end
+
+      it "gives name invalid error code" do
+        expect(response.body[:errors].first[:code]).to eq "INVALID_REQUEST"
+      end
+
+      it "gives name invalid error message" do
+        expect(response.body[:errors].first[:title]).to eq "JSON failed schema validation. Error: The property '#/scopes' of type string did not match the following type: array"
+      end
+    end
+
+    describe "updating a client with missing scopes" do
+      let(:response) do
+        make_request token do
+          put "/api/client/#{client.id}",
+              {
+                id: "#{client.id}",
+                name: "updated-client-name",
+                scopes: nil,
+                supplemental: { owner: "us" },
+              }.to_json,
+              {
+                "CONTENT_TYPE" => "application/json",
+              }
+        end
+      end
+
+      it "returns an error" do
+        expect(response.status).to eq 422
+      end
+
+      it "gives name invalid error code" do
+        expect(response.body[:errors].first[:code]).to eq "INVALID_REQUEST"
+      end
+
+      it "gives name invalid error message" do
+        expect(response.body[:errors].first[:title]).to eq "JSON failed schema validation. Error: The property '#/scopes' of type null did not match the following type: array"
+      end
+    end
+
+
+    describe "updating a client with incorrectly wrapped json" do
+      let(:response) do
+        make_request token do
+          put "/api/client/#{client.id}",
+              {
+                client:
+                  {
+                    id: "#{client.id}",
+                    scopes: %w[scope:three scope:four],
+                    supplemental: nil,
+                  }
+
+              }.to_json,
+              {
+                "CONTENT_TYPE" => "application/json",
+              }
+        end
+      end
+
+      it "returns an error" do
+        expect(response.status).to eq 422
+      end
+
+      it "gives name invalid error code" do
+        expect(response.body[:errors].first[:code]).to eq "INVALID_REQUEST"
+      end
+
+      it "gives name invalid error message" do
+        expect(response.body[:errors].first[:title]).to eq "JSON failed schema validation. Error: The property '#/' did not contain a required property of 'id'"
+      end
+    end
+
+    describe "updating a client without json" do
+      let(:response) do
+        make_request token do
+          put "/api/client/#{client.id}",
+              {
+                id: "#{client.id}",
+                scopes: "scope:three scope:four",
+                supplemental: { owner: "us" },
+              }
+        end
+      end
+
+      it "returns an error" do
+        expect(response.status).to eq 400
+      end
+
+      it "gives name invalid error code" do
+        expect(response.body[:errors].first[:code]).to eq "INVALID_REQUEST"
       end
     end
   end
