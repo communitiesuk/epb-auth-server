@@ -5,8 +5,8 @@ info:
     Auth server for all public facing EPBR services,
     maintained by the EPBR Service Team at MHCLG.
   contact:
-    name: DLUHC Digital helpdesk (prefix email subject with "EPB")
-    email: dluhc.digital-services@levellingup.gov.uk
+    name: MHCLG Digital helpdesk (prefix email subject with "EPB")
+    email: mhclg.digital-services@communities.gov.uk
   version: "1.0.0"
 
 servers:
@@ -77,6 +77,54 @@ paths:
             example: "72d1d680-92ee-463a-98a8-f3e3973df038"
       requestBody:
         description: The client to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '200':
+          description: Client succesfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientCreatedResponse'
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthenticatedResponse"
+        '403':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UnauthorisedResponse"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundResponse"
+    patch:
+      tags:
+        - Manage clients' scopes
+      summary: Update an existing client's scopes on the auth server
+      description: Updates an existing client's scopes on the auth server
+      operationId: update-a-client-scopes
+      security:
+        - oauth: ["client:update"]
+      parameters:
+        - in: path
+          name: clientId
+          required: true
+          description: the id of the client
+          schema:
+            type: string
+            example: "72d1d680-92ee-463a-98a8-f3e3973df038"
+      requestBody:
+        description: The client's scopes to be updated
         required: true
         content:
           application/json:

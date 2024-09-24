@@ -54,6 +54,20 @@ module Controller
       },
     }.freeze
 
+    PATCH_SCHEMA = {
+      type: "object",
+      required: %w[op scopes],
+      properties: {
+        op: {
+          "type": "string",
+          "pattern": "(?:add|remove)"
+        },
+        scopes: {
+          type: "array",
+        },
+      },
+    }.freeze
+
     get prefix_route("/api/client/:clientId") do
       authorize scopes: %w[client:fetch]
 
@@ -109,6 +123,33 @@ module Controller
                                                         client[:name],
                                                         client[:scopes],
                                                         client[:supplemental]
+
+      json_response 200,
+                    data: { client: },
+                    meta: {}
+    rescue StandardError => e
+      case e
+      when Boundary::Json::ParseError
+        error_response(400, "INVALID_REQUEST", e.message)
+      when Boundary::Json::ValidationError
+        error_response(422, "INVALID_REQUEST", e.message)
+      when Boundary::Error
+        raise
+      else
+        server_error e
+      end
+    end
+
+    patch prefix_route("/api/client/:clientId") do
+      authorize scopes: %w[client:update]
+
+      client = request_body(PATCH_SCHEMA)
+
+      raise Boundary::NotFoundError unless client
+
+      client = container.update_client_use_case.execute_patch params["clientId"],
+                                                        client[:op],
+                                                        client[:scopes]
 
       json_response 200,
                     data: { client: },

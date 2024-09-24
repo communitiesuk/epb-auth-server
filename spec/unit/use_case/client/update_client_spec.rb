@@ -27,4 +27,28 @@ describe UseCase::Client::UpdateClient do
       end
     end
   end
+
+  describe "a valid patch request" do
+    let(:test_client) { create_client(scopes: %w[scope:one scope:two]) }
+    let(:client_id) { test_client.id }
+    let(:current_client) {test_client}
+    let(:add_scopes) { %w[scope:three scope:four] }
+    let(:remove_scopes) { %w[scope:two] }
+    let(:remove_more_scopes) { %w[scope:two scope:five scope:seven] }
+
+    it "has added the right scopes" do
+      client = described_class.new(Container.new).execute_patch client_id, "add", add_scopes
+      expect(client.scopes).to eq %w[scope:one scope:two scope:three scope:four]
+    end
+
+    it "has removed the right scopes" do
+      client = described_class.new(Container.new).execute_patch client_id, "remove", remove_scopes
+      expect(client.scopes).to eq %w[scope:one]
+    end
+
+    it "has removed the right scopes when given more scopes to removed than it contains" do
+      client = described_class.new(Container.new).execute_patch client_id, "remove", remove_scopes
+      expect(client.scopes).to eq %w[scope:one]
+    end
+  end
 end
