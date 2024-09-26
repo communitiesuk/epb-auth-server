@@ -60,7 +60,7 @@ module Controller
       properties: {
         op: {
           "type": "string",
-          "pattern": "(?:add|remove)"
+          "pattern": "(?:add|remove)",
         },
         scopes: {
           type: "array",
@@ -148,8 +148,8 @@ module Controller
       raise Boundary::NotFoundError unless client
 
       client = container.update_client_use_case.execute_patch params["clientId"],
-                                                        client[:op],
-                                                        client[:scopes]
+                                                              client[:op],
+                                                              client[:scopes]
 
       json_response 200,
                     data: { client: },

@@ -238,7 +238,6 @@ describe "Acceptance: Updating a client" do
     end
   end
 
-
   describe "using the PATCH endpoint" do
     context "when authorised" do
       let(:token) { create_token scopes: %w[client:update] }
@@ -247,13 +246,13 @@ describe "Acceptance: Updating a client" do
         let(:response) do
           make_request token do
             patch "/api/client/#{client.id}",
-                {
-                  op: "add",
-                  scopes: %w[scope:three scope:four]
-                }.to_json,
-                {
-                  "CONTENT_TYPE" => "application/json",
-                }
+                  {
+                    op: "add",
+                    scopes: %w[scope:three scope:four],
+                  }.to_json,
+                  {
+                    "CONTENT_TYPE" => "application/json",
+                  }
           end
         end
 
@@ -281,7 +280,7 @@ describe "Acceptance: Updating a client" do
             patch "/api/client/#{client.id}",
                   {
                     op: "remove",
-                    scopes: %w[scope:one]
+                    scopes: %w[scope:one],
                   }.to_json,
                   {
                     "CONTENT_TYPE" => "application/json",
@@ -333,7 +332,7 @@ describe "Acceptance: Updating a client" do
           make_request token do
             patch "/api/client/#{client.id}",
                   {
-                    scopes: %w[scope:one]
+                    scopes: %w[scope:one],
                   }.to_json,
                   {
                     "CONTENT_TYPE" => "application/json",
@@ -360,7 +359,7 @@ describe "Acceptance: Updating a client" do
             patch "/api/client/#{client.id}",
                   {
                     op: "add",
-                    scopes: "scope:three"
+                    scopes: "scope:three",
                   }.to_json,
                   {
                     "CONTENT_TYPE" => "application/json",
@@ -383,17 +382,17 @@ describe "Acceptance: Updating a client" do
 
       describe "updating a client with missing scopes" do
         let(:response) do
-        make_request token do
-          patch "/api/client/#{client.id}",
-                {
-                  op: "add",
-                  scopes: nil
-                }.to_json,
-                {
-                  "CONTENT_TYPE" => "application/json",
-                }
+          make_request token do
+            patch "/api/client/#{client.id}",
+                  {
+                    op: "add",
+                    scopes: nil,
+                  }.to_json,
+                  {
+                    "CONTENT_TYPE" => "application/json",
+                  }
+          end
         end
-      end
 
         it "returns an error" do
           expect(response.status).to eq 422
@@ -414,7 +413,7 @@ describe "Acceptance: Updating a client" do
             patch "/api/client/#{client.id}",
                   {
                     op: "delete",
-                    scopes: %w[scope:one]
+                    scopes: %w[scope:one],
                   }.to_json,
                   {
                     "CONTENT_TYPE" => "application/json",
@@ -441,7 +440,7 @@ describe "Acceptance: Updating a client" do
             patch "/api/client/#{client.id}",
                   {
                     op: "add",
-                    scopes: %w[scope:one]
+                    scopes: %w[scope:one],
                   }
           end
         end
@@ -456,5 +455,4 @@ describe "Acceptance: Updating a client" do
       end
     end
   end
-
 end

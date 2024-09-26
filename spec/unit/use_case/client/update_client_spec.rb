@@ -31,7 +31,7 @@ describe UseCase::Client::UpdateClient do
   describe "a valid patch request" do
     let(:test_client) { create_client(scopes: %w[scope:one scope:two]) }
     let(:client_id) { test_client.id }
-    let(:current_client) {test_client}
+    let(:current_client) { test_client }
     let(:add_scopes) { %w[scope:three scope:four] }
     let(:remove_scopes) { %w[scope:two] }
     let(:remove_more_scopes) { %w[scope:two scope:five scope:seven] }

@@ -19,12 +19,11 @@ module UseCase
       end
 
       def execute_patch(id, operator, updated_scopes)
-
         client = @container.client_gateway.fetch(id:)
 
         raise Boundary::NotFoundError unless client
 
-        if operator == 'add'
+        if operator == "add"
           client.scopes = client.scopes.concat(updated_scopes)
         else
           scopes_to_remove = client.scopes & updated_scopes
@@ -34,7 +33,6 @@ module UseCase
           end
         end
         @container.client_gateway.update client
-
       end
     end
   end
