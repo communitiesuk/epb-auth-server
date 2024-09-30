@@ -46,7 +46,7 @@ describe "Acceptance: Updating a client" do
         end
       end
 
-      describe "updating a client with empty supplemental" do
+      describe "updating a client with an empty supplemental field" do
         let(:response) do
           make_request token do
             put "/api/client/#{client.id}",
@@ -54,7 +54,6 @@ describe "Acceptance: Updating a client" do
                   id: "#{client.id}",
                   name: "updated-client-name",
                   scopes: %w[scope:three scope:four],
-                  supplemental: nil,
                 }.to_json,
                 {
                   "CONTENT_TYPE" => "application/json",
@@ -62,7 +61,7 @@ describe "Acceptance: Updating a client" do
           end
         end
 
-        it "returns an error" do
+        it "does not return an error" do
           expect(response.status).to eq 200
         end
       end
@@ -97,7 +96,7 @@ describe "Acceptance: Updating a client" do
     context "when request body incorrectly formatted" do
       let(:token) { create_token scopes: %w[client:update] }
 
-      describe "updating a client without a require field" do
+      describe "updating a client without a required field" do
         let(:response) do
           make_request token do
             put "/api/client/#{client.id}",
@@ -268,7 +267,7 @@ describe "Acceptance: Updating a client" do
           expect(response.get(%i[data client secret])).to be_nil
         end
 
-        it "returns an updated list of scopes" do
+        it "returns a list of scopes" do
           expect(response.get(%i[data client scopes])).to eq %w[scope:three scope:four]
         end
       end

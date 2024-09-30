@@ -33,21 +33,27 @@ describe UseCase::Client::UpdateClient do
     let(:client_id) { test_client.id }
     let(:current_client) { test_client }
     let(:add_scopes) { %w[scope:three scope:four] }
+    let(:duplicate_scopes) { %w[scope:one] }
     let(:remove_scopes) { %w[scope:two] }
     let(:remove_more_scopes) { %w[scope:two scope:five scope:seven] }
 
-    it "has added the right scopes" do
+    it "adds the right scopes" do
       client = described_class.new(Container.new).execute_patch client_id, "add", add_scopes
       expect(client.scopes).to eq %w[scope:one scope:two scope:three scope:four]
     end
 
-    it "has removed the right scopes" do
+    it "does not duplicate scopes" do
+      client = described_class.new(Container.new).execute_patch client_id, "add", duplicate_scopes
+      expect(client.scopes).to eq %w[scope:one scope:two]
+    end
+
+    it "removes the right scopes" do
       client = described_class.new(Container.new).execute_patch client_id, "remove", remove_scopes
       expect(client.scopes).to eq %w[scope:one]
     end
 
-    it "has removed the right scopes when given more scopes to removed than it contains" do
-      client = described_class.new(Container.new).execute_patch client_id, "remove", remove_scopes
+    it "removes the right scopes when given more scopes" do
+      client = described_class.new(Container.new).execute_patch client_id, "remove", remove_more_scopes
       expect(client.scopes).to eq %w[scope:one]
     end
   end
