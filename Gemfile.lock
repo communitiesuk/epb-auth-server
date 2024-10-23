@@ -43,6 +43,7 @@ GEM
       logger
     faraday-net_http (3.1.1)
       net-http
+    ffi (1.16.3)
     hashdiff (1.1.1)
     hashie (5.0.0)
     i18n (1.14.5)
@@ -60,7 +61,6 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
-    murmurhash3 (0.1.7)
     mustermann (3.0.2)
       ruby2_keywords (~> 0.0.1)
     net-http (0.4.1)
@@ -182,8 +182,8 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
-    unleash (5.0.5)
-      murmurhash3 (~> 0.1.7)
+    unleash (6.0.6)
+      yggdrasil-engine (~> 0.0.7)
     uri (0.13.0)
     uuid (2.3.9)
       macaddr (~> 1.0)
@@ -193,10 +193,12 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.8.1)
+    yggdrasil-engine (0.0.7-x86_64-linux)
+      ffi (~> 1.16.3)
     zeitwerk (2.6.17)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   acts_as_paranoid (~> 0.10)
@@ -222,7 +224,7 @@ DEPENDENCIES
   sinatra-contrib (~> 4.0)
   sinatra-cross_origin (~> 0.4.0)
   timecop
-  unleash (~> 5.0)
+  unleash (~> 6.0)
   uuid (~> 2.3)
   webmock (~> 3)
   zeitwerk (~> 2.6)
