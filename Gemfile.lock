@@ -193,7 +193,7 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.8.1)
-    zeitwerk (2.6.17)
+    zeitwerk (2.7.1)
 
 PLATFORMS
   ruby
@@ -225,7 +225,7 @@ DEPENDENCIES
   unleash (~> 5.0)
   uuid (~> 2.3)
   webmock (~> 3)
-  zeitwerk (~> 2.6)
+  zeitwerk (~> 2.7)
 
 RUBY VERSION
    ruby 3.3.4p94
