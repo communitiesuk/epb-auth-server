@@ -4,6 +4,10 @@ require "sinatra/cross_origin"
 
 module Controller
   class BaseController < Sinatra::Base
+    configure :development do
+      set :host_authorization, { permitted_hosts: [] }
+    end
+
     helpers do
       def container
         Container.new
