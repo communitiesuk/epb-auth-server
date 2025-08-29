@@ -84,7 +84,7 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
-    pg (1.5.9)
+    pg (1.6.1)
     prism (1.4.0)
     public_suffix (6.0.2)
     puma (6.6.0)
@@ -221,7 +221,7 @@ DEPENDENCIES
   jwt (~> 2.10)
   multi_json (~> 1.15)
   oauth2 (~> 2.0)
-  pg (~> 1.5)
+  pg (~> 1.6)
   puma (~> 6.4)
   rack (~> 3.1)
   rack-test (~> 2.1)
