@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2022_02_04_112635) do
+ActiveRecord::Schema[8.1].define(version: 2022_02_04_112635) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -18,29 +18,29 @@ ActiveRecord::Schema[8.0].define(version: 2022_02_04_112635) do
 
   create_table "client_scopes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "client_id"
-    t.string "scope"
     t.datetime "deleted_at", precision: nil
+    t.string "scope"
   end
 
   create_table "client_secrets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "client_id"
-    t.string "secret"
     t.datetime "last_used_at", precision: nil
+    t.string "secret"
     t.datetime "superseded_at", precision: nil
   end
 
   create_table "clients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "deleted_at", precision: nil
     t.string "name"
     t.jsonb "supplemental", default: {}, null: false
-    t.datetime "deleted_at", precision: nil
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.string "unique"
-    t.string "password"
     t.datetime "deleted_at", precision: nil
+    t.string "email"
+    t.string "name"
+    t.string "password"
+    t.string "unique"
   end
 
   add_foreign_key "client_scopes", "clients"
