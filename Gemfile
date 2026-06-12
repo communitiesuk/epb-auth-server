@@ -14,9 +14,9 @@ group :test do
 end
 
 gem "acts_as_paranoid", "~> 0.10"
-gem "epb-auth-tools", "~> 1.1"
+gem "epb-auth-tools", "~> 1.2.1"
 gem "json-schema", "~> 6.2"
-gem "jwt", "~> 2.10"
+gem "jwt", "~> 3.2.0"
 gem "multi_json", "~> 1.17"
 gem "oauth2", "~> 2.0"
 gem "pg", "~> 1.6"
