@@ -2,7 +2,9 @@ require "json-schema"
 
 module Helper
   class JsonHelper
-    def initialize; end
+    def initialize
+      JSON::Validator.use_multi_json = false
+    end
 
     def convert_to_ruby_hash(json_string, schema: false)
       begin
