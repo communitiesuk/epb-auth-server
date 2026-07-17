@@ -7,6 +7,7 @@ ENV["JWT_SECRET"] = "TestingSecretString"
 ENV["JWT_ISSUER"] = "test.auth"
 ENV["PERMANENTLY_BANNED_IP_ADDRESSES"] = '[{"reason":"did a bad thing", "ip_address": "198.51.100.100"},{"reason":"did another bad thing", "ip_address": "198.53.120.110"}]'
 ENV["EPB_UNLEASH_URI"] = "https://test-toggle-server/api"
+ENV["FAKER_LAZY_LOAD"] = "1"
 
 require "epb-auth-tools"
 require "faker"
