@@ -46,4 +46,61 @@ sure you also set this environment variable as follows:
 
   Drop the current database.
 
+## Environmental variables
 
+#### `APP_ENV`
+
+Set the [Sintra environment](https://sinatrarb.com/intro.html#environments).
+Should be one of "production", "development" or "test".
+
+Sinatra will fallback to `RACK_ENV` or "development" if unset.
+
+#### `RAILS_ENV`
+
+[sintra-activerecord](https://github.com/sinatra-activerecord/sinatra-activerecord)
+uses `APP_ENV` as the active record environment, but will fallback to `RAILS_ENV` if it is not supplied.
+
+This should be one of "production", "development" or "test".  It will default to
+"development" if neither `APP_ENV` or `RAILS_ENV` is set.
+
+#### `RACK_ENV`
+
+Used by rackup to choose the [default middleware stack](https://github.com/rack/rackup/blob/f3fa1d6ada90e9e7aa1f712488ddde87ea2a2075/lib/rackup/server.rb#L273).
+Should be one of "development" (default) or "deployment". If set to any other value no middleware stack is loaded.
+
+#### `STAGE`
+
+The EPB environment. Can be one of "test", "development", "integration", "staging" or "production".
+
+- Sets the unleash feature flag service app name to `toggles-#{stage}`
+- Unless "development" or "test", enables Sentry and sets its environment value
+
+#### `DATABASE_URL`
+
+Postgres connection string for connecting to the database
+
+#### `EPB_API_DOCS_URL`
+
+If present this will allow CORS for services with this origin.
+
+#### `EPB_UNLEASH_URI`
+
+The URL of the unleash feature flag service.
+
+#### `EPB_UNLEASH_AUTH_TOKEN`
+
+Authentication token for the unleash feature flag service.
+
+#### `JWT_ISSUER`
+
+Issuer for the JWT encoded auth token.
+
+#### `JWT_SECRET`
+
+Secret for the JWT encoded auth token.
+
+#### `URL_PREFIX`
+
+A path prefix for all routes.
+
+For example if `/auth` the route `/api/client` becomes `/auth/api/client`.
