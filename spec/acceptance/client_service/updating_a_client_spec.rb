@@ -10,7 +10,7 @@ describe "Acceptance: Updating a client" do
           make_request token do
             put "/api/client/#{client.id}",
                 {
-                  id: "#{client.id}",
+                  id: client.id,
                   name: "updated-client-name",
                   scopes: %w[scope:three scope:four],
                   supplemental: { owner: "us" },
@@ -51,7 +51,7 @@ describe "Acceptance: Updating a client" do
           make_request token do
             put "/api/client/#{client.id}",
                 {
-                  id: "#{client.id}",
+                  id: client.id,
                   name: "updated-client-name",
                   scopes: %w[scope:three scope:four],
                 }.to_json,
@@ -101,7 +101,7 @@ describe "Acceptance: Updating a client" do
           make_request token do
             put "/api/client/#{client.id}",
                 {
-                  id: "#{client.id}",
+                  id: client.id,
                   scopes: %w[scope:three scope:four],
                   supplemental: { owner: "us" },
                 }.to_json,
@@ -129,7 +129,7 @@ describe "Acceptance: Updating a client" do
           make_request token do
             put "/api/client/#{client.id}",
                 {
-                  id: "#{client.id}",
+                  id: client.id,
                   name: "updated-client-name",
                   scopes: "scope:three scope:four",
                   supplemental: { owner: "us" },
@@ -158,7 +158,7 @@ describe "Acceptance: Updating a client" do
           make_request token do
             put "/api/client/#{client.id}",
                 {
-                  id: "#{client.id}",
+                  id: client.id,
                   name: "updated-client-name",
                   scopes: nil,
                   supplemental: { owner: "us" },
@@ -189,7 +189,7 @@ describe "Acceptance: Updating a client" do
                 {
                   client:
                     {
-                      id: "#{client.id}",
+                      id: client.id,
                       scopes: %w[scope:three scope:four],
                       supplemental: nil,
                     },
@@ -219,7 +219,7 @@ describe "Acceptance: Updating a client" do
           make_request token do
             put "/api/client/#{client.id}",
                 {
-                  id: "#{client.id}",
+                  id: client.id,
                   scopes: "scope:three scope:four",
                   supplemental: { owner: "us" },
                 }
