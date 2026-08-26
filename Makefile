@@ -42,6 +42,10 @@ db-create-migration: ## Run to create a new migration append NAME=
 	$(if ${NAME},,$(error Must specify NAME))
 	@bundle exec rake db:create_migration NAME=${NAME}
 
+.PHONY: lint
+lint:
+	@bundle exec rubocop
+
 .PHONY: format
 format:
 	@bundle exec rubocop --autocorrect --format offenses || true

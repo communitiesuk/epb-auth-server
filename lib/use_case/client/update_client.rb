@@ -24,7 +24,7 @@ module UseCase
         raise Boundary::NotFoundError unless client
 
         if operator == "add"
-          client.scopes = client.scopes.concat(updated_scopes)
+          client.scopes.concat(updated_scopes)
         else
           scopes_to_remove = client.scopes & updated_scopes
 
