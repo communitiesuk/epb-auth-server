@@ -87,7 +87,7 @@ GEM
     logger (1.7.0)
     macaddr (1.7.2)
       systemu (~> 2.6.5)
-    minitest (6.0.3)
+    minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
     multi_json (1.21.2)
