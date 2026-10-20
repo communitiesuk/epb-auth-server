@@ -6,6 +6,7 @@ module Controller
   class BaseController < Sinatra::Base
     configure :development do
       set :host_authorization, { permitted_hosts: [] }
+      set :show_exceptions, :after_handler
     end
 
     helpers do
