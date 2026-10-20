@@ -48,7 +48,7 @@ lint:
 
 .PHONY: format
 format:
-	@bundle exec rubocop --autocorrect --format offenses || true
+	@bundle exec rubocop --autocorrect || true
 
 .PHONY: lint-api-spec
 lint-api-spec:
