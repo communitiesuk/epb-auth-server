@@ -240,7 +240,7 @@ GEM
     uri (1.1.2)
     uuid (2.3.9)
       macaddr (~> 1.0)
-    version_gem (1.1.15)
+    version_gem (1.1.17)
     webmock (3.30.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
