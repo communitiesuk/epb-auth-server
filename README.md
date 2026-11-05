@@ -104,3 +104,7 @@ Secret for the JWT encoded auth token.
 A path prefix for all routes.
 
 For example if `/auth` the route `/api/client` becomes `/auth/api/client`.
+
+#### `COVERAGE`
+
+If "true", a coverage report will be generated when the rspec tests are run.

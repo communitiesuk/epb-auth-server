@@ -9,6 +9,9 @@ end
 
 group :test do
   gem "faker", "~> 3.8"
+  gem "rack-test", "~> 2.1"
+  gem "rspec", "~> 3.12"
+  gem "simplecov", "~>1.3.2"
   gem "timecop"
   gem "webmock", "~> 3"
 end
@@ -22,11 +25,9 @@ gem "oauth2", "~> 2.0"
 gem "pg", "~> 1.7"
 gem "puma", "~> 8.0"
 gem "rack", "~> 3.2"
-gem "rack-test", "~> 2.1"
 gem "rackup", "~> 2.3"
 gem "rake", "~> 13.4"
 gem "redis", "~> 6.0"
-gem "rspec", "~> 3.12"
 gem "sentry-ruby", "~> 7.1"
 gem "sinatra", "~> 4.2"
 gem "sinatra-activerecord", "~> 2.0.27"
