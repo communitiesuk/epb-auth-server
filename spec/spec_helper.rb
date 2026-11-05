@@ -164,12 +164,6 @@ end
 RSpec.configure do |config|
   config.include RSpecMixin
   config.include Rack::Test::Methods
-
-  config.before do
-    Rake::Task["db:drop"].invoke
-    Rake::Task["db:create"].invoke
-    Rake::Task["db:migrate"].invoke
-  end
 end
 
 RSpec::Matchers.define :be_a_valid_jwt_token do

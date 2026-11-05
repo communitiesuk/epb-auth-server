@@ -10,7 +10,7 @@ help:
 
 .PHONY: test
 test: ## Run all codebase tests
-	@bundle exec rake spec
+	@bundle exec rspec
 
 .PHONY: run
 run: ## Run the authentication server
