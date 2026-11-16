@@ -34,7 +34,7 @@ jobs:
         with:
           bundler-cache: true
       - name: Setup database
-        run: RACK_ENV=test make test
+        run: RACK_ENV=test make db-setup
       - name: Lint
         run: make lint
       - name: Test
