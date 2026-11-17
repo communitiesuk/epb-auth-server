@@ -51,13 +51,14 @@ GEM
       logger
     faraday-net_http (3.5.0)
       net-http (~> 0.5)
+    ffi (1.17.4)
     ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-arm64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     ffi-compiler (1.4.2)
       ffi (>= 1.15.5)
       rake
-    hashdiff (1.2.1)
+    hashdiff (1.2.2)
     hashie (5.2.0)
       logger
     http (5.3.1)
@@ -115,6 +116,7 @@ GEM
     parser (3.3.13.0)
       ast (~> 2.4.1)
       racc
+    pg (1.7.0)
     pg (1.7.0-aarch64-linux)
     pg (1.7.0-arm64-darwin)
     pg (1.7.0-x86_64-linux)
@@ -242,7 +244,7 @@ GEM
     uuid (2.3.9)
       macaddr (~> 1.0)
     version_gem (1.1.17)
-    webmock (3.30.0)
+    webmock (3.34.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
