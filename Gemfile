@@ -9,7 +9,7 @@ end
 
 group :test do
   gem "faker", "~> 3.8"
-  gem "rack-test", "~> 2.1"
+  gem "rack-test", "~> 2.3"
   gem "rspec", "~> 3.12"
   gem "simplecov", "~>1.3.2"
   gem "timecop"
