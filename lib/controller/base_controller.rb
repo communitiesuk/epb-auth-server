@@ -1,12 +1,21 @@
 require "multi_json"
 require "sinatra/base"
 require "sinatra/cross_origin"
+require "sinatra/custom_logger"
 
 module Controller
   class BaseController < Sinatra::Base
+    helpers Sinatra::CustomLogger
+
+    set :logger, Logger.new($stdout, level: Logger::DEBUG)
+
     configure :development do
       set :host_authorization, { permitted_hosts: [] }
       set :show_exceptions, :after_handler
+    end
+
+    configure :test do
+      logger.level = Logger::FATAL
     end
 
     helpers do
@@ -99,7 +108,7 @@ module Controller
         error[:backtrace] = exception.backtrace
       end
 
-      Logger.new($stdout, level: Logger::ERROR).error JSON.generate(error)
+      looger.error JSON.generate(error)
 
       ActiveRecord::Base.connection_handler.clear_active_connections!(:all)
 
