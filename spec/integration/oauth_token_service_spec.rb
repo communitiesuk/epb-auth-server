@@ -2,18 +2,7 @@ require "oauth2"
 require "net/http"
 
 describe "Integration: OAuth Client" do
-  server_url = nil
-  process_id = nil
-
-  before(:all) do
-    process = IO.popen(["rackup", "-q", { err: %i[child out] }])
-    process_id = process.pid
-    server_url = "http://localhost:9292"
-
-    sleep 2
-  end
-
-  after(:all) { Process.kill("KILL", process_id) }
+  include_context "with a server"
 
   context "with an authenticated client" do
     let(:client) { create_client }

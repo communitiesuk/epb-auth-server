@@ -179,3 +179,30 @@ end
 RSpec::Matchers.define :be_a_valid_uuid do
   match { |actual| !UUID.validate(actual).nil? }
 end
+
+RSpec.shared_context "with a server" do |**env|
+  let(:server_url) { "http://localhost:9393" }
+
+  process_id = nil
+
+  before(:all) do
+    process = IO.popen([env, "rackup", "-q", "-o", "127.0.0.1", "-p", "9393", { err: %i[child out] }])
+    process_id = process.pid
+    output = ""
+    loop do
+      line = process.readline
+      break if line.include?("Listening on http://127.0.0.1:9393")
+
+      output += line
+    end
+  rescue EOFError
+    raise "test server failed to start: #{output}"
+  end
+
+  after(:all) do
+    if process_id
+      Process.kill("INT", process_id)
+      Process.wait(process_id)
+    end
+  end
+end
