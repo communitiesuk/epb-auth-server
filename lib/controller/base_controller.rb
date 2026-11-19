@@ -1,4 +1,3 @@
-require "multi_json"
 require "sinatra/base"
 require "sinatra/custom_logger"
 
