@@ -24,50 +24,6 @@ module Controller
       logger.level = Logger::FATAL
     end
 
-    helpers do
-      def container
-        Container.new
-      end
-
-      def json_body
-        JSON.parse request.body, symbolize_names: true
-      rescue TypeError
-        JSON.parse request.body.string, symbolize_names: true
-      end
-
-      def json_response(status, body = nil)
-        content_type :json
-        halt status, body.to_json
-      end
-
-      def request_body(schema)
-        container.json_helper.convert_to_ruby_hash(request.body.read.to_s, schema:)
-      end
-
-      def error_response(response_code, error_code, title)
-        json_error_response({ errors: [{ code: error_code, title: }] }, response_code)
-      end
-
-      def json_error_response(object, code = 200)
-        content_type :json
-        status code
-
-        ActiveRecord::Base.connection_handler.clear_active_connections!(:all)
-
-        container.json_helper.convert_to_json(object)
-      end
-
-      def authorize(scopes: nil)
-        env[:token] = Auth::Sinatra::Conditional.process_request env
-
-        if !scopes.nil? && !env[:token].scopes?(scopes)
-          raise Boundary::NotAuthorizedError
-        end
-      rescue Auth::Errors::Error
-        raise Boundary::NotAuthenticatedError
-      end
-    end
-
     error Boundary::NotAuthenticatedError do |_error|
       json_response 401,
                     code: "NOT_AUTHENTICATED"
@@ -108,6 +64,48 @@ module Controller
     end
 
   private
+
+    def container
+      Container.new
+    end
+
+    def json_body
+      JSON.parse request.body, symbolize_names: true
+    rescue TypeError
+      JSON.parse request.body.string, symbolize_names: true
+    end
+
+    def json_response(status, body = nil)
+      content_type :json
+      halt status, body.to_json
+    end
+
+    def request_body(schema)
+      container.json_helper.convert_to_ruby_hash(request.body.read.to_s, schema:)
+    end
+
+    def error_response(response_code, error_code, title)
+      json_error_response({ errors: [{ code: error_code, title: }] }, response_code)
+    end
+
+    def json_error_response(object, code = 200)
+      content_type :json
+      status code
+
+      ActiveRecord::Base.connection_handler.clear_active_connections!(:all)
+
+      container.json_helper.convert_to_json(object)
+    end
+
+    def authorize(scopes: nil)
+      env[:token] = Auth::Sinatra::Conditional.process_request env
+
+      if !scopes.nil? && !env[:token].scopes?(scopes)
+        raise Boundary::NotAuthorizedError
+      end
+    rescue Auth::Errors::Error
+      raise Boundary::NotAuthenticatedError
+    end
 
     def error_details(exception)
       {
