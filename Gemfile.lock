@@ -51,7 +51,6 @@ GEM
       logger
     faraday-net_http (3.5.0)
       net-http (~> 0.5)
-    ffi (1.17.4)
     ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-arm64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
@@ -116,7 +115,6 @@ GEM
     parser (3.3.13.0)
       ast (~> 2.4.1)
       racc
-    pg (1.7.0)
     pg (1.7.0-aarch64-linux)
     pg (1.7.0-arm64-darwin)
     pg (1.7.0-x86_64-linux)
@@ -221,7 +219,6 @@ GEM
       rack-protection (= 4.2.1)
       sinatra (= 4.2.1)
       tilt (~> 2.0)
-    sinatra-cross_origin (0.4.0)
     snaky_hash (2.0.9)
       hashie (>= 0.1.0, < 6)
       version_gem (~> 1.1, >= 1.1.16)
@@ -285,7 +282,6 @@ DEPENDENCIES
   sinatra (~> 4.2)
   sinatra-activerecord (~> 2.0.27)
   sinatra-contrib (~> 4.0)
-  sinatra-cross_origin (~> 0.4.0)
   timecop
   unleash (~> 6.7)
   uuid (~> 2.3)
