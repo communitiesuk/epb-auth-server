@@ -8,10 +8,18 @@ module Controller
     helpers Sinatra::CustomLogger
 
     set :logger, Logger.new($stdout, level: Logger::DEBUG)
+    set :dump_errors, false
 
     configure :development do
       set :host_authorization, { permitted_hosts: [] }
-      set :show_exceptions, :after_handler
+      set :dump_errors, true
+      set :show_exceptions, false
+    end
+
+    def self.prefix_route(route)
+      return ENV["URL_PREFIX"] + route if ENV["URL_PREFIX"]
+
+      route
     end
 
     configure :test do
@@ -96,31 +104,33 @@ module Controller
                     code: "NOT_FOUND"
     end
 
-    def server_error(exception)
-      Sentry.capture_exception(exception) if defined?(Sentry)
-
-      message =
-        exception.methods.include?(:message) ? exception.message : exception
-
-      error = { type: exception.class.name, message: }
-
-      if exception.methods.include? :backtrace
-        error[:backtrace] = exception.backtrace
-      end
-
-      looger.error JSON.generate(error)
-
-      ActiveRecord::Base.connection_handler.clear_active_connections!(:all)
-
-      json_response 500,
-                    code: "SERVER_ERROR",
-                    errors: exception
+    error do |exception|
+      server_error(exception)
     end
 
-    def self.prefix_route(route)
-      return ENV["URL_PREFIX"] + route if ENV["URL_PREFIX"]
+  private
 
-      route
+    def server_error(exception)
+      Sentry.capture_exception(exception) if defined?(Sentry)
+      error = error_details(exception)
+      logger.error JSON.generate(error)
+      ActiveRecord::Base.connection_handler.clear_active_connections!(:all)
+
+      if settings.environment == :development
+        json_response(500, error)
+      else
+        status 500
+        "SERVER ERROR"
+      end
+    end
+
+    def error_details(exception)
+      {
+        type: exception.class.name,
+        message: exception.message,
+        backtrace: exception&.backtrace&.select { it.start_with?(File.expand_path("..", __dir__)) },
+        cause: exception.cause && error_details(exception.cause),
+      }.compact
     end
   end
 end

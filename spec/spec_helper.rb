@@ -64,9 +64,7 @@ loader_enable_override "helper/toggles"
 
 module RSpecMixin
   def app
-    Rack::Builder.new do
-      run Service
-    end
+    Service
   end
 
   def container
