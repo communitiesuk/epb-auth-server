@@ -32,11 +32,7 @@ module Controller
       end
 
       def json_body
-        if ENV["STAGE"] == "development"
-          JSON.parse request.body.read, symbolize_names: true
-        else
-          JSON.parse request.body, symbolize_names: true
-        end
+        JSON.parse request.body, symbolize_names: true
       rescue TypeError
         JSON.parse request.body.string, symbolize_names: true
       end
@@ -105,13 +101,6 @@ module Controller
     end
 
     error do |exception|
-      server_error(exception)
-    end
-
-  private
-
-    def server_error(exception)
-      Sentry.capture_exception(exception) if defined?(Sentry)
       error = error_details(exception)
       logger.error JSON.generate(error)
       ActiveRecord::Base.connection_handler.clear_active_connections!(:all)
@@ -123,6 +112,8 @@ module Controller
         "SERVER ERROR"
       end
     end
+
+  private
 
     def error_details(exception)
       {

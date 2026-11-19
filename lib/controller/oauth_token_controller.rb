@@ -43,13 +43,6 @@ module Controller
         expires_in: token_expiry_length,
         token_type: "bearer",
       }.to_json
-    rescue StandardError => e
-      case e
-      when Boundary::Error
-        raise
-      else
-        server_error e
-      end
     end
 
     options prefix_route("/oauth/token") do

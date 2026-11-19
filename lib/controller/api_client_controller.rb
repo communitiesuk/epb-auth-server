@@ -76,13 +76,6 @@ module Controller
       json_response 200,
                     data: { client: client.to_hash },
                     meta: {}
-    rescue StandardError => e
-      case e
-      when Boundary::Error
-        raise
-      else
-        server_error e
-      end
     end
 
     post prefix_route("/api/client") do
@@ -97,17 +90,10 @@ module Controller
       json_response 201,
                     data: { client: client.to_hash.merge(secret: client.secret) },
                     meta: {}
-    rescue StandardError => e
-      case e
-      when Boundary::Json::ParseError
-        error_response(400, "INVALID_REQUEST", e.message)
-      when Boundary::Json::ValidationError
-        error_response(422, "INVALID_REQUEST", e.message)
-      when Boundary::Error
-        raise
-      else
-        server_error e
-      end
+    rescue Boundary::Json::ParseError => e
+      error_response(400, "INVALID_REQUEST", e.message)
+    rescue Boundary::Json::ValidationError => e
+      error_response(422, "INVALID_REQUEST", e.message)
     end
 
     put prefix_route("/api/client/:clientId") do
@@ -123,17 +109,10 @@ module Controller
       json_response 200,
                     data: { client: },
                     meta: {}
-    rescue StandardError => e
-      case e
-      when Boundary::Json::ParseError
-        error_response(400, "INVALID_REQUEST", e.message)
-      when Boundary::Json::ValidationError
-        error_response(422, "INVALID_REQUEST", e.message)
-      when Boundary::Error
-        raise
-      else
-        server_error e
-      end
+    rescue Boundary::Json::ParseError => e
+      error_response(400, "INVALID_REQUEST", e.message)
+    rescue Boundary::Json::ValidationError => e
+      error_response(422, "INVALID_REQUEST", e.message)
     end
 
     patch prefix_route("/api/client/:clientId") do
@@ -147,17 +126,10 @@ module Controller
       json_response 200,
                     data: { client: },
                     meta: {}
-    rescue StandardError => e
-      case e
-      when Boundary::Json::ParseError
-        error_response(400, "INVALID_REQUEST", e.message)
-      when Boundary::Json::ValidationError
-        error_response(422, "INVALID_REQUEST", e.message)
-      when Boundary::Error
-        raise
-      else
-        server_error e
-      end
+    rescue Boundary::Json::ParseError => e
+      error_response(400, "INVALID_REQUEST", e.message)
+    rescue Boundary::Json::ValidationError => e
+      error_response(422, "INVALID_REQUEST", e.message)
     end
 
     delete prefix_route("/api/client/:clientId") do
@@ -168,13 +140,6 @@ module Controller
       container.delete_client_use_case.execute client.id
 
       json_response 200
-    rescue StandardError => e
-      case e
-      when Boundary::Error
-        raise
-      else
-        server_error e
-      end
     end
 
     post prefix_route("/api/client/:clientId/rotate-secret") do
@@ -196,13 +161,6 @@ module Controller
       json_response 200,
                     data: { client: client.to_hash.merge(secret: client.secret) },
                     meta: {}
-    rescue StandardError => e
-      case e
-      when Boundary::Error
-        raise
-      else
-        server_error e
-      end
     end
   end
 end
