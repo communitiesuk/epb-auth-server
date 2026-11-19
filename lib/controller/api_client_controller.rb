@@ -73,8 +73,6 @@ module Controller
 
       client = container.get_client_from_id_use_case.execute params["clientId"]
 
-      raise Boundary::NotFoundError unless client
-
       json_response 200,
                     data: { client: client.to_hash },
                     meta: {}
@@ -115,14 +113,12 @@ module Controller
     put prefix_route("/api/client/:clientId") do
       authorize scopes: %w[client:update]
 
-      client = request_body(PUT_SCHEMA)
+      request_data = request_body(PUT_SCHEMA)
 
-      raise Boundary::NotFoundError unless client
-
-      client = container.update_client_use_case.execute client[:id],
-                                                        client[:name],
-                                                        client[:scopes],
-                                                        client[:supplemental]
+      client = container.update_client_use_case.execute request_data[:id],
+                                                        request_data[:name],
+                                                        request_data[:scopes],
+                                                        request_data[:supplemental]
 
       json_response 200,
                     data: { client: },
@@ -143,14 +139,11 @@ module Controller
     patch prefix_route("/api/client/:clientId") do
       authorize scopes: %w[client:update]
 
-      client = request_body(PATCH_SCHEMA)
-
-      raise Boundary::NotFoundError unless client
+      request_data = request_body(PATCH_SCHEMA)
 
       client = container.update_client_use_case.execute_patch params["clientId"],
-                                                              client[:op],
-                                                              client[:scopes]
-
+                                                              request_data[:op],
+                                                              request_data[:scopes]
       json_response 200,
                     data: { client: },
                     meta: {}
@@ -171,8 +164,6 @@ module Controller
       authorize scopes: %w[client:delete]
 
       client = container.get_client_from_id_use_case.execute params["clientId"]
-
-      raise Boundary::NotFoundError unless client
 
       container.delete_client_use_case.execute client.id
 

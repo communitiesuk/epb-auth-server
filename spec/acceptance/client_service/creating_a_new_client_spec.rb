@@ -155,4 +155,21 @@ describe "Acceptance: Creating a new client" do
       expect(response.get([:code])).to eq "NOT_AUTHORIZED"
     end
   end
+
+  context "when creating a client with invalid json" do
+    let(:token) { client_token create_client scopes: %w[client:create] }
+    let(:response) do
+      make_request token do
+        post "/api/client", "{ INVALID: JSON }"
+      end
+    end
+
+    it "returns an error" do
+      expect(response.status).to eq 400
+    end
+
+    it "gives name invalid error code" do
+      expect(response.body[:errors].first[:code]).to eq "INVALID_REQUEST"
+    end
+  end
 end
