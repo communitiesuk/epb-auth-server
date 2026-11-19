@@ -13,6 +13,7 @@ group :test do
   gem "rspec", "~> 3.12"
   gem "simplecov", "~>1.3.2"
   gem "timecop"
+  gem "uuid", "~> 2.3"
   gem "webmock", "~> 3"
 end
 
@@ -32,5 +33,4 @@ gem "sinatra", "~> 4.2"
 gem "sinatra-activerecord", "~> 2.0.27"
 gem "sinatra-contrib", "~> 4.0"
 gem "unleash", "~> 6.7"
-gem "uuid", "~> 2.3"
 gem "zeitwerk", "~> 2.8"
