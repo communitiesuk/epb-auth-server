@@ -3,8 +3,8 @@ ruby "4.0.10"
 source "https://rubygems.org"
 
 group :development do
-  gem "rubocop-govuk", "~> 5.1", require: false
-  gem "rubocop-performance", "~> 1.26", require: false
+  gem "rubocop-govuk", "~> 6.0", require: false
+  gem "rubocop-performance", "~> 1.27", require: false
 end
 
 group :test do
@@ -32,6 +32,6 @@ gem "redis", "~> 6.0"
 gem "sentry-ruby", "~> 7.2"
 gem "sinatra", "~> 4.2"
 gem "sinatra-activerecord", "~> 2.0.27"
-gem "sinatra-contrib", "~> 4.0"
+gem "sinatra-contrib", "~> 4.2"
 gem "unleash", "~> 6.7"
 gem "zeitwerk", "~> 2.8"
