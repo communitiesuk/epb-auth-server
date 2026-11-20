@@ -8,6 +8,7 @@ group :development do
 end
 
 group :test do
+  gem "debug"
   gem "faker", "~> 3.8"
   gem "rack-test", "~> 2.3"
   gem "rspec", "~> 3.12"
