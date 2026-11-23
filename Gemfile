@@ -3,8 +3,8 @@ ruby "4.0.10"
 source "https://rubygems.org"
 
 group :development do
-  gem "rubocop-govuk", "~> 5.1", require: false
-  gem "rubocop-performance", "~> 1.26", require: false
+  gem "rubocop-govuk", "~> 6.0", require: false
+  gem "rubocop-performance", "~> 1.27", require: false
 end
 
 group :test do
@@ -28,7 +28,7 @@ gem "puma", "~> 8.1"
 gem "rack", "~> 3.2"
 gem "rackup", "~> 2.3"
 gem "rake", "~> 13.4"
-gem "redis", "~> 6.0"
+gem "redis", "~> 6.1"
 gem "sentry-ruby", "~> 7.2"
 gem "sinatra", "~> 4.2"
 gem "sinatra-activerecord", "~> 2.0.27"
