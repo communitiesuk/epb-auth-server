@@ -4,7 +4,7 @@ module Controller
       json_response 200,
                     links: {
                       documentation: {
-                        href: "https://raw.githubusercontent.com/communitiesuk/epb-auth-server/master/config/apidoc.yml",
+                        href: "https://raw.githubusercontent.com/communitiesuk/epb-auth-server/main/config/apidoc.yml",
                       },
                     }
     end
